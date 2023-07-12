@@ -124,4 +124,18 @@ public class SwerveModule extends SubsystemBase{
         driveMotor.set(0);
         turnMotor.set(0);
     }
+
+    /**
+     * Method for testing purposes
+     * @param driveSpeed Speed of the drive motor.
+     * @param turnSpeed Speed of the turn motor.
+     */
+    public void driveAndTurn(double driveSpeed, double turnSpeed){
+        driveMotor.set(driveSpeed);
+        turnMotor.set(turnSpeed);
+    }
+
+    public void printEncoders(){
+        System.out.println("Drive Encoder: " + driveMotor.getPosition() + "\nTurn Encoder: " + turnMotor.getPosition() + "\n");
+    }
 }

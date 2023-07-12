@@ -241,4 +241,9 @@ public class SwerveDrive extends SubsystemBase {
             RobotContainer.eventMap)
         );
     }
+
+    public void test(double driveSpeed, double turnSpeed){
+        frontRight.driveAndTurn(driveSpeed, turnSpeed);
+        frontRight.printEncoders();
+    }
 }

@@ -58,10 +58,10 @@ public interface RobotMap {
      public static final int BACK_LEFT_ABSOLUTE_ENCODER = 3;
 
      //Absolute Encoder Offsets (in radians)
-     public static final double FRONT_RIGHT_ABSOLUTE_ENCODER_OFFSET = 0;
-     public static final double FRONT_LEFT_ABSOLUTE_ENCODER_OFFSET = 0;
-     public static final double BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET = 0;
-     public static final double BACK_LEFT_ABSOLUTE_ENCODER_OFFSET = 0;
+     public static final double FRONT_RIGHT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-15);
+     public static final double FRONT_LEFT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-105);
+     public static final double BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-285);
+     public static final double BACK_LEFT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-195);
 
     public static final double MAX_SPEED_METERS_PER_SECOND = 5;
     public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = 4 * Math.PI;
@@ -72,7 +72,7 @@ public interface RobotMap {
 
     //Robot Dimensions (relative to wheel locations)
     //Since this robot is a square, no need for 2 values. In a non-square chassis, 2 values needed.
-    public static final double WHEEL_BASE = Units.inchesToMeters(21);
+    public static final double WHEEL_BASE = Units.inchesToMeters(27);
     public static final SwerveDriveKinematics DRIVE_KINEMATICS = new SwerveDriveKinematics(
         new Translation2d(WHEEL_BASE / 2, -WHEEL_BASE / 2),
         new Translation2d(WHEEL_BASE / 2, WHEEL_BASE / 2),

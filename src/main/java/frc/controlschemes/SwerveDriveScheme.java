@@ -16,7 +16,7 @@ import frc.robot.subsystems.SwerveDrive;
  * Control scheme for swerve drive. Includes movement, the toggle between
  * field centric and robot centric, and a button to zero the gyro.
  */
-public class SwerveDriveScheme implements ControlScheme{
+public class SwerveDriveScheme implements ControlScheme {
     private static boolean fieldCentric = true;
 
     /**
@@ -32,9 +32,9 @@ public class SwerveDriveScheme implements ControlScheme{
 
         swerveDrive.setDefaultCommand(new RunCommand(() -> {
             //Set x, y, and turn speed based on joystick inputs
-            double xSpeed = OI.axis(ControlMap.L_JOYSTICK_VERTICAL, port);
-            double ySpeed = OI.axis(ControlMap.L_JOYSTICK_HORIZONTAL, port);
-            double turnSpeed = OI.axis(ControlMap.R_JOYSTICK_HORIZONTAL, port);
+            double xSpeed = OI.axis(port, ControlMap.L_JOYSTICK_VERTICAL);
+            double ySpeed = OI.axis(port, ControlMap.L_JOYSTICK_HORIZONTAL);
+            double turnSpeed = OI.axis(port, ControlMap.R_JOYSTICK_HORIZONTAL);
 
             //Limits acceleration and speed
             //Possibly change the speed limiting to somewhere else (maybe a normalize function)

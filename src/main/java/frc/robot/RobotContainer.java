@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.controlschemes.SwerveDriveScheme;
+import frc.controlschemes.Testing;
 import frc.diagnostics.CommandSelector;
 import frc.diagnostics.StringSelector;
 import frc.robot.autonomous.Autonomous;
@@ -21,7 +22,8 @@ public class RobotContainer {
     public static HashMap<String, Command> eventMap = new HashMap<>();
 
     public RobotContainer() {
-        SwerveDriveScheme.configure(swerveDrive, 0);
+        // SwerveDriveScheme.configure(swerveDrive, 0);
+        Testing.configure(swerveDrive, 0);
     }
 
     // Add all autonomous paths here.
