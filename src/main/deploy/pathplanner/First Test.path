@@ -153,8 +153,8 @@
         "y": 3.0776697267680255
       },
       "prevControl": {
-        "x": 5.278475271236257,
-        "y": 3.034725498022425
+        "x": 5.307104757066657,
+        "y": 3.0060960121920246
       },
       "nextControl": null,
       "holonomicAngle": 1.8476102659945763,
@@ -173,13 +173,5 @@
   "maxVelocity": 5.0,
   "maxAcceleration": 4.0,
   "isReversed": null,
-  "markers": [
-    {
-      "position": 1.3090909090909093,
-      "names": [
-        "event",
-        "xcz"
-      ]
-    }
-  ]
+  "markers": []
 }
