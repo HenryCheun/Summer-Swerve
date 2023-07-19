@@ -12,6 +12,8 @@ import frc.controlschemes.SwerveDriveScheme;
 import frc.controlschemes.Testing;
 import frc.diagnostics.CommandSelector;
 import frc.diagnostics.StringSelector;
+import frc.helpers.OI;
+import frc.maps.ControlMap;
 import frc.robot.autonomous.Autonomous;
 import frc.robot.subsystems.SwerveDrive;
 
@@ -24,7 +26,12 @@ public class RobotContainer {
     public RobotContainer() {
         // SwerveDriveScheme.configure(swerveDrive, 0);
         Testing.configure(swerveDrive, 0);
+       swerveDrive.setDefaultCommand(new RunCommand(() -> swerveDrive.test(OI.normalize(OI.axis(0 , ControlMap.L_JOYSTICK_VERTICAL), -0.01 , 0.01),
+       OI.normalize(OI.axis(0 , ControlMap.R_JOYSTICK_HORIZONTAL) , -0.01 , 0.01) )));
+           
+
     }
+
 
     // Add all autonomous paths here.
     StringSelector selector = new StringSelector(
@@ -35,4 +42,6 @@ public class RobotContainer {
     public Command getAutoCommand() {
         return new Autonomous(selector.value(), swerveDrive);
     }
+
+    
 }

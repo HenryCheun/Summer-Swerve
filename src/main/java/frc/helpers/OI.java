@@ -74,13 +74,13 @@ public class OI {
 
     //Takes in a value and some bounds and forces it within those bounds
     //Used pretty much everywhere, so make sure you don't change anything to drastic.
-    public static double normalize(double value, double min, double max){
-        if(value > max)
+    public static double normalize(double d, double min, double max){
+        if(d > max)
             return max;
-        else if(value < min)
+        else if(d < min)
             return min;
         else 
-            return value;
+            return d;
 
        //return value > max ? max : value < min ? min : value;
     }

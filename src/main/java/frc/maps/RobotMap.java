@@ -23,39 +23,45 @@ import edu.wpi.first.math.util.Units;
 */
 public interface RobotMap {
      //Swerve Module Constants
-     public static final int FRONT_RIGHT_DRIVE = 0;
+
+     // 1, 2, 3, 4, 5, 6, 7, ,8 
+
+     // 4 drive
+     // 4 turn - 1 
+
+     public static final int FRONT_RIGHT_DRIVE = 6;
      public static final boolean FRONT_RIGHT_DRIVE_REVERSE = false;
      public static final double FRONT_RIGHT_DRIVE_ENCODER = 1;
-     public static final int FRONT_RIGHT_TURN = 1;
+     public static final int FRONT_RIGHT_TURN = 5;
      public static final boolean FRONT_RIGHT_TURN_REVERSE = false;
      public static final double FRONT_RIGHT_TURN_ENCODER = 1;
 
      public static final int FRONT_LEFT_DRIVE = 2;
      public static final boolean FRONT_LEFT_DRIVE_REVERSE = false;
      public static final double FRONT_LEFT_DRIVE_ENCODER = 1;
-     public static final int FRONT_LEFT_TURN = 3;
+     public static final int FRONT_LEFT_TURN = 1;
      public static final boolean FRONT_LEFT_TURN_REVERSE = false;
      public static final double FRONT_LEFT_TURN_ENCODER = 1;
 
-     public static final int BACK_RIGHT_DRIVE = 4;
+     public static final int BACK_RIGHT_DRIVE = 7;
      public static final boolean BACK_RIGHT_DRIVE_REVERSE = false;
      public static final double BACK_RIGHT_DRIVE_ENCODER = 1;
-     public static final int BACK_RIGHT_TURN = 5;
+     public static final int BACK_RIGHT_TURN = 8;
      public static final boolean BACK_RIGHT_TURN_REVERSE = false;
      public static final double BACK_RIGHT_TURN_ENCODER = 1;
 
-     public static final int BACK_LEFT_DRIVE = 6;
+     public static final int BACK_LEFT_DRIVE = 3;
      public static final boolean BACK_LEFT_DRIVE_REVERSE = false;
      public static final double BACK_LEFT_DRIVE_ENCODER = 1;
-     public static final int BACK_LEFT_TURN = 7;
+     public static final int BACK_LEFT_TURN = 4;
      public static final boolean BACK_LEFT_TURN_REVERSE = false;
      public static final double BACK_LEFT_TURN_ENCODER = 1;
      
      //Absolute Encoders
-     public static final int FRONT_RIGHT_ABSOLUTE_ENCODER = 0;
-     public static final int FRONT_LEFT_ABSOLUTE_ENCODER = 1;
+     public static final int FRONT_RIGHT_ABSOLUTE_ENCODER = 3;
+     public static final int FRONT_LEFT_ABSOLUTE_ENCODER = 0;
      public static final int BACK_RIGHT_ABSOLUTE_ENCODER = 2;
-     public static final int BACK_LEFT_ABSOLUTE_ENCODER = 3;
+     public static final int BACK_LEFT_ABSOLUTE_ENCODER = 1;
 
      //Absolute Encoder Offsets (in radians)
      public static final double FRONT_RIGHT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-15);

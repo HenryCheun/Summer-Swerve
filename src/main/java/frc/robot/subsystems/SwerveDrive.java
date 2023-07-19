@@ -128,10 +128,10 @@ public class SwerveDrive extends SubsystemBase {
      * Creates a new SwerveDrive object. Delays 1 second before setting gyro to 0 to account for gyro calibration time.
      */
     public SwerveDrive(){
-        swerveModulePositions[0] = new SwerveModulePosition(0, new Rotation2d(frontRight.getAbsoluteEncoderRadians()));
-        swerveModulePositions[1] = new SwerveModulePosition(0, new Rotation2d(frontLeft.getAbsoluteEncoderRadians()));
-        swerveModulePositions[2] = new SwerveModulePosition(0, new Rotation2d(backRight.getAbsoluteEncoderRadians()));
-        swerveModulePositions[3] = new SwerveModulePosition(0, new Rotation2d(backLeft.getAbsoluteEncoderRadians()));
+       // swerveModulePositions[0] = new SwerveModulePosition(0, new Rotation2d(frontRight.getAbsoluteEncoderRadians()));
+        //swerveModulePositions[1] = new SwerveModulePosition(0, new Rotation2d(frontLeft.getAbsoluteEncoderRadians()));
+        //swerveModulePositions[2] = new SwerveModulePosition(0, new Rotation2d(backRight.getAbsoluteEncoderRadians()));
+        //swerveModulePositions[3] = new SwerveModulePosition(0, new Rotation2d(backLeft.getAbsoluteEncoderRadians()));
 
         new Thread(() -> {
             try{
