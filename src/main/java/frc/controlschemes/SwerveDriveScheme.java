@@ -31,6 +31,8 @@ public class SwerveDriveScheme implements ControlScheme {
         
 
         swerveDrive.setDefaultCommand(new RunCommand(() -> {
+            swerveDrive.periodic();
+
             //Set x, y, and turn speed based on joystick inputs
             double xSpeed = OI.axis(port, ControlMap.L_JOYSTICK_VERTICAL);
             double ySpeed = OI.axis(port, ControlMap.L_JOYSTICK_HORIZONTAL);

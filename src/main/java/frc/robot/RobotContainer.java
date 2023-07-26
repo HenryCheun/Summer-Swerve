@@ -24,12 +24,8 @@ public class RobotContainer {
     public static HashMap<String, Command> eventMap = new HashMap<>();
 
     public RobotContainer() {
-        // SwerveDriveScheme.configure(swerveDrive, 0);
-        Testing.configure(swerveDrive, 0);
-       swerveDrive.setDefaultCommand(new RunCommand(() -> swerveDrive.test(OI.normalize(OI.axis(0 , ControlMap.L_JOYSTICK_VERTICAL), -0.01 , 0.01),
-       OI.normalize(OI.axis(0 , ControlMap.R_JOYSTICK_HORIZONTAL) , -0.01 , 0.01) )));
-           
-
+        SwerveDriveScheme.configure(swerveDrive, 0);
+        // Testing.configure(swerveDrive, 0);
     }
 
 

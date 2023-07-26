@@ -38,9 +38,9 @@ public class SwerveDrive extends SubsystemBase {
             "frd",
             RobotMap.FRONT_RIGHT_DRIVE,
             MotorType.kBrushless,
-            IdleMode.kBrake,
+            IdleMode.kCoast,
             RobotMap.FRONT_RIGHT_DRIVE_REVERSE,
-            RobotMap.FRONT_RIGHT_DRIVE_ENCODER),
+            RobotMap.UNIVERSAL_DRIVE_ENCODER_FACTOR),
         new CCSparkMax(
             "Front Right Turn",
             "frt",
@@ -48,9 +48,10 @@ public class SwerveDrive extends SubsystemBase {
             MotorType.kBrushless,
             IdleMode.kBrake,
             RobotMap.FRONT_RIGHT_TURN_REVERSE,
-            RobotMap.FRONT_RIGHT_TURN_ENCODER),
+            RobotMap.UNIVERSAL_TURN_ENCODER_FACTOR),
         RobotMap.FRONT_RIGHT_ABSOLUTE_ENCODER,
-        RobotMap.FRONT_RIGHT_ABSOLUTE_ENCODER_OFFSET
+        RobotMap.FRONT_RIGHT_ABSOLUTE_ENCODER_OFFSET,
+        "Front Right"
     );
 
     private final SwerveModule frontLeft = new SwerveModule(
@@ -59,9 +60,9 @@ public class SwerveDrive extends SubsystemBase {
             "fld",
             RobotMap.FRONT_LEFT_DRIVE,
             MotorType.kBrushless,
-            IdleMode.kBrake,
+            IdleMode.kCoast,
             RobotMap.FRONT_LEFT_DRIVE_REVERSE,
-            RobotMap.FRONT_LEFT_DRIVE_ENCODER),
+            RobotMap.UNIVERSAL_DRIVE_ENCODER_FACTOR),
         new CCSparkMax(
             "Front Left Turn",
             "flt",
@@ -69,9 +70,10 @@ public class SwerveDrive extends SubsystemBase {
             MotorType.kBrushless,
             IdleMode.kBrake,
             RobotMap.FRONT_LEFT_TURN_REVERSE,
-            RobotMap.FRONT_LEFT_TURN_ENCODER),
+            RobotMap.UNIVERSAL_TURN_ENCODER_FACTOR),
         RobotMap.FRONT_LEFT_ABSOLUTE_ENCODER,
-        RobotMap.FRONT_LEFT_ABSOLUTE_ENCODER_OFFSET
+        RobotMap.FRONT_LEFT_ABSOLUTE_ENCODER_OFFSET,
+        "Front Left"
     );
 
     private final SwerveModule backRight = new SwerveModule(
@@ -80,9 +82,9 @@ public class SwerveDrive extends SubsystemBase {
             "brd",
             RobotMap.BACK_RIGHT_DRIVE,
             MotorType.kBrushless,
-            IdleMode.kBrake,
+            IdleMode.kCoast,
             RobotMap.BACK_RIGHT_DRIVE_REVERSE,
-            RobotMap.BACK_RIGHT_DRIVE_ENCODER),
+            RobotMap.UNIVERSAL_DRIVE_ENCODER_FACTOR),
         new CCSparkMax(
             "Back Right Turn",
             "brt",
@@ -90,9 +92,10 @@ public class SwerveDrive extends SubsystemBase {
             MotorType.kBrushless,
             IdleMode.kBrake,
             RobotMap.BACK_RIGHT_TURN_REVERSE,
-            RobotMap.BACK_RIGHT_TURN_ENCODER),
+            RobotMap.UNIVERSAL_TURN_ENCODER_FACTOR),
         RobotMap.BACK_RIGHT_ABSOLUTE_ENCODER,
-        RobotMap.BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET
+        RobotMap.BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET,
+        "Back Right"
     );
 
     private final SwerveModule backLeft = new SwerveModule(
@@ -101,9 +104,9 @@ public class SwerveDrive extends SubsystemBase {
             "bld",
             RobotMap.BACK_LEFT_DRIVE,
             MotorType.kBrushless,
-            IdleMode.kBrake,
+            IdleMode.kCoast,
             RobotMap.BACK_LEFT_DRIVE_REVERSE,
-            RobotMap.BACK_LEFT_DRIVE_ENCODER),
+            RobotMap.UNIVERSAL_DRIVE_ENCODER_FACTOR),
         new CCSparkMax(
             "Back Left Turn",
             "blt",
@@ -111,9 +114,10 @@ public class SwerveDrive extends SubsystemBase {
             MotorType.kBrushless,
             IdleMode.kBrake,
             RobotMap.BACK_LEFT_TURN_REVERSE,
-            RobotMap.BACK_LEFT_TURN_ENCODER),
+            RobotMap.UNIVERSAL_TURN_ENCODER_FACTOR),
         RobotMap.BACK_LEFT_ABSOLUTE_ENCODER,
-        RobotMap.BACK_LEFT_ABSOLUTE_ENCODER_OFFSET
+        RobotMap.BACK_LEFT_ABSOLUTE_ENCODER_OFFSET,
+        "Back Left"
     );
 
     //Initialize gyro
@@ -124,14 +128,17 @@ public class SwerveDrive extends SubsystemBase {
 
     /** Module positions used for odometry */
     SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[4];
+    
     /**
      * Creates a new SwerveDrive object. Delays 1 second before setting gyro to 0 to account for gyro calibration time.
      */
     public SwerveDrive(){
-       // swerveModulePositions[0] = new SwerveModulePosition(0, new Rotation2d(frontRight.getAbsoluteEncoderRadians()));
-        //swerveModulePositions[1] = new SwerveModulePosition(0, new Rotation2d(frontLeft.getAbsoluteEncoderRadians()));
-        //swerveModulePositions[2] = new SwerveModulePosition(0, new Rotation2d(backRight.getAbsoluteEncoderRadians()));
-        //swerveModulePositions[3] = new SwerveModulePosition(0, new Rotation2d(backLeft.getAbsoluteEncoderRadians()));
+        swerveModulePositions[0] = new SwerveModulePosition(0, new Rotation2d(frontRight.getAbsoluteEncoderRadians()));
+        swerveModulePositions[1] = new SwerveModulePosition(0, new Rotation2d(frontLeft.getAbsoluteEncoderRadians()));
+        swerveModulePositions[2] = new SwerveModulePosition(0, new Rotation2d(backRight.getAbsoluteEncoderRadians()));
+        swerveModulePositions[3] = new SwerveModulePosition(0, new Rotation2d(backLeft.getAbsoluteEncoderRadians()));
+
+        odometer = new SwerveDriveOdometry(RobotMap.DRIVE_KINEMATICS, new Rotation2d(0), swerveModulePositions);
 
         new Thread(() -> {
             try{
@@ -171,6 +178,7 @@ public class SwerveDrive extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Robot Heading", getHeading());
+        System.out.println("Robot Heading: " + getHeading());
     }
 
     /**
@@ -214,7 +222,7 @@ public class SwerveDrive extends SubsystemBase {
 
     // Autonomous
     // Odometer used to get Pose2d of the robot.
-    SwerveDriveOdometry odometer = new SwerveDriveOdometry(RobotMap.DRIVE_KINEMATICS, new Rotation2d(0), swerveModulePositions);
+    SwerveDriveOdometry odometer;
 
     // xPID and yPID should have the same values.
     PIDController xPID = new PIDController(0, 0, 0);
@@ -243,7 +251,28 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void test(double driveSpeed, double turnSpeed){
-        frontRight.driveAndTurn(driveSpeed, turnSpeed);
-        frontRight.printEncoders();
+        backLeft.driveAndTurn(driveSpeed, turnSpeed);
+        backLeft.printEncoders();
+    }
+
+    public void resetAbsoluteEncoders(){
+        frontRight.resetAbsoluteEncoder();
+        frontLeft.resetAbsoluteEncoder();
+        backRight.resetAbsoluteEncoder();
+        backLeft.resetAbsoluteEncoder();
+    }
+
+    public void printAbsoluteEncoders(){
+        frontRight.printAbsoluteEncoder();
+        frontLeft.printAbsoluteEncoder();
+        backRight.printAbsoluteEncoder();
+        backLeft.printAbsoluteEncoder();
+    }
+
+    public void resetEncoders(){
+        frontRight.resetEncoders();
+        frontLeft.resetEncoders();
+        backRight.resetEncoders();
+        backLeft.resetEncoders();
     }
 }

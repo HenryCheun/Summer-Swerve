@@ -23,6 +23,8 @@ public class SwerveModule extends SubsystemBase{
     private AnalogEncoder absoluteEncoder;
     private double absoluteEncoderOffset;
 
+    private String name;
+
     //adjust absoluteEncoderChannel to possibly be absoluteEncoderAnalogInput
     /**
      * Creates a SwerveModule object with a defined drive motor, turn motor, and absolute encoder.
@@ -31,16 +33,18 @@ public class SwerveModule extends SubsystemBase{
      * @param absoluteEncoderChannel The port of the absolute encoder.
      * @param absoluteEncoderOffset The offset of the absolute encoder in radians.
      */
-    public SwerveModule(CCSparkMax driveMotor, CCSparkMax turnMotor, int absoluteEncoderChannel, double absoluteEncoderOffset){
+    public SwerveModule(CCSparkMax driveMotor, CCSparkMax turnMotor, int absoluteEncoderChannel, double absoluteEncoderOffset, String name){
         this.driveMotor = driveMotor;
         this.turnMotor = turnMotor;
 
         this.absoluteEncoder = new AnalogEncoder(absoluteEncoderChannel);
+        // this.absoluteEncoder.setDistancePerRotation(2 * Math.PI);
         //add encoder offset
 
         turningPIDController = new PIDController(.5, 0, 0);
         turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
 
+        this.name = name;
         resetEncoders();
     }
 
@@ -90,7 +94,8 @@ public class SwerveModule extends SubsystemBase{
      */
     public void resetEncoders(){
         driveMotor.reset();
-        turnMotor.setPosition(getAbsoluteEncoderRadians());
+        // turnMotor.setPosition(getAbsoluteEncoderRadians());
+        turnMotor.reset();
     }
 
     /**
@@ -137,5 +142,21 @@ public class SwerveModule extends SubsystemBase{
 
     public void printEncoders(){
         System.out.println("Drive Encoder: " + driveMotor.getPosition() + "\nTurn Encoder: " + turnMotor.getPosition() + "\n");
+    }
+
+    public void resetAbsoluteEncoder(){
+        absoluteEncoder.reset();
+    }
+
+    public void printAbsoluteEncoder(){
+        System.out.println(name + ": " + absoluteEncoder.getDistance());
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public void setName(String name){
+        this.name = name;
     }
 }

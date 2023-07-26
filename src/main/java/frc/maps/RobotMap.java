@@ -29,6 +29,12 @@ public interface RobotMap {
      // 4 drive
      // 4 turn - 1 
 
+     // in meters
+     public static final double wheelCircumfrence = Units.inchesToMeters(4 * Math.PI);
+
+     public static final double UNIVERSAL_DRIVE_ENCODER_FACTOR = wheelCircumfrence / -6.74810;
+     public static final double UNIVERSAL_TURN_ENCODER_FACTOR = 2 * Math.PI / 21.42847;
+
      public static final int FRONT_RIGHT_DRIVE = 6;
      public static final boolean FRONT_RIGHT_DRIVE_REVERSE = false;
      public static final double FRONT_RIGHT_DRIVE_ENCODER = 1;
@@ -69,8 +75,8 @@ public interface RobotMap {
      public static final double BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-285);
      public static final double BACK_LEFT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-195);
 
-    public static final double MAX_SPEED_METERS_PER_SECOND = 5;
-    public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = 4 * Math.PI;
+    public static final double MAX_SPEED_METERS_PER_SECOND = 0.5;
+    public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = .5 * Math.PI;
 
     //Rate Limiters (acceleration)
     public static final double DRIVE_RATE_LIMIT = MAX_SPEED_METERS_PER_SECOND / 4;
