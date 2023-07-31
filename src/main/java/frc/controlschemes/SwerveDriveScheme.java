@@ -3,9 +3,11 @@ package frc.controlschemes;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.diagnostics.CommandSelector;
 import frc.helpers.ControlScheme;
 import frc.helpers.OI;
 import frc.maps.ControlMap;
@@ -29,20 +31,35 @@ public class SwerveDriveScheme implements ControlScheme {
         SlewRateLimiter yRateLimiter = new SlewRateLimiter(RobotMap.DRIVE_RATE_LIMIT);
         SlewRateLimiter turnRateLimiter = new SlewRateLimiter(RobotMap.TURN_RATE_LIMIT);
         
+        InstantCommand com1 = new InstantCommand(() -> swerveDrive.printFrontRight(), swerveDrive);
+        com1.setName("Front Right");
+        InstantCommand com2 = new InstantCommand(() -> swerveDrive.printFrontLeft(), swerveDrive);
+        com2.setName("Front Left");
+        InstantCommand com3 = new InstantCommand(() -> swerveDrive.printBackRight(), swerveDrive);
+        com3.setName("Back Right");
+        InstantCommand com4 = new InstantCommand(() -> swerveDrive.printBackLeft(), swerveDrive);
+        com4.setName("Back Left");
+        CommandSelector commands = new CommandSelector(
+                "Motor Print",
+                com1,
+                com2,
+                com3,
+                com4);
+        
 
         swerveDrive.setDefaultCommand(new RunCommand(() -> {
-            swerveDrive.periodic();
+            // swerveDrive.periodic();
 
             //Set x, y, and turn speed based on joystick inputs
             double xSpeed = OI.axis(port, ControlMap.L_JOYSTICK_VERTICAL);
-            double ySpeed = OI.axis(port, ControlMap.L_JOYSTICK_HORIZONTAL);
+            double ySpeed = -OI.axis(port, ControlMap.L_JOYSTICK_HORIZONTAL);
             double turnSpeed = OI.axis(port, ControlMap.R_JOYSTICK_HORIZONTAL);
 
             //Limits acceleration and speed
             //Possibly change the speed limiting to somewhere else (maybe a normalize function)
-            xSpeed = xRateLimiter.calculate(xSpeed) * RobotMap.MAX_SPEED_METERS_PER_SECOND;
-            ySpeed = yRateLimiter.calculate(ySpeed) * RobotMap.MAX_SPEED_METERS_PER_SECOND;
-            turnSpeed = turnRateLimiter.calculate(turnSpeed) * RobotMap.MAX_ANGULAR_SPEED_RADIANS_PER_SECOND;
+            xSpeed = xRateLimiter.calculate(xSpeed);
+            ySpeed = yRateLimiter.calculate(ySpeed);
+            turnSpeed = turnRateLimiter.calculate(turnSpeed);
 
             //Constructs desired chassis speeds
             ChassisSpeeds chassisSpeeds;
@@ -58,6 +75,9 @@ public class SwerveDriveScheme implements ControlScheme {
             SwerveModuleState[] moduleStates = RobotMap.DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
 
             swerveDrive.setModuleStates(moduleStates);
+            
+
+            commands.value().schedule();
         }, swerveDrive));
         configureButtons(swerveDrive, port);
     }
@@ -71,7 +91,7 @@ public class SwerveDriveScheme implements ControlScheme {
         new JoystickButton(controllers[port], ControlMap.B_BUTTON)
             .onTrue(new InstantCommand(() -> toggleFieldCentric()));
         new JoystickButton(controllers[port], ControlMap.A_BUTTON)
-            .onTrue(new InstantCommand(() -> swerveDrive.zeroHeading()));
+            .onTrue(new InstantCommand(() -> swerveDrive.resetAbsoluteEncoders()));
     }
 
     /**

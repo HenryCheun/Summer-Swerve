@@ -141,7 +141,7 @@ public class SwerveModule extends SubsystemBase{
     }
 
     public void printEncoders(){
-        System.out.println("Drive Encoder: " + driveMotor.getPosition() + "\nTurn Encoder: " + turnMotor.getPosition() + "\n");
+        System.out.println(name + "\nDrive Encoder: " + driveMotor.getPosition() + "\nTurn Encoder: " + turnMotor.getPosition() + "\n");
     }
 
     public void resetAbsoluteEncoder(){

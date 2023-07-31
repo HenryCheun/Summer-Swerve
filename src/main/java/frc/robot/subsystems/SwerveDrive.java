@@ -178,7 +178,7 @@ public class SwerveDrive extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Robot Heading", getHeading());
-        System.out.println("Robot Heading: " + getHeading());
+        // System.out.println("Robot Heading: " + getHeading());
     }
 
     /**
@@ -274,5 +274,25 @@ public class SwerveDrive extends SubsystemBase {
         frontLeft.resetEncoders();
         backRight.resetEncoders();
         backLeft.resetEncoders();
+    }
+
+    public void printFrontRight(){
+        frontRight.printEncoders();
+        frontRight.printAbsoluteEncoder();
+    }
+
+    public void printFrontLeft(){
+        frontLeft.printEncoders();
+        frontLeft.printAbsoluteEncoder();
+    }
+
+    public void printBackRight(){
+        backRight.printEncoders();
+        backRight.printAbsoluteEncoder();
+    }
+
+    public void printBackLeft(){
+        backLeft.printEncoders();
+        backLeft.printAbsoluteEncoder();
     }
 }

@@ -75,20 +75,20 @@ public interface RobotMap {
      public static final double BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-285);
      public static final double BACK_LEFT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-195);
 
-    public static final double MAX_SPEED_METERS_PER_SECOND = 0.5;
-    public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = .5 * Math.PI;
+    public static final double MAX_SPEED_METERS_PER_SECOND = 3;
+    public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = 3 * Math.PI;
 
     //Rate Limiters (acceleration)
-    public static final double DRIVE_RATE_LIMIT = MAX_SPEED_METERS_PER_SECOND / 4;
-    public static final double TURN_RATE_LIMIT = MAX_ANGULAR_SPEED_RADIANS_PER_SECOND / 4;
+    public static final double DRIVE_RATE_LIMIT = MAX_SPEED_METERS_PER_SECOND / 3;
+    public static final double TURN_RATE_LIMIT = MAX_ANGULAR_SPEED_RADIANS_PER_SECOND;
 
     //Robot Dimensions (relative to wheel locations)
     //Since this robot is a square, no need for 2 values. In a non-square chassis, 2 values needed.
     public static final double WHEEL_BASE = Units.inchesToMeters(27);
     public static final SwerveDriveKinematics DRIVE_KINEMATICS = new SwerveDriveKinematics(
-        new Translation2d(WHEEL_BASE / 2, -WHEEL_BASE / 2),
-        new Translation2d(WHEEL_BASE / 2, WHEEL_BASE / 2),
         new Translation2d(-WHEEL_BASE / 2, -WHEEL_BASE / 2),
-        new Translation2d(-WHEEL_BASE / 2, WHEEL_BASE / 2)
+        new Translation2d(-WHEEL_BASE / 2, WHEEL_BASE / 2),
+        new Translation2d(WHEEL_BASE / 2, -WHEEL_BASE / 2),
+        new Translation2d(WHEEL_BASE / 2, WHEEL_BASE / 2)
     );
 }
