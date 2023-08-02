@@ -77,7 +77,7 @@ public class SwerveDriveScheme implements ControlScheme {
             swerveDrive.setModuleStates(moduleStates);
             
 
-            commands.value().schedule();
+            // commands.value().schedule();
         }, swerveDrive));
         configureButtons(swerveDrive, port);
     }
@@ -91,7 +91,7 @@ public class SwerveDriveScheme implements ControlScheme {
         new JoystickButton(controllers[port], ControlMap.B_BUTTON)
             .onTrue(new InstantCommand(() -> toggleFieldCentric()));
         new JoystickButton(controllers[port], ControlMap.A_BUTTON)
-            .onTrue(new InstantCommand(() -> swerveDrive.resetAbsoluteEncoders()));
+            .onTrue(new InstantCommand(() -> swerveDrive.zeroHeading()));
     }
 
     /**

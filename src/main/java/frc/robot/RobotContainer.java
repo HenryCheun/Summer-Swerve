@@ -22,14 +22,15 @@ public class RobotContainer {
     public static HashMap<String, Command> eventMap = new HashMap<>();
 
     public RobotContainer() {
-        // SwerveDriveScheme.configure(swerveDrive, 0);
-        Testing.configure(swerveDrive, 0);
+        SwerveDriveScheme.configure(swerveDrive, 0);
+        // Testing.configure(swerveDrive, 0);
     }
 
     // Add all autonomous paths here.
     StringSelector selector = new StringSelector(
         "Autonomous Path",
-        "Test Auto"
+        "First Test",
+        "Straight"
     );
 
     public Command getAutoCommand() {

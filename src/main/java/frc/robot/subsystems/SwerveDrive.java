@@ -225,10 +225,10 @@ public class SwerveDrive extends SubsystemBase {
     SwerveDriveOdometry odometer;
 
     // xPID and yPID should have the same values.
-    PIDController xPID = new PIDController(0, 0, 0);
-    PIDController yPID = new PIDController(0, 0, 0);
+    PIDController xPID = new PIDController(.35, 0, 0);
+    PIDController yPID = new PIDController(.35, 0, 0);
     // Possibly research profiled PID
-    PIDController turnPID = new PIDController(0, 0, 0);
+    PIDController turnPID = new PIDController(.5, 0, 0);
 
     PPHolonomicDriveController holonomicDriveController = new PPHolonomicDriveController(xPID, yPID, turnPID);
 
