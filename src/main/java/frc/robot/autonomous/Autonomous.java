@@ -5,6 +5,7 @@ import com.pathplanner.lib.PathPlanner;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.maps.RobotMap;
 import frc.robot.subsystems.SwerveDrive;
 
@@ -25,10 +26,11 @@ public class Autonomous extends SequentialCommandGroup{
         // So, when you call this auto in RobotContainer, it will run these commands
         // NOTE: ALL LINES HERE MUST BE COMMANDS
         super.addCommands(
+            new WaitCommand(1),
             new InstantCommand(() -> {
                 swerveDrive.resetOdometry();
             }),
-            swerveDrive.followPath(PathPlanner.loadPath(path, new PathConstraints(RobotMap.MAX_SPEED_METERS_PER_SECOND - 2, RobotMap.DRIVE_RATE_LIMIT - .5)))
+            swerveDrive.followPath(PathPlanner.loadPath(path, new PathConstraints(RobotMap.MAX_SPEED_METERS_PER_SECOND - 2.5, RobotMap.DRIVE_RATE_LIMIT - .5)))
         );
     }
 }

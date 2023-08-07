@@ -30,7 +30,8 @@ public class RobotContainer {
     StringSelector selector = new StringSelector(
         "Autonomous Path",
         "First Test",
-        "Straight"
+        "Straight",
+        "New Path"
     );
 
     public Command getAutoCommand() {

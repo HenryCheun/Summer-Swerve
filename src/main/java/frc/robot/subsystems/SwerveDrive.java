@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.helpers.CCSparkMax;
@@ -219,6 +221,10 @@ public class SwerveDrive extends SubsystemBase {
         odometer.resetPosition(getRotation2d(), swerveModulePositions, getPose());
     }
 
+    public void setOdometry(Pose2d pos){
+        odometer.resetPosition(getRotation2d(), swerveModulePositions, pos);
+    }
+
 
     // Autonomous
     // Odometer used to get Pose2d of the robot.
@@ -230,7 +236,7 @@ public class SwerveDrive extends SubsystemBase {
     // Possibly research profiled PID
     PIDController turnPID = new PIDController(.5, 0, 0);
 
-    PPHolonomicDriveController holonomicDriveController = new PPHolonomicDriveController(xPID, yPID, turnPID);
+    // PPHolonomicDriveController holonomicDriveController = new PPHolonomicDriveController(xPID, yPID, turnPID);
 
     /**
      * Follows a PathPlanner path. Referenced in autonomous classes.
@@ -239,14 +245,18 @@ public class SwerveDrive extends SubsystemBase {
      * @return A command that follows a path.
      */
     public Command followPath(PathPlannerTrajectory traj){
-        return new SequentialCommandGroup(new InstantCommand(() -> {
-            //add any instant commands here
-        }),
-        new FollowPathWithEvents(
-            //Path following command
-            new PPSwerveControllerCommand(traj, this::getPose, RobotMap.DRIVE_KINEMATICS, xPID, yPID, turnPID, this::setModuleStates, true, this),
-            traj.getMarkers(),
-            RobotContainer.eventMap)
+        return new SequentialCommandGroup(
+            new InstantCommand(() -> {
+                setOdometry(traj.getInitialHolonomicPose());
+            }),
+            new ParallelCommandGroup(
+                new FollowPathWithEvents(
+                    //Path following command
+                    new PPSwerveControllerCommand(traj, this::getPose, RobotMap.DRIVE_KINEMATICS, xPID, yPID, turnPID, this::setModuleStates, true, this),
+                    traj.getMarkers(),
+                    RobotContainer.eventMap)
+                // new RunCommand(() -> System.out.println(getHeading()))
+            )
         );
     }
 
