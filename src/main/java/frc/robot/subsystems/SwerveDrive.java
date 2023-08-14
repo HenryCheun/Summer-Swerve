@@ -181,16 +181,24 @@ public class SwerveDrive extends SubsystemBase {
     public void periodic() {
         SmartDashboard.putNumber("Robot Heading", getHeading());
         // System.out.println("Robot Heading: " + getHeading());
+        updateOdometer();
     }
 
     /**
      * Sets all 4 modules' drive and turn speeds to 0.
      */
     public void stopModules(){
-        frontRight.stop();
-        frontLeft.stop();
-        backRight.stop();
-        backLeft.stop();
+        // frontRight.stop();
+        // frontLeft.stop();
+        // backRight.stop();
+        // backLeft.stop();
+        SwerveModuleState[] states = new SwerveModuleState[] {
+            new SwerveModuleState(0, new Rotation2d(frontRight.getAbsoluteEncoderRadians())),
+            new SwerveModuleState(0, new Rotation2d(frontLeft.getAbsoluteEncoderRadians())),
+            new SwerveModuleState(0, new Rotation2d(backRight.getAbsoluteEncoderRadians())),
+            new SwerveModuleState(0, new Rotation2d(backLeft.getAbsoluteEncoderRadians()))
+        };
+        setModuleStates(states);
     }
 
     /**
@@ -225,16 +233,26 @@ public class SwerveDrive extends SubsystemBase {
         odometer.resetPosition(getRotation2d(), swerveModulePositions, pos);
     }
 
+    public void updateModulePositions(){
+        swerveModulePositions[0] = new SwerveModulePosition(frontRight.getDrivePosition(), new Rotation2d(frontRight.getTurnPosition()));
+        swerveModulePositions[1] = new SwerveModulePosition(frontLeft.getDrivePosition(), new Rotation2d(frontLeft.getTurnPosition()));
+        swerveModulePositions[2] = new SwerveModulePosition(backRight.getDrivePosition(), new Rotation2d(backRight.getTurnPosition()));
+        swerveModulePositions[3] = new SwerveModulePosition(backLeft.getDrivePosition(), new Rotation2d(backLeft.getTurnPosition()));
+    }
 
+    public void updateOdometer(){
+        updateModulePositions();
+        odometer.update(getRotation2d(), swerveModulePositions);
+    }
     // Autonomous
     // Odometer used to get Pose2d of the robot.
     SwerveDriveOdometry odometer;
 
     // xPID and yPID should have the same values.
-    PIDController xPID = new PIDController(.35, 0, 0);
-    PIDController yPID = new PIDController(.35, 0, 0);
+    PIDController xPID = new PIDController(.5, .15, 0);
+    PIDController yPID = new PIDController(.5, .15, 0);
     // Possibly research profiled PID
-    PIDController turnPID = new PIDController(.5, 0, 0);
+    PIDController turnPID = new PIDController(.25, 0, 0);
 
     // PPHolonomicDriveController holonomicDriveController = new PPHolonomicDriveController(xPID, yPID, turnPID);
 
@@ -252,10 +270,10 @@ public class SwerveDrive extends SubsystemBase {
             new ParallelCommandGroup(
                 new FollowPathWithEvents(
                     //Path following command
-                    new PPSwerveControllerCommand(traj, this::getPose, RobotMap.DRIVE_KINEMATICS, xPID, yPID, turnPID, this::setModuleStates, true, this),
+                    new PPSwerveControllerCommand(traj, this::getPose, RobotMap.DRIVE_KINEMATICS_AUTONOMOUS, xPID, yPID, turnPID, this::setModuleStates, true, this),
                     traj.getMarkers(),
                     RobotContainer.eventMap)
-                // new RunCommand(() -> System.out.println(getHeading()))
+                // new RunCommand(() -> System.out.println(getPose()))
             )
         );
     }
@@ -304,5 +322,9 @@ public class SwerveDrive extends SubsystemBase {
     public void printBackLeft(){
         backLeft.printEncoders();
         backLeft.printAbsoluteEncoder();
+    }
+
+    public void printPos2d(){
+        System.out.println(odometer.getPoseMeters());
     }
 }

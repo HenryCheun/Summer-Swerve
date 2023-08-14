@@ -31,7 +31,10 @@ public class RobotContainer {
         "Autonomous Path",
         "First Test",
         "Straight",
-        "New Path"
+        "New Path",
+        "curve",
+        "Straight Then Left",
+        "Rotate Right"
     );
 
     public Command getAutoCommand() {

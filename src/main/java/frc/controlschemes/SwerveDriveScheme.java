@@ -51,7 +51,7 @@ public class SwerveDriveScheme implements ControlScheme {
             // swerveDrive.periodic();
 
             //Set x, y, and turn speed based on joystick inputs
-            double xSpeed = OI.axis(port, ControlMap.L_JOYSTICK_VERTICAL);
+            double xSpeed = -OI.axis(port, ControlMap.L_JOYSTICK_VERTICAL);
             double ySpeed = -OI.axis(port, ControlMap.L_JOYSTICK_HORIZONTAL);
             double turnSpeed = OI.axis(port, ControlMap.R_JOYSTICK_HORIZONTAL);
 
@@ -100,5 +100,4 @@ public class SwerveDriveScheme implements ControlScheme {
     private static void toggleFieldCentric(){
         fieldCentric = !fieldCentric;
     }
-    
 }

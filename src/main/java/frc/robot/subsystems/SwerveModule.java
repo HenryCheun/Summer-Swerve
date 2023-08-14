@@ -49,7 +49,7 @@ public class SwerveModule extends SubsystemBase{
     }
 
     /**
-     * Gets the encoder value of the drive motor.
+     * Gets the encoder value of the drive motor in meters.
      * @return The encoder value of the drive motor.
      */
     public double getDrivePosition(){

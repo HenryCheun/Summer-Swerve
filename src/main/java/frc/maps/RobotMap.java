@@ -36,31 +36,31 @@ public interface RobotMap {
      public static final double UNIVERSAL_TURN_ENCODER_FACTOR = 2 * Math.PI / 21.42847;
 
      public static final int FRONT_RIGHT_DRIVE = 6;
-     public static final boolean FRONT_RIGHT_DRIVE_REVERSE = false;
+     public static final boolean FRONT_RIGHT_DRIVE_REVERSE = true;
      public static final double FRONT_RIGHT_DRIVE_ENCODER = 1;
      public static final int FRONT_RIGHT_TURN = 5;
-     public static final boolean FRONT_RIGHT_TURN_REVERSE = false;
+     public static final boolean FRONT_RIGHT_TURN_REVERSE = true;
      public static final double FRONT_RIGHT_TURN_ENCODER = 1;
 
      public static final int FRONT_LEFT_DRIVE = 2;
-     public static final boolean FRONT_LEFT_DRIVE_REVERSE = false;
+     public static final boolean FRONT_LEFT_DRIVE_REVERSE = true;
      public static final double FRONT_LEFT_DRIVE_ENCODER = 1;
      public static final int FRONT_LEFT_TURN = 1;
-     public static final boolean FRONT_LEFT_TURN_REVERSE = false;
+     public static final boolean FRONT_LEFT_TURN_REVERSE = true;
      public static final double FRONT_LEFT_TURN_ENCODER = 1;
 
      public static final int BACK_RIGHT_DRIVE = 7;
-     public static final boolean BACK_RIGHT_DRIVE_REVERSE = false;
+     public static final boolean BACK_RIGHT_DRIVE_REVERSE = true;
      public static final double BACK_RIGHT_DRIVE_ENCODER = 1;
      public static final int BACK_RIGHT_TURN = 8;
-     public static final boolean BACK_RIGHT_TURN_REVERSE = false;
+     public static final boolean BACK_RIGHT_TURN_REVERSE = true;
      public static final double BACK_RIGHT_TURN_ENCODER = 1;
 
      public static final int BACK_LEFT_DRIVE = 3;
-     public static final boolean BACK_LEFT_DRIVE_REVERSE = false;
+     public static final boolean BACK_LEFT_DRIVE_REVERSE = true;
      public static final double BACK_LEFT_DRIVE_ENCODER = 1;
      public static final int BACK_LEFT_TURN = 4;
-     public static final boolean BACK_LEFT_TURN_REVERSE = false;
+     public static final boolean BACK_LEFT_TURN_REVERSE = true;
      public static final double BACK_LEFT_TURN_ENCODER = 1;
      
      //Absolute Encoders
@@ -90,5 +90,11 @@ public interface RobotMap {
         new Translation2d(-WHEEL_BASE / 2, WHEEL_BASE / 2),
         new Translation2d(WHEEL_BASE / 2, -WHEEL_BASE / 2),
         new Translation2d(WHEEL_BASE / 2, WHEEL_BASE / 2)
+    );
+    public static final SwerveDriveKinematics DRIVE_KINEMATICS_AUTONOMOUS = new SwerveDriveKinematics(
+        new Translation2d(WHEEL_BASE / 2, -WHEEL_BASE / 2),
+        new Translation2d(WHEEL_BASE / 2, WHEEL_BASE / 2),
+        new Translation2d(-WHEEL_BASE / 2, -WHEEL_BASE / 2),
+        new Translation2d(-WHEEL_BASE / 2, WHEEL_BASE / 2)
     );
 }
