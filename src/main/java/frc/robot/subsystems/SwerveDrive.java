@@ -251,9 +251,9 @@ public class SwerveDrive extends SubsystemBase {
     // xPID and yPID should have the same values.
     PIDController xPID = new PIDController(.5, .15, 0);
     PIDController yPID = new PIDController(.5, .15, 0);
-    // Possibly research profiled PID
+    
+    //*TODO:  Possibly research profiled PID
     PIDController turnPID = new PIDController(.25, 0, 0);
-
     // PPHolonomicDriveController holonomicDriveController = new PPHolonomicDriveController(xPID, yPID, turnPID);
 
     /**
@@ -270,7 +270,7 @@ public class SwerveDrive extends SubsystemBase {
             new ParallelCommandGroup(
                 new FollowPathWithEvents(
                     //Path following command
-                    new PPSwerveControllerCommand(traj, this::getPose, RobotMap.DRIVE_KINEMATICS_AUTONOMOUS, xPID, yPID, turnPID, this::setModuleStates, true, this),
+                    new PPSwerveControllerCommand(traj, this::getPose, RobotMap.DRIVE_KINEMATICS, xPID, yPID, turnPID, this::setModuleStates, true, this),
                     traj.getMarkers(),
                     RobotContainer.eventMap)
                 // new RunCommand(() -> System.out.println(getPose()))

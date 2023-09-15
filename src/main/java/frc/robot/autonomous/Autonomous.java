@@ -3,6 +3,8 @@ package frc.robot.autonomous;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -20,20 +22,27 @@ public class Autonomous extends SequentialCommandGroup{
      * under the deploy folder and are uploaded directly to the roboRIO.
      * @param swerveDrive The SwerveDrive subsystem used.
      */
-    public Autonomous(String path, SwerveDrive swerveDrive){
+    public Autonomous(String path, SwerveDrive swerveDrive) {
 
         // This adds the commands to the class that this class extends, SequentialCommandGroup
         // So, when you call this auto in RobotContainer, it will run these commands
         // NOTE: ALL LINES HERE MUST BE COMMANDS
         super.addCommands(
-            new WaitCommand(1),
-            new InstantCommand(() -> {
-                // swerveDrive.resetOdometry();
-            }),
-            swerveDrive.followPath(PathPlanner.loadPath(path, new PathConstraints(RobotMap.MAX_SPEED_METERS_PER_SECOND - 1.5, RobotMap.DRIVE_RATE_LIMIT - .3))),
-            new InstantCommand(() -> swerveDrive.stopModules())
-        );
+                new WaitCommand(1),
+                new InstantCommand(() -> {
+                    // swerveDrive.resetOdometry();
+                }),
+                swerveDrive.followPath(PathPlanner.loadPath(path,
+                        new PathConstraints(RobotMap.MAX_SPEED_METERS_PER_SECOND - 1.5,
+                                RobotMap.DRIVE_RATE_LIMIT - .3))),
+                new InstantCommand(() -> swerveDrive.stopModules()));
     }
+    
+    // public Autonomous(SwerveDrive swerveDrive) {
+    //     super.addCommands(Commands.waitSeconds(1), Commands.runOnce(swerveDrive::resetOdometry, swerveDrive), swerveDrive.followPath(PathPlanner.loadPath(path,
+    //                     new PathConstraints(RobotMap.MAX_SPEED_METERS_PER_SECOND - 1.5,
+    //                             RobotMap.DRIVE_RATE_LIMIT - .3))));
+    // }
 }
 
 // Inefficient, possibly condense everything into one autonomous class and use .getName()
