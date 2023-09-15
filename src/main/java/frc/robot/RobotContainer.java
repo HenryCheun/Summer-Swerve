@@ -15,6 +15,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -22,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.controlschemes.SwerveDriveScheme;
 import frc.controlschemes.Testing;
+import frc.diagnostics.CommandRunner;
 import frc.diagnostics.CommandSelector;
 import frc.diagnostics.StringSelector;
 import frc.maps.RobotMap;
@@ -34,8 +36,17 @@ public class RobotContainer {
     /** Event map for path planner */
     public static HashMap<String, Command> eventMap = new HashMap<>();
 
+    SendableChooser<Command> autoCommands = new SendableChooser<Command>();
+    private final String[] paths = {"First Test",
+            "Straight",
+            "New Path",
+            "curve",
+            "Straight Then Left",
+            "Rotate Right" };
+    
     public RobotContainer() {
         SwerveDriveScheme.configure(swerveDrive, 0);
+        
         // Testing.configure(swerveDrive, 0);
     }
 
@@ -49,7 +60,7 @@ public class RobotContainer {
             "Straight Then Left",
             "Rotate Right");
 
-    
+    CommandRunner runTutorialPath = new CommandRunner("Config", "Tutorial path", followPathPlanner());
 
     public Command getAutoCommand() {
         // return new Autonomous(selector.value(), swerveDrive);
@@ -72,12 +83,7 @@ public class RobotContainer {
                 Commands.runOnce(swerveDrive::stopModules, swerveDrive));
     }
 
-    public void initShuffle() {
-        ShuffleboardTab tab = Shuffleboard.getTab("SmartDashboard");
-        tab.add("X", 0.0);
-}
     
-
 
 
 /**
@@ -98,3 +104,52 @@ public Command followTutorialPath() {
 
     }
 }
+
+
+// SendableChooser<Command> m_autoSelector = new SendableChooser<Command>();
+
+//     public RobotContainer() {
+//         ...
+//         m_autoSelector.setDefaultOption("default auto", followPath("Default Path"));
+//         m_autoSelector.addOption("other auto", followPath("Other Path"));
+//     }
+//     public Command getAutonomousCommand() {
+//         return m_autoSelector.getSelected();
+//     }
+//     public Command followPath(String pathName) {
+//          return followPath(PathPlanner.loadPath(pathName, constraints));
+//     }
+//     public Command followPath(PathPlannerTrajectory traj){
+//              //as you have it now
+//     }
+
+
+// new CommandSelector("Main Tab", "Auto Selector",
+// followPath("DefaultAuto").withName("Default Auto"),
+// followPath("OtherAuto").withName("Other Auto")
+// );
+
+
+
+// SendableChooser<Command> m_autoSelector = new SendableChooser<Command>();
+
+//     public RobotContainer() {
+//         ...
+//         m_autoSelector.setDefaultOption("default auto", followPath("Default Path"));
+//         m_autoSelector.addOption("other auto", followPath("Other Path"));
+
+//         Shuffleboard.getTab("Config")
+//             .add("AutoChooser", m_autoSelector)
+//             .withWidget("ComboBox Chooser")
+//             .withPosition(1, 1)
+//             .withSize(1, 1);
+//     }
+//     public Command getAutonomousCommand() {
+//         return m_autoSelector.getSelected();
+//     }
+//     public Command followPath(String pathName) {
+//          return followPath(PathPlanner.loadPath(pathName, constraints));
+//     }
+//     public Command followPath(PathPlannerTrajectory traj){
+//              //as you have it now
+//     }
