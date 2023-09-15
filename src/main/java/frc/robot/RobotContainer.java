@@ -12,6 +12,9 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -69,15 +72,20 @@ public class RobotContainer {
                 Commands.runOnce(swerveDrive::stopModules, swerveDrive));
     }
 
-
-
-
+    public void initShuffle() {
+        ShuffleboardTab tab = Shuffleboard.getTab("SmartDashboard");
+        tab.add("X", 0.0);
+}
     
+
+
+
 /**
  * 
  * @return Command to follow the tutorial path
  */
-    public Command followTutorialPath() {
+public Command followTutorialPath() {
+    
         TrajectoryConfig config = new TrajectoryConfig(RobotMap.MAX_SPEED_METERS_PER_SECOND, RobotMap.DRIVE_RATE_LIMIT)
                 .setKinematics(RobotMap.DRIVE_KINEMATICS);
         Trajectory traj = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), null,
