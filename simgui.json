@@ -16,7 +16,11 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
-      "/Shuffleboard/Config/Autonomous": "String Chooser"
+      "/Shuffleboard/Config/Autonomous": "String Chooser",
+      "/Shuffleboard/Config/Autonomous Path": "String Chooser",
+      "/Shuffleboard/Config/Motor Print": "String Chooser",
+      "/SmartDashboard/Auto": "String Chooser",
+      "/SmartDashboard/Print": "Command"
     }
   },
   "NetworkTables": {

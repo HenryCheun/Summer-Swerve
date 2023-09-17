@@ -16,10 +16,13 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.controlschemes.SwerveDriveScheme;
 import frc.controlschemes.Testing;
@@ -36,7 +39,7 @@ public class RobotContainer {
     /** Event map for path planner */
     public static HashMap<String, Command> eventMap = new HashMap<>();
 
-    SendableChooser<Command> autoCommands = new SendableChooser<Command>();
+    SendableChooser<CommandBase> autoCommands = new SendableChooser<CommandBase>();
     private final String[] paths = {"First Test",
             "Straight",
             "New Path",
@@ -47,9 +50,12 @@ public class RobotContainer {
     public RobotContainer() {
         SwerveDriveScheme.configure(swerveDrive, 0);
         for (String pathName : paths) {
-            autoCommands.addOption(pathName, createPath(pathName));
+            autoCommands.addOption(pathName, followPathPlanner(pathName));
         }
         // Testing.configure(swerveDrive, 0);
+        SmartDashboard.putData("Auto", autoCommands);
+        SmartDashboard.putData("Print",new Autonomous());
+        
     }
 
     // Add all autonomous paths here.
@@ -62,18 +68,18 @@ public class RobotContainer {
             "Straight Then Left",
             "Rotate Right");
 
-    CommandRunner runTutorialPath = new CommandRunner("Config", "Tutorial path", followPathPlanner());
+    // CommandRunner runTutorialPath = new CommandRunner("Config", "Tutorial path", followTutorialPath());
+   
 
     public Command getAutoCommand() {
         // return new Autonomous(selector.value(), swerveDrive);
-        return followPathPlanner();
+        return autoCommands.getSelected();
     }
 
     /**
      * Functionally the same as the Autonomous class method, just less messy.
      */
-    public Command followPathPlanner() {
-        String pathName = selector.value();
+    public CommandBase followPathPlanner(String pathName) {
         PathPlannerTrajectory traj = PathPlanner.loadPath(pathName,
                 new PathConstraints(RobotMap.MAX_SPEED_METERS_PER_SECOND - 1.5,
                         RobotMap.DRIVE_RATE_LIMIT - .3));
@@ -92,15 +98,15 @@ public class RobotContainer {
  * 
  * @return Command to follow the tutorial path
  */
-public Command followTutorialPath() {
+public CommandBase followTutorialPath() {
     
-        TrajectoryConfig config = new TrajectoryConfig(RobotMap.MAX_SPEED_METERS_PER_SECOND, RobotMap.DRIVE_RATE_LIMIT)
-                .setKinematics(RobotMap.DRIVE_KINEMATICS);
-        Trajectory traj = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), null,
-                new Pose2d(1, 1, new Rotation2d(0)), config);
+        // TrajectoryConfig config = new TrajectoryConfig(RobotMap.MAX_SPEED_METERS_PER_SECOND, RobotMap.DRIVE_RATE_LIMIT)
+        //         .setKinematics(RobotMap.DRIVE_KINEMATICS);
+        // Trajectory traj = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), null,
+        //         new Pose2d(1, 1, new Rotation2d(0)), config);
 
-                PIDController xPID = new PIDController(.5, .15, 0);
-                PIDController yPID = new PIDController(.5, .15, 0);
+        //         PIDController xPID = new PIDController(.5, .15, 0);
+        //         PIDController yPID = new PIDController(.5, .15, 0);
 
                 return new InstantCommand();
 

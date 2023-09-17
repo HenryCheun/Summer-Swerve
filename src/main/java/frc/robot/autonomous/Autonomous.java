@@ -38,12 +38,26 @@ public class Autonomous extends SequentialCommandGroup{
                 new InstantCommand(() -> swerveDrive.stopModules()));
     }
     
+    public Autonomous(){
+        super.addCommands(new InstantCommand(() -> System.out.println("Hello")));
+    }
+}
     // public Autonomous(SwerveDrive swerveDrive) {
     //     super.addCommands(Commands.waitSeconds(1), Commands.runOnce(swerveDrive::resetOdometry, swerveDrive), swerveDrive.followPath(PathPlanner.loadPath(path,
     //                     new PathConstraints(RobotMap.MAX_SPEED_METERS_PER_SECOND - 1.5,
     //                             RobotMap.DRIVE_RATE_LIMIT - .3))));
     // }
-}
+   
+
+
+
+
+
+
+
+
+
+
 
 // Inefficient, possibly condense everything into one autonomous class and use .getName()
 // Might not work due to command-based nature of command selector
