@@ -46,7 +46,9 @@ public class RobotContainer {
     
     public RobotContainer() {
         SwerveDriveScheme.configure(swerveDrive, 0);
-        
+        for (String pathName : paths) {
+            autoCommands.addOption(pathName, createPath(pathName));
+        }
         // Testing.configure(swerveDrive, 0);
     }
 
