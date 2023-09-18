@@ -13,6 +13,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -54,8 +55,10 @@ public class RobotContainer {
         }
         // Testing.configure(swerveDrive, 0);
         SmartDashboard.putData("Auto", autoCommands);
-        SmartDashboard.putData("Print",new Autonomous());
+        SmartDashboard.putData("Print", new Autonomous());
         
+        //test this later
+        Shuffleboard.getTab("Config").add("Stop", new Autonomous()).withWidget(BuiltInWidgets.kCommand);
     }
 
     // Add all autonomous paths here.
@@ -69,7 +72,6 @@ public class RobotContainer {
             "Rotate Right");
 
     // CommandRunner runTutorialPath = new CommandRunner("Config", "Tutorial path", followTutorialPath());
-   
 
     public Command getAutoCommand() {
         // return new Autonomous(selector.value(), swerveDrive);
