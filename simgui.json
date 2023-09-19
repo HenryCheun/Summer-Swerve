@@ -19,6 +19,8 @@
       "/Shuffleboard/Config/Autonomous": "String Chooser",
       "/Shuffleboard/Config/Autonomous Path": "String Chooser",
       "/Shuffleboard/Config/Motor Print": "String Chooser",
+      "/Shuffleboard/Config/Stop": "Command",
+      "/Shuffleboard/Config/SwerveDrive": "Subsystem",
       "/SmartDashboard/Auto": "String Chooser",
       "/SmartDashboard/Print": "Command"
     }
