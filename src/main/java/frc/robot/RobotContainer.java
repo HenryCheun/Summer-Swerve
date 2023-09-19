@@ -50,28 +50,20 @@ public class RobotContainer {
     
     public RobotContainer() {
         SwerveDriveScheme.configure(swerveDrive, 0);
+
         for (String pathName : paths) {
             autoCommands.addOption(pathName, followPathPlanner(pathName).withName(pathName));
         }
+
         // Testing.configure(swerveDrive, 0);
         SmartDashboard.putData("Auto", autoCommands);
-        SmartDashboard.putData("Print", new Autonomous());
-        // SmartDashboard.putData("Run Auto", autoCommands.getSelected());
+        
         Shuffleboard.getTab("Config").add("SwerveDrive", swerveDrive);
         
         //test this later
         Shuffleboard.getTab("Config").add("Stop", new Autonomous()).withWidget(BuiltInWidgets.kCommand);
+        Shuffleboard.getTab("Config").add("Wheeee", Commands.runOnce(() -> System.out.println("Hello"), swerveDrive)).withWidget(BuiltInWidgets.kCommand);
     }
-
-    // Add all autonomous paths here.
-    StringSelector selector = new StringSelector(
-            "Autonomous Path",
-            "First Test",
-            "Straight",
-            "New Path",
-            "curve",
-            "Straight Then Left",
-            "Rotate Right");
 
     // CommandRunner runTutorialPath = new CommandRunner("Config", "Tutorial path", followTutorialPath());
 
