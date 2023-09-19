@@ -51,7 +51,7 @@ public class RobotContainer {
     public RobotContainer() {
         SwerveDriveScheme.configure(swerveDrive, 0);
         for (String pathName : paths) {
-            autoCommands.addOption(pathName, followPathPlanner(pathName));
+            autoCommands.addOption(pathName, followPathPlanner(pathName).withName(pathName));
         }
         // Testing.configure(swerveDrive, 0);
         SmartDashboard.putData("Auto", autoCommands);

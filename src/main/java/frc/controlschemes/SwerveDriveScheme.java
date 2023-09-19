@@ -78,7 +78,7 @@ public class SwerveDriveScheme implements ControlScheme {
             
 
             // commands.value().schedule();
-        }, swerveDrive));
+        }, swerveDrive).withName("Swerve Controller Command"));
         configureButtons(swerveDrive, port);
     }
 
