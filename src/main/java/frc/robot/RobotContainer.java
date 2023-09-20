@@ -50,16 +50,13 @@ public class RobotContainer {
     
     public RobotContainer() {
         SwerveDriveScheme.configure(swerveDrive, 0);
+        // Testing.configure(swerveDrive, 0);
+        diagnosticsInit();
 
         
-        // Testing.configure(swerveDrive, 0);
-       
-        
-        //test this later
         
     }
 
-    // CommandRunner runTutorialPath = new CommandRunner("Config", "Tutorial path", followTutorialPath());
     public void diagnosticsInit(){
         for (String pathName : paths) {
             autoCommands.addOption(pathName, followPathPlanner(pathName).withName(pathName));
@@ -72,7 +69,10 @@ public class RobotContainer {
 
     public Command getAutoCommand() {
         // return new Autonomous(selector.value(), swerveDrive);
+
         return autoCommands.getSelected();
+
+        
     }
 
     /**

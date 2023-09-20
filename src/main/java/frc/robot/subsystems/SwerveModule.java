@@ -88,7 +88,7 @@ public class SwerveModule extends SubsystemBase{
      * @return The value of the absolute encoder in radians.
      */
     public double getAbsoluteEncoderRadians(){
-        return absoluteEncoder.get() * 2 * Math.PI;
+        return absoluteEncoder.getAbsolutePosition() * 2 * Math.PI;
     }
     
     /**
