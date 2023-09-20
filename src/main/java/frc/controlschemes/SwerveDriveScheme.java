@@ -1,12 +1,18 @@
 package frc.controlschemes;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.diagnostics.BooleanSwitch;
 import frc.diagnostics.CommandSelector;
 import frc.helpers.ControlScheme;
 import frc.helpers.OI;
@@ -20,6 +26,9 @@ import frc.robot.subsystems.SwerveDrive;
  */
 public class SwerveDriveScheme implements ControlScheme {
     private static boolean fieldCentric = true;
+    private static BooleanSupplier fieldCentricSupplier = () -> {
+        return fieldCentric;
+    };
 
     /**
      * Configures the basic driving as well as buttons.
@@ -27,6 +36,10 @@ public class SwerveDriveScheme implements ControlScheme {
      * @param port The controller port of the driving controller.
      */
     public static void configure(SwerveDrive swerveDrive, int port){
+        BooleanSwitch ffff = new BooleanSwitch("Diagnostics", "fff", fieldCentric);
+        Shuffleboard.getTab("Diagnostics").add("isCentric",fieldCentric).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
+       Shuffleboard.getTab("Diagnostics").addBoolean("Field Centric", fieldCentricSupplier).withWidget(BuiltInWidgets.kToggleSwitch);
+
         SlewRateLimiter xRateLimiter = new SlewRateLimiter(RobotMap.DRIVE_RATE_LIMIT);
         SlewRateLimiter yRateLimiter = new SlewRateLimiter(RobotMap.DRIVE_RATE_LIMIT);
         SlewRateLimiter turnRateLimiter = new SlewRateLimiter(RobotMap.TURN_RATE_LIMIT);

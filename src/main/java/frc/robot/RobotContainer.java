@@ -51,21 +51,24 @@ public class RobotContainer {
     public RobotContainer() {
         SwerveDriveScheme.configure(swerveDrive, 0);
 
-        for (String pathName : paths) {
-            autoCommands.addOption(pathName, followPathPlanner(pathName).withName(pathName));
-        }
-
-        // Testing.configure(swerveDrive, 0);
-        SmartDashboard.putData("Auto", autoCommands);
         
-        Shuffleboard.getTab("Config").add("SwerveDrive", swerveDrive);
+        // Testing.configure(swerveDrive, 0);
+       
         
         //test this later
-        Shuffleboard.getTab("Config").add("Stop", new Autonomous()).withWidget(BuiltInWidgets.kCommand);
-        Shuffleboard.getTab("Config").add("Wheeee", Commands.runOnce(() -> System.out.println("Hello"), swerveDrive)).withWidget(BuiltInWidgets.kCommand);
+        
     }
 
     // CommandRunner runTutorialPath = new CommandRunner("Config", "Tutorial path", followTutorialPath());
+    public void diagnosticsInit(){
+        for (String pathName : paths) {
+            autoCommands.addOption(pathName, followPathPlanner(pathName).withName(pathName));
+        }
+        SmartDashboard.putData("Auto", autoCommands);
+        
+        Shuffleboard.getTab("Diagnostics").add("SwerveDrive", swerveDrive);
+        Shuffleboard.getTab("Config").add("Stop", new Autonomous()).withWidget(BuiltInWidgets.kCommand);
+    }
 
     public Command getAutoCommand() {
         // return new Autonomous(selector.value(), swerveDrive);
