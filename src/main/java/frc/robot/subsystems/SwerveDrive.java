@@ -141,7 +141,11 @@ public class SwerveDrive extends SubsystemBase {
         swerveModulePositions[3] = new SwerveModulePosition(0, new Rotation2d(backLeft.getAbsoluteEncoderRadians()));
 
         odometer = new SwerveDriveOdometry(RobotMap.DRIVE_KINEMATICS, new Rotation2d(0), swerveModulePositions);
-
+        // SmartDashboard.putNumber(frontRight.getName(), frontRight.getAbsoluteEncoderRadians());
+        // SmartDashboard.putNumber(frontLeft.getName(), frontLeft.getAbsoluteEncoderRadians());
+        // SmartDashboard.putNumber(backRight.getName(), backRight.getAbsoluteEncoderRadians());
+        // SmartDashboard.putNumber(backLeft.getName(), backLeft.getAbsoluteEncoderRadians());
+       
         new Thread(() -> {
             try{
                 Thread.sleep(1000);
@@ -181,6 +185,23 @@ public class SwerveDrive extends SubsystemBase {
     public void periodic() {
         SmartDashboard.putNumber("Robot Heading", getHeading());
         // System.out.println("Robot Heading: " + getHeading());
+
+        // SmartDashboard.putNumber(frontRight.getName(), frontRight.getDrivePosition());
+        // SmartDashboard.putNumber(frontLeft.getName(), frontLeft.getDrivePosition());
+        // SmartDashboard.putNumber(backRight.getName(), backRight.getDrivePosition());
+        // SmartDashboard.putNumber(backLeft.getName(), backLeft.getDrivePosition());
+
+        SmartDashboard.putNumber(frontRight.getName(), frontRight.getAbsoluteEncoderRadians());
+        SmartDashboard.putNumber(frontLeft.getName(), frontLeft.getAbsoluteEncoderRadians());
+        SmartDashboard.putNumber(backRight.getName(), backRight.getAbsoluteEncoderRadians());
+        SmartDashboard.putNumber(backLeft.getName(), backLeft.getAbsoluteEncoderRadians());
+       
+        SmartDashboard.putNumber(frontRight.getName()+"T", frontRight.getTurnPosition());
+        SmartDashboard.putNumber(frontLeft.getName()+"T", frontLeft.getTurnPosition());
+        SmartDashboard.putNumber(backRight.getName()+"T", backRight.getTurnPosition());
+        SmartDashboard.putNumber(backLeft.getName()+"T", backLeft.getTurnPosition());
+       
+
         updateOdometer();
     }
 

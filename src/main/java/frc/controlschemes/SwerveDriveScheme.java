@@ -105,6 +105,11 @@ public class SwerveDriveScheme implements ControlScheme {
             .onTrue(new InstantCommand(() -> toggleFieldCentric()));
         new JoystickButton(controllers[port], ControlMap.A_BUTTON)
             .onTrue(new InstantCommand(() -> swerveDrive.zeroHeading()));
+        
+
+            //delete later
+            new JoystickButton(controllers[port], ControlMap.X_BUTTON)
+            .onTrue(new InstantCommand(() -> swerveDrive.resetAbsoluteEncoders()));
     }
 
     /**
