@@ -36,28 +36,28 @@ public interface RobotMap {
      public static final double UNIVERSAL_TURN_ENCODER_FACTOR = 2 * Math.PI / 21.42847;
 
      public static final int FRONT_RIGHT_DRIVE = 6;
-     public static final boolean FRONT_RIGHT_DRIVE_REVERSE = true;
+     public static final boolean FRONT_RIGHT_DRIVE_REVERSE = false;
      public static final double FRONT_RIGHT_DRIVE_ENCODER = 1;
      public static final int FRONT_RIGHT_TURN = 5;
      public static final boolean FRONT_RIGHT_TURN_REVERSE = true;
      public static final double FRONT_RIGHT_TURN_ENCODER = 1;
 
      public static final int FRONT_LEFT_DRIVE = 2;
-     public static final boolean FRONT_LEFT_DRIVE_REVERSE = true;
+     public static final boolean FRONT_LEFT_DRIVE_REVERSE = false;
      public static final double FRONT_LEFT_DRIVE_ENCODER = 1;
      public static final int FRONT_LEFT_TURN = 1;
      public static final boolean FRONT_LEFT_TURN_REVERSE = true;
      public static final double FRONT_LEFT_TURN_ENCODER = 1;
 
      public static final int BACK_RIGHT_DRIVE = 7;
-     public static final boolean BACK_RIGHT_DRIVE_REVERSE = true;
+     public static final boolean BACK_RIGHT_DRIVE_REVERSE = false;
      public static final double BACK_RIGHT_DRIVE_ENCODER = 1;
      public static final int BACK_RIGHT_TURN = 8;
      public static final boolean BACK_RIGHT_TURN_REVERSE = true;
      public static final double BACK_RIGHT_TURN_ENCODER = 1;
 
      public static final int BACK_LEFT_DRIVE = 3;
-     public static final boolean BACK_LEFT_DRIVE_REVERSE = true;
+     public static final boolean BACK_LEFT_DRIVE_REVERSE = false;
      public static final double BACK_LEFT_DRIVE_ENCODER = 1;
      public static final int BACK_LEFT_TURN = 4;
      public static final boolean BACK_LEFT_TURN_REVERSE = true;
@@ -75,8 +75,8 @@ public interface RobotMap {
      public static final double BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-285);
      public static final double BACK_LEFT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-195);
 
-    public static final double MAX_SPEED_METERS_PER_SECOND = 3;
-    public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = 3 * Math.PI;
+    public static final double MAX_SPEED_METERS_PER_SECOND = 1;
+    public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = 1 * Math.PI;
 
     //Rate Limiters (acceleration)
     public static final double DRIVE_RATE_LIMIT = MAX_SPEED_METERS_PER_SECOND / 3;
@@ -86,10 +86,10 @@ public interface RobotMap {
     //Since this robot is a square, no need for 2 values. In a non-square chassis, 2 values needed.
     public static final double WHEEL_BASE = Units.inchesToMeters(27);
     public static final SwerveDriveKinematics DRIVE_KINEMATICS = new SwerveDriveKinematics(
-        new Translation2d(-WHEEL_BASE / 2, -WHEEL_BASE / 2),
-        new Translation2d(-WHEEL_BASE / 2, WHEEL_BASE / 2),
         new Translation2d(WHEEL_BASE / 2, -WHEEL_BASE / 2),
-        new Translation2d(WHEEL_BASE / 2, WHEEL_BASE / 2)
+        new Translation2d(WHEEL_BASE / 2, WHEEL_BASE / 2),
+        new Translation2d(-WHEEL_BASE / 2, -WHEEL_BASE / 2),
+        new Translation2d(-WHEEL_BASE / 2, WHEEL_BASE / 2)
     );
     public static final SwerveDriveKinematics DRIVE_KINEMATICS_AUTONOMOUS = new SwerveDriveKinematics(
         new Translation2d(WHEEL_BASE / 2, -WHEEL_BASE / 2),

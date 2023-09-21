@@ -49,8 +49,8 @@ public class RobotContainer {
             "Rotate Right" };
     
     public RobotContainer() {
-        // SwerveDriveScheme.configure(swerveDrive, 0);
-        Testing.configure(swerveDrive, 0);
+        SwerveDriveScheme.configure(swerveDrive, 0);
+        // Testing.configure(swerveDrive, 0);
         diagnosticsInit();
 
         

@@ -65,7 +65,7 @@ public class SwerveDriveScheme implements ControlScheme {
             //Set x, y, and turn speed based on joystick inputs
             double xSpeed = -OI.axis(port, ControlMap.L_JOYSTICK_VERTICAL);
             double ySpeed = -OI.axis(port, ControlMap.L_JOYSTICK_HORIZONTAL);
-            double turnSpeed = OI.axis(port, ControlMap.R_JOYSTICK_HORIZONTAL);
+            double turnSpeed = -OI.axis(port, ControlMap.R_JOYSTICK_HORIZONTAL);
 
             //Limits acceleration and speed
             //Possibly change the speed limiting to somewhere else (maybe a normalize function)
