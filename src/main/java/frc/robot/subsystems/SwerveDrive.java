@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import java.util.function.Supplier;
+import java.util.stream.DoubleStream.DoubleMapMultiConsumer;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -17,9 +18,13 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -27,156 +32,167 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.diagnostics.DoubleEntry;
 import frc.helpers.CCSparkMax;
 import frc.maps.RobotMap;
 import frc.robot.RobotContainer;
 
 /**
- * Class for controlling a swerve drive chassis. Consists of 4 SwerveModules and a gyro.
+ * Class for controlling a swerve drive chassis. Consists of 4 SwerveModules and
+ * a gyro.
  */
 public class SwerveDrive extends SubsystemBase {
-    //Initializing swerve modules. Must include full CCSparkMax object declarations.
+    // Initializing swerve modules. Must include full CCSparkMax object
+    // declarations.
     private final SwerveModule frontRight = new SwerveModule(
-        new CCSparkMax(
-            "Front Right Drive",
-            "frd",
-            RobotMap.FRONT_RIGHT_DRIVE,
-            MotorType.kBrushless,
-            IdleMode.kCoast,
-            RobotMap.FRONT_RIGHT_DRIVE_REVERSE,
-            RobotMap.UNIVERSAL_DRIVE_ENCODER_FACTOR),
-        new CCSparkMax(
-            "Front Right Turn",
-            "frt",
-            RobotMap.FRONT_RIGHT_TURN,
-            MotorType.kBrushless,
-            IdleMode.kBrake,
-            RobotMap.FRONT_RIGHT_TURN_REVERSE,
-            RobotMap.UNIVERSAL_TURN_ENCODER_FACTOR),
-        RobotMap.FRONT_RIGHT_ABSOLUTE_ENCODER,
-        RobotMap.FRONT_RIGHT_ABSOLUTE_ENCODER_OFFSET,
-        "Front Right"
-    );
+            new CCSparkMax(
+                    "Front Right Drive",
+                    "frd",
+                    RobotMap.FRONT_RIGHT_DRIVE,
+                    MotorType.kBrushless,
+                    IdleMode.kCoast,
+                    RobotMap.FRONT_RIGHT_DRIVE_REVERSE,
+                    RobotMap.UNIVERSAL_DRIVE_ENCODER_FACTOR),
+            new CCSparkMax(
+                    "Front Right Turn",
+                    "frt",
+                    RobotMap.FRONT_RIGHT_TURN,
+                    MotorType.kBrushless,
+                    IdleMode.kBrake,
+                    RobotMap.FRONT_RIGHT_TURN_REVERSE,
+                    RobotMap.UNIVERSAL_TURN_ENCODER_FACTOR),
+            RobotMap.FRONT_RIGHT_ABSOLUTE_ENCODER,
+            RobotMap.FRONT_RIGHT_ABSOLUTE_ENCODER_OFFSET,
+            "Front Right");
 
     private final SwerveModule frontLeft = new SwerveModule(
-        new CCSparkMax(
-            "Front Left Drive",
-            "fld",
-            RobotMap.FRONT_LEFT_DRIVE,
-            MotorType.kBrushless,
-            IdleMode.kCoast,
-            RobotMap.FRONT_LEFT_DRIVE_REVERSE,
-            RobotMap.UNIVERSAL_DRIVE_ENCODER_FACTOR),
-        new CCSparkMax(
-            "Front Left Turn",
-            "flt",
-            RobotMap.FRONT_LEFT_TURN,
-            MotorType.kBrushless,
-            IdleMode.kBrake,
-            RobotMap.FRONT_LEFT_TURN_REVERSE,
-            RobotMap.UNIVERSAL_TURN_ENCODER_FACTOR),
-        RobotMap.FRONT_LEFT_ABSOLUTE_ENCODER,
-        RobotMap.FRONT_LEFT_ABSOLUTE_ENCODER_OFFSET,
-        "Front Left"
-    );
+            new CCSparkMax(
+                    "Front Left Drive",
+                    "fld",
+                    RobotMap.FRONT_LEFT_DRIVE,
+                    MotorType.kBrushless,
+                    IdleMode.kCoast,
+                    RobotMap.FRONT_LEFT_DRIVE_REVERSE,
+                    RobotMap.UNIVERSAL_DRIVE_ENCODER_FACTOR),
+            new CCSparkMax(
+                    "Front Left Turn",
+                    "flt",
+                    RobotMap.FRONT_LEFT_TURN,
+                    MotorType.kBrushless,
+                    IdleMode.kBrake,
+                    RobotMap.FRONT_LEFT_TURN_REVERSE,
+                    RobotMap.UNIVERSAL_TURN_ENCODER_FACTOR),
+            RobotMap.FRONT_LEFT_ABSOLUTE_ENCODER,
+            RobotMap.FRONT_LEFT_ABSOLUTE_ENCODER_OFFSET,
+            "Front Left");
 
     private final SwerveModule backRight = new SwerveModule(
-        new CCSparkMax(
-            "Back Right Drive",
-            "brd",
-            RobotMap.BACK_RIGHT_DRIVE,
-            MotorType.kBrushless,
-            IdleMode.kCoast,
-            RobotMap.BACK_RIGHT_DRIVE_REVERSE,
-            RobotMap.UNIVERSAL_DRIVE_ENCODER_FACTOR),
-        new CCSparkMax(
-            "Back Right Turn",
-            "brt",
-            RobotMap.BACK_RIGHT_TURN,
-            MotorType.kBrushless,
-            IdleMode.kBrake,
-            RobotMap.BACK_RIGHT_TURN_REVERSE,
-            RobotMap.UNIVERSAL_TURN_ENCODER_FACTOR),
-        RobotMap.BACK_RIGHT_ABSOLUTE_ENCODER,
-        RobotMap.BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET,
-        "Back Right"
-    );
+            new CCSparkMax(
+                    "Back Right Drive",
+                    "brd",
+                    RobotMap.BACK_RIGHT_DRIVE,
+                    MotorType.kBrushless,
+                    IdleMode.kCoast,
+                    RobotMap.BACK_RIGHT_DRIVE_REVERSE,
+                    RobotMap.UNIVERSAL_DRIVE_ENCODER_FACTOR),
+            new CCSparkMax(
+                    "Back Right Turn",
+                    "brt",
+                    RobotMap.BACK_RIGHT_TURN,
+                    MotorType.kBrushless,
+                    IdleMode.kBrake,
+                    RobotMap.BACK_RIGHT_TURN_REVERSE,
+                    RobotMap.UNIVERSAL_TURN_ENCODER_FACTOR),
+            RobotMap.BACK_RIGHT_ABSOLUTE_ENCODER,
+            RobotMap.BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET,
+            "Back Right");
 
     private final SwerveModule backLeft = new SwerveModule(
-        new CCSparkMax(
-            "Back Left Drive",
-            "bld",
-            RobotMap.BACK_LEFT_DRIVE,
-            MotorType.kBrushless,
-            IdleMode.kCoast,
-            RobotMap.BACK_LEFT_DRIVE_REVERSE,
-            RobotMap.UNIVERSAL_DRIVE_ENCODER_FACTOR),
-        new CCSparkMax(
-            "Back Left Turn",
-            "blt",
-            RobotMap.BACK_LEFT_TURN,
-            MotorType.kBrushless,
-            IdleMode.kBrake,
-            RobotMap.BACK_LEFT_TURN_REVERSE,
-            RobotMap.UNIVERSAL_TURN_ENCODER_FACTOR),
-        RobotMap.BACK_LEFT_ABSOLUTE_ENCODER,
-        RobotMap.BACK_LEFT_ABSOLUTE_ENCODER_OFFSET,
-        "Back Left"
-    );
+            new CCSparkMax(
+                    "Back Left Drive",
+                    "bld",
+                    RobotMap.BACK_LEFT_DRIVE,
+                    MotorType.kBrushless,
+                    IdleMode.kCoast,
+                    RobotMap.BACK_LEFT_DRIVE_REVERSE,
+                    RobotMap.UNIVERSAL_DRIVE_ENCODER_FACTOR),
+            new CCSparkMax(
+                    "Back Left Turn",
+                    "blt",
+                    RobotMap.BACK_LEFT_TURN,
+                    MotorType.kBrushless,
+                    IdleMode.kBrake,
+                    RobotMap.BACK_LEFT_TURN_REVERSE,
+                    RobotMap.UNIVERSAL_TURN_ENCODER_FACTOR),
+            RobotMap.BACK_LEFT_ABSOLUTE_ENCODER,
+            RobotMap.BACK_LEFT_ABSOLUTE_ENCODER_OFFSET,
+            "Back Left");
 
-    //Initialize gyro
+    // Initialize gyro
     private AHRS gyro = new AHRS(SPI.Port.kMXP);
-
-
-    
 
     /** Module positions used for odometry */
     SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[4];
-    
+
+    // ** NetworkTableEntry for the encoders of the turn motors */
+    GenericEntry abs_Enc_FR_Entry, abs_Enc_FL_Entry, abs_Enc_BR_Entry, abs_Enc_BL_Entry;
+
     /**
-     * Creates a new SwerveDrive object. Delays 1 second before setting gyro to 0 to account for gyro calibration time.
+     * Creates a new SwerveDrive object. Delays 1 second before setting gyro to 0 to
+     * account for gyro calibration time.
      */
-    public SwerveDrive(){
+    public SwerveDrive() {
         swerveModulePositions[0] = new SwerveModulePosition(0, new Rotation2d(frontRight.getAbsoluteEncoderRadians()));
         swerveModulePositions[1] = new SwerveModulePosition(0, new Rotation2d(frontLeft.getAbsoluteEncoderRadians()));
         swerveModulePositions[2] = new SwerveModulePosition(0, new Rotation2d(backRight.getAbsoluteEncoderRadians()));
         swerveModulePositions[3] = new SwerveModulePosition(0, new Rotation2d(backLeft.getAbsoluteEncoderRadians()));
 
         odometer = new SwerveDriveOdometry(RobotMap.DRIVE_KINEMATICS, new Rotation2d(0), swerveModulePositions);
-        // SmartDashboard.putNumber(frontRight.getName(), frontRight.getAbsoluteEncoderRadians());
-        // SmartDashboard.putNumber(frontLeft.getName(), frontLeft.getAbsoluteEncoderRadians());
-        // SmartDashboard.putNumber(backRight.getName(), backRight.getAbsoluteEncoderRadians());
-        // SmartDashboard.putNumber(backLeft.getName(), backLeft.getAbsoluteEncoderRadians());
-       
+
+
+        ShuffleboardLayout absolute_encoders_list = Shuffleboard.getTab("Encoders").getLayout("Absolute Encoders", BuiltInLayouts.kGrid).withSize(2, 2);
+
+        abs_Enc_FR_Entry = Shuffleboard.getTab("Encoders").getLayout(absolute_encoders_list.getTitle())
+                .add(frontRight.getName(), frontRight.getAbsoluteEncoderRadians()).getEntry();
+        abs_Enc_FL_Entry = Shuffleboard.getTab("Encoders").getLayout(absolute_encoders_list.getTitle())
+                .add(frontLeft.getName(), frontLeft.getAbsoluteEncoderRadians()).getEntry();
+        abs_Enc_BR_Entry = Shuffleboard.getTab("Encoders").getLayout(absolute_encoders_list.getTitle())
+                .add(backRight.getName(), backRight.getAbsoluteEncoderRadians()).getEntry();
+        abs_Enc_BL_Entry = Shuffleboard.getTab("Encoders").getLayout(absolute_encoders_list.getTitle())
+                .add(backLeft.getName(), backLeft.getAbsoluteEncoderRadians()).getEntry();
+
         new Thread(() -> {
-            try{
+            try {
                 Thread.sleep(1000);
                 zeroHeading();
-            } catch (Exception e){
+            } catch (Exception e) {
             }
         }).start();
     }
 
     /**
-     * Resets chassis gyro to 0. For all gyro purposes, "heading"  refers to the facing direction of the gyro.
+     * Resets chassis gyro to 0. For all gyro purposes, "heading" refers to the
+     * facing direction of the gyro.
      */
-    public void zeroHeading(){
+    public void zeroHeading() {
         gyro.reset();
     }
 
     /**
-     * Method to get the facing direction of the gyro. 
+     * Method to get the facing direction of the gyro.
+     * 
      * @return The facing direction of the gyro, between -360 and 360 degrees.
      */
-    public double getHeading(){
+    public double getHeading() {
         return Math.IEEEremainder(gyro.getYaw(), 360);
     }
 
     /**
      * Gets the Rotation2d value of the facing direction of the robot.
+     * 
      * @return The facing direction of the robot in Rotation2d format.
      */
-    public Rotation2d getRotation2d(){
+    public Rotation2d getRotation2d() {
         return Rotation2d.fromDegrees(getHeading());
     }
 
@@ -188,27 +204,34 @@ public class SwerveDrive extends SubsystemBase {
         SmartDashboard.putNumber("Robot Heading", getHeading());
         // System.out.println("Robot Heading: " + getHeading());
 
-        // SmartDashboard.putNumber(frontRight.getName(), frontRight.getDrivePosition());
+        // SmartDashboard.putNumber(frontRight.getName(),
+        // frontRight.getDrivePosition());
         // SmartDashboard.putNumber(frontLeft.getName(), frontLeft.getDrivePosition());
         // SmartDashboard.putNumber(backRight.getName(), backRight.getDrivePosition());
         // SmartDashboard.putNumber(backLeft.getName(), backLeft.getDrivePosition());
 
-        Shuffleboard.getTab("Encoders").getLayout("Absolute", BuiltInLayouts.kList).add(frontRight.getName(), frontRight.getAbsoluteEncoderRadians());
-        Shuffleboard.getTab("Encoders").getLayout("Absolute", BuiltInLayouts.kList).add(frontLeft.getName(), frontLeft.getAbsoluteEncoderRadians());
-        Shuffleboard.getTab("Encoders").getLayout("Absolute", BuiltInLayouts.kList).add(backRight.getName(), backRight.getAbsoluteEncoderRadians());
-        Shuffleboard.getTab("Encoders").getLayout("Absolute", BuiltInLayouts.kList).add(backLeft.getName(), backLeft.getAbsoluteEncoderRadians());
+        abs_Enc_FR_Entry.setDouble(frontRight.getAbsoluteEncoderRadians());
+         abs_Enc_FL_Entry.setDouble(frontLeft.getAbsoluteEncoderRadians());
+          abs_Enc_BR_Entry.setDouble(backRight.getAbsoluteEncoderRadians());
+         abs_Enc_BL_Entry.setDouble(backLeft.getAbsoluteEncoderRadians());
 
 
-        // SmartDashboard.putNumber(frontRight.getName(), frontRight.getAbsoluteEncoderRadians());
-        // SmartDashboard.putNumber(frontLeft.getName(), frontLeft.getAbsoluteEncoderRadians());
-        // SmartDashboard.putNumber(backRight.getName(), backRight.getAbsoluteEncoderRadians());
-        // SmartDashboard.putNumber(backLeft.getName(), backLeft.getAbsoluteEncoderRadians());
-       
-        // SmartDashboard.putNumber(frontRight.getName()+"T", frontRight.getTurnPosition());
-        // SmartDashboard.putNumber(frontLeft.getName()+"T", frontLeft.getTurnPosition());
-        // SmartDashboard.putNumber(backRight.getName()+"T", backRight.getTurnPosition());
+        // SmartDashboard.putNumber(frontRight.getName(),
+        // frontRight.getAbsoluteEncoderRadians());
+        // SmartDashboard.putNumber(frontLeft.getName(),
+        // frontLeft.getAbsoluteEncoderRadians());
+        // SmartDashboard.putNumber(backRight.getName(),
+        // backRight.getAbsoluteEncoderRadians());
+        // SmartDashboard.putNumber(backLeft.getName(),
+        // backLeft.getAbsoluteEncoderRadians());
+
+        // SmartDashboard.putNumber(frontRight.getName()+"T",
+        // frontRight.getTurnPosition());
+        // SmartDashboard.putNumber(frontLeft.getName()+"T",
+        // frontLeft.getTurnPosition());
+        // SmartDashboard.putNumber(backRight.getName()+"T",
+        // backRight.getTurnPosition());
         // SmartDashboard.putNumber(backLeft.getName()+"T", backLeft.getTurnPosition());
-       
 
         updateOdometer();
     }
@@ -216,25 +239,27 @@ public class SwerveDrive extends SubsystemBase {
     /**
      * Sets all 4 modules' drive and turn speeds to 0.
      */
-    public void stopModules(){
+    public void stopModules() {
         // frontRight.stop();
         // frontLeft.stop();
         // backRight.stop();
         // backLeft.stop();
         SwerveModuleState[] states = new SwerveModuleState[] {
-            new SwerveModuleState(0, new Rotation2d(frontRight.getAbsoluteEncoderRadians())),
-            new SwerveModuleState(0, new Rotation2d(frontLeft.getAbsoluteEncoderRadians())),
-            new SwerveModuleState(0, new Rotation2d(backRight.getAbsoluteEncoderRadians())),
-            new SwerveModuleState(0, new Rotation2d(backLeft.getAbsoluteEncoderRadians()))
+                new SwerveModuleState(0, new Rotation2d(frontRight.getAbsoluteEncoderRadians())),
+                new SwerveModuleState(0, new Rotation2d(frontLeft.getAbsoluteEncoderRadians())),
+                new SwerveModuleState(0, new Rotation2d(backRight.getAbsoluteEncoderRadians())),
+                new SwerveModuleState(0, new Rotation2d(backLeft.getAbsoluteEncoderRadians()))
         };
         setModuleStates(states);
     }
 
     /**
      * Sets all 4 modules' drive and turn speeds with the SwerveModuleState format.
-     * @param desiredStates The array of the states that each module will be set to in the SwerveModuleState format.
+     * 
+     * @param desiredStates The array of the states that each module will be set to
+     *                      in the SwerveModuleState format.
      */
-    public void setModuleStates(SwerveModuleState[] desiredStates){
+    public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, RobotMap.MAX_SPEED_METERS_PER_SECOND);
         frontRight.setDesiredState(desiredStates[0]);
         frontLeft.setDesiredState(desiredStates[1]);
@@ -244,35 +269,42 @@ public class SwerveDrive extends SubsystemBase {
 
     /**
      * Gets the position of the robot in Pose2d format. Uses odometer reading.
-     * Includes the x, y, and theta values of the robot. 
+     * Includes the x, y, and theta values of the robot.
+     * 
      * @return The Pose2d of the robot.
      */
-    public Pose2d getPose(){
+    public Pose2d getPose() {
         return odometer.getPoseMeters();
     }
 
     /**
-     * Resets the odometer readings using the gyro, SwerveModulePositions (defined in constructor), and Pose2d.
+     * Resets the odometer readings using the gyro, SwerveModulePositions (defined
+     * in constructor), and Pose2d.
      */
-    public void resetOdometry(){
+    public void resetOdometry() {
         odometer.resetPosition(getRotation2d(), swerveModulePositions, getPose());
     }
 
-    public void setOdometry(Pose2d pos){
+    public void setOdometry(Pose2d pos) {
         odometer.resetPosition(getRotation2d(), swerveModulePositions, pos);
     }
 
-    public void updateModulePositions(){
-        swerveModulePositions[0] = new SwerveModulePosition(frontRight.getDrivePosition(), new Rotation2d(frontRight.getTurnPosition()));
-        swerveModulePositions[1] = new SwerveModulePosition(frontLeft.getDrivePosition(), new Rotation2d(frontLeft.getTurnPosition()));
-        swerveModulePositions[2] = new SwerveModulePosition(backRight.getDrivePosition(), new Rotation2d(backRight.getTurnPosition()));
-        swerveModulePositions[3] = new SwerveModulePosition(backLeft.getDrivePosition(), new Rotation2d(backLeft.getTurnPosition()));
+    public void updateModulePositions() {
+        swerveModulePositions[0] = new SwerveModulePosition(frontRight.getDrivePosition(),
+                new Rotation2d(frontRight.getTurnPosition()));
+        swerveModulePositions[1] = new SwerveModulePosition(frontLeft.getDrivePosition(),
+                new Rotation2d(frontLeft.getTurnPosition()));
+        swerveModulePositions[2] = new SwerveModulePosition(backRight.getDrivePosition(),
+                new Rotation2d(backRight.getTurnPosition()));
+        swerveModulePositions[3] = new SwerveModulePosition(backLeft.getDrivePosition(),
+                new Rotation2d(backLeft.getTurnPosition()));
     }
 
-    public void updateOdometer(){
+    public void updateOdometer() {
         updateModulePositions();
         odometer.update(getRotation2d(), swerveModulePositions);
     }
+
     // Autonomous
     // Odometer used to get Pose2d of the robot.
     SwerveDriveOdometry odometer;
@@ -280,80 +312,83 @@ public class SwerveDrive extends SubsystemBase {
     // xPID and yPID should have the same values.
     PIDController xPID = new PIDController(.5, .15, 0);
     PIDController yPID = new PIDController(.5, .15, 0);
-    
-    //*TODO:  Possibly research profiled PID
+
+    // *TODO: Possibly research profiled PID
     PIDController turnPID = new PIDController(.25, 0, 0);
-    // PPHolonomicDriveController holonomicDriveController = new PPHolonomicDriveController(xPID, yPID, turnPID);
+    // PPHolonomicDriveController holonomicDriveController = new
+    // PPHolonomicDriveController(xPID, yPID, turnPID);
 
     /**
      * Follows a PathPlanner path. Referenced in autonomous classes.
-     * @param traj The PathPlannerTrajectory to be followed.
-     * @param firstPath Whether or not this is the first path being followed in auto. If so, resets the gyro before starting.
+     * 
+     * @param traj      The PathPlannerTrajectory to be followed.
+     * @param firstPath Whether or not this is the first path being followed in
+     *                  auto. If so, resets the gyro before starting.
      * @return A command that follows a path.
      */
-    public Command followPath(PathPlannerTrajectory traj){
+    public Command followPath(PathPlannerTrajectory traj) {
         return new SequentialCommandGroup(
-            new InstantCommand(() -> {
-                setOdometry(traj.getInitialHolonomicPose());
-            }),
-            new ParallelCommandGroup(
-                new FollowPathWithEvents(
-                    //Path following command
-                    new PPSwerveControllerCommand(traj, this::getPose, RobotMap.DRIVE_KINEMATICS, xPID, yPID, turnPID, this::setModuleStates, true, this),
-                    traj.getMarkers(),
-                    RobotContainer.eventMap)
+                new InstantCommand(() -> {
+                    setOdometry(traj.getInitialHolonomicPose());
+                }),
+                new ParallelCommandGroup(
+                        new FollowPathWithEvents(
+                                // Path following command
+                                new PPSwerveControllerCommand(traj, this::getPose, RobotMap.DRIVE_KINEMATICS, xPID,
+                                        yPID, turnPID, this::setModuleStates, true, this),
+                                traj.getMarkers(),
+                                RobotContainer.eventMap)
                 // new RunCommand(() -> System.out.println(getPose()))
-            )
-        );
+                ));
     }
 
-    public void test(double driveSpeed, double turnSpeed){
+    public void test(double driveSpeed, double turnSpeed) {
         backLeft.driveAndTurn(driveSpeed, turnSpeed);
         backLeft.printEncoders();
     }
 
-    public void resetAbsoluteEncoders(){
+    public void resetAbsoluteEncoders() {
         frontRight.resetAbsoluteEncoder();
         frontLeft.resetAbsoluteEncoder();
         backRight.resetAbsoluteEncoder();
         backLeft.resetAbsoluteEncoder();
     }
 
-    public void printAbsoluteEncoders(){
+    public void printAbsoluteEncoders() {
         frontRight.printAbsoluteEncoder();
         frontLeft.printAbsoluteEncoder();
         backRight.printAbsoluteEncoder();
         backLeft.printAbsoluteEncoder();
     }
 
-    public void resetEncoders(){
+    public void resetEncoders() {
         frontRight.resetEncoders();
         frontLeft.resetEncoders();
         backRight.resetEncoders();
         backLeft.resetEncoders();
     }
 
-    public void printFrontRight(){
+    public void printFrontRight() {
         frontRight.printEncoders();
         frontRight.printAbsoluteEncoder();
     }
 
-    public void printFrontLeft(){
+    public void printFrontLeft() {
         frontLeft.printEncoders();
         frontLeft.printAbsoluteEncoder();
     }
 
-    public void printBackRight(){
+    public void printBackRight() {
         backRight.printEncoders();
         backRight.printAbsoluteEncoder();
     }
 
-    public void printBackLeft(){
+    public void printBackLeft() {
         backLeft.printEncoders();
         backLeft.printAbsoluteEncoder();
     }
 
-    public void printPos2d(){
+    public void printPos2d() {
         System.out.println(odometer.getPoseMeters());
     }
 }
