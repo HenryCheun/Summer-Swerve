@@ -343,8 +343,8 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void test(double driveSpeed, double turnSpeed) {
-        backLeft.driveAndTurn(driveSpeed, turnSpeed);
-        backLeft.printEncoders();
+        backRight.driveAndTurn(driveSpeed, turnSpeed);
+        backRight.printEncoders();
     }
 
     public void resetAbsoluteEncoders() {
