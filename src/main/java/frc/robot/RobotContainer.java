@@ -64,7 +64,7 @@ public class RobotContainer {
         SmartDashboard.putData("Auto", autoCommands);
         
         Shuffleboard.getTab("Diagnostics").add("SwerveDrive", swerveDrive);
-        Shuffleboard.getTab("Config").add("Stop", new Autonomous()).withWidget(BuiltInWidgets.kCommand);
+        // Shuffleboard.getTab("Config").add("Run Auto", getAutoCommand()).withWidget(BuiltInWidgets.kCommand);
     }
 
     public Command getAutoCommand() {
@@ -72,7 +72,7 @@ public class RobotContainer {
 
         return autoCommands.getSelected();
 
-        
+
     }
 
     /**

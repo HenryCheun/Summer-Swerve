@@ -18,6 +18,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -191,15 +193,21 @@ public class SwerveDrive extends SubsystemBase {
         // SmartDashboard.putNumber(backRight.getName(), backRight.getDrivePosition());
         // SmartDashboard.putNumber(backLeft.getName(), backLeft.getDrivePosition());
 
-        SmartDashboard.putNumber(frontRight.getName(), frontRight.getAbsoluteEncoderRadians());
-        SmartDashboard.putNumber(frontLeft.getName(), frontLeft.getAbsoluteEncoderRadians());
-        SmartDashboard.putNumber(backRight.getName(), backRight.getAbsoluteEncoderRadians());
-        SmartDashboard.putNumber(backLeft.getName(), backLeft.getAbsoluteEncoderRadians());
+        Shuffleboard.getTab("Encoders").getLayout("Absolute", BuiltInLayouts.kList).add(frontRight.getName(), frontRight.getAbsoluteEncoderRadians());
+        Shuffleboard.getTab("Encoders").getLayout("Absolute", BuiltInLayouts.kList).add(frontLeft.getName(), frontLeft.getAbsoluteEncoderRadians());
+        Shuffleboard.getTab("Encoders").getLayout("Absolute", BuiltInLayouts.kList).add(backRight.getName(), backRight.getAbsoluteEncoderRadians());
+        Shuffleboard.getTab("Encoders").getLayout("Absolute", BuiltInLayouts.kList).add(backLeft.getName(), backLeft.getAbsoluteEncoderRadians());
+
+
+        // SmartDashboard.putNumber(frontRight.getName(), frontRight.getAbsoluteEncoderRadians());
+        // SmartDashboard.putNumber(frontLeft.getName(), frontLeft.getAbsoluteEncoderRadians());
+        // SmartDashboard.putNumber(backRight.getName(), backRight.getAbsoluteEncoderRadians());
+        // SmartDashboard.putNumber(backLeft.getName(), backLeft.getAbsoluteEncoderRadians());
        
-        SmartDashboard.putNumber(frontRight.getName()+"T", frontRight.getTurnPosition());
-        SmartDashboard.putNumber(frontLeft.getName()+"T", frontLeft.getTurnPosition());
-        SmartDashboard.putNumber(backRight.getName()+"T", backRight.getTurnPosition());
-        SmartDashboard.putNumber(backLeft.getName()+"T", backLeft.getTurnPosition());
+        // SmartDashboard.putNumber(frontRight.getName()+"T", frontRight.getTurnPosition());
+        // SmartDashboard.putNumber(frontLeft.getName()+"T", frontLeft.getTurnPosition());
+        // SmartDashboard.putNumber(backRight.getName()+"T", backRight.getTurnPosition());
+        // SmartDashboard.putNumber(backLeft.getName()+"T", backLeft.getTurnPosition());
        
 
         updateOdometer();

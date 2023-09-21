@@ -36,28 +36,27 @@ public class SwerveDriveScheme implements ControlScheme {
      * @param port The controller port of the driving controller.
      */
     public static void configure(SwerveDrive swerveDrive, int port){
-        BooleanSwitch ffff = new BooleanSwitch("Diagnostics", "fff", fieldCentric);
-        Shuffleboard.getTab("Diagnostics").add("isCentric",fieldCentric).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
+        Shuffleboard.getTab("Diagnostics").getLayout("Swerve", "List").add("isCentric",fieldCentric).withWidget(BuiltInWidgets.kBooleanBox);
        Shuffleboard.getTab("Diagnostics").addBoolean("Field Centric", fieldCentricSupplier).withWidget(BuiltInWidgets.kToggleSwitch);
 
         SlewRateLimiter xRateLimiter = new SlewRateLimiter(RobotMap.DRIVE_RATE_LIMIT);
         SlewRateLimiter yRateLimiter = new SlewRateLimiter(RobotMap.DRIVE_RATE_LIMIT);
         SlewRateLimiter turnRateLimiter = new SlewRateLimiter(RobotMap.TURN_RATE_LIMIT);
         
-        InstantCommand com1 = new InstantCommand(() -> swerveDrive.printFrontRight(), swerveDrive);
-        com1.setName("Front Right");
-        InstantCommand com2 = new InstantCommand(() -> swerveDrive.printFrontLeft(), swerveDrive);
-        com2.setName("Front Left");
-        InstantCommand com3 = new InstantCommand(() -> swerveDrive.printBackRight(), swerveDrive);
-        com3.setName("Back Right");
-        InstantCommand com4 = new InstantCommand(() -> swerveDrive.printBackLeft(), swerveDrive);
-        com4.setName("Back Left");
-        CommandSelector commands = new CommandSelector(
-                "Motor Print",
-                com1,
-                com2,
-                com3,
-                com4);
+        // InstantCommand com1 = new InstantCommand(() -> swerveDrive.printFrontRight(), swerveDrive);
+        // com1.setName("Front Right");
+        // InstantCommand com2 = new InstantCommand(() -> swerveDrive.printFrontLeft(), swerveDrive);
+        // com2.setName("Front Left");
+        // InstantCommand com3 = new InstantCommand(() -> swerveDrive.printBackRight(), swerveDrive);
+        // com3.setName("Back Right");
+        // InstantCommand com4 = new InstantCommand(() -> swerveDrive.printBackLeft(), swerveDrive);
+        // com4.setName("Back Left");
+        // CommandSelector commands = new CommandSelector(
+        //         "Motor Print",
+        //         com1,
+        //         com2,
+        //         com3,
+        //         com4);
         
 
         swerveDrive.setDefaultCommand(new RunCommand(() -> {
@@ -105,11 +104,6 @@ public class SwerveDriveScheme implements ControlScheme {
             .onTrue(new InstantCommand(() -> toggleFieldCentric()));
         new JoystickButton(controllers[port], ControlMap.A_BUTTON)
             .onTrue(new InstantCommand(() -> swerveDrive.zeroHeading()));
-        
-
-            //delete later
-            new JoystickButton(controllers[port], ControlMap.X_BUTTON)
-            .onTrue(new InstantCommand(() -> swerveDrive.resetAbsoluteEncoders()));
     }
 
     /**

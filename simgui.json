@@ -22,6 +22,7 @@
       "/Shuffleboard/Config/Stop": "Command",
       "/Shuffleboard/Config/SwerveDrive": "Subsystem",
       "/Shuffleboard/Config/Wheeee": "Command",
+      "/Shuffleboard/Diagnostics/SwerveDrive": "Subsystem",
       "/SmartDashboard/Auto": "String Chooser",
       "/SmartDashboard/Print": "Command"
     }
