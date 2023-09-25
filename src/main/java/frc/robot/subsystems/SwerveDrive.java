@@ -233,23 +233,6 @@ public class SwerveDrive extends SubsystemBase {
         Enc_BR_Entry.setDouble(backRight.getTurnPositionRads());
         Enc_BL_Entry.setDouble(backLeft.getTurnPositionRads());
 
-        // SmartDashboard.putNumber(frontRight.getName(),
-        // frontRight.getAbsoluteEncoderRadians());
-        // SmartDashboard.putNumber(frontLeft.getName(),
-        // frontLeft.getAbsoluteEncoderRadians());
-        // SmartDashboard.putNumber(backRight.getName(),
-        // backRight.getAbsoluteEncoderRadians());
-        // SmartDashboard.putNumber(backLeft.getName(),
-        // backLeft.getAbsoluteEncoderRadians());
-
-        // SmartDashboard.putNumber(frontRight.getName()+"T",
-        // frontRight.getTurnPosition());
-        // SmartDashboard.putNumber(frontLeft.getName()+"T",
-        // frontLeft.getTurnPosition());
-        // SmartDashboard.putNumber(backRight.getName()+"T",
-        // backRight.getTurnPosition());
-        // SmartDashboard.putNumber(backLeft.getName()+"T", backLeft.getTurnPosition());
-
         updateOdometer();
     }
 
@@ -257,10 +240,6 @@ public class SwerveDrive extends SubsystemBase {
      * Sets all 4 modules' drive and turn speeds to 0.
      */
     public void stopModules() {
-        // frontRight.stop();
-        // frontLeft.stop();
-        // backRight.stop();
-        // backLeft.stop();
         SwerveModuleState[] states = new SwerveModuleState[] {
                 new SwerveModuleState(0, new Rotation2d(frontRight.getAbsoluteEncoderRadians())),
                 new SwerveModuleState(0, new Rotation2d(frontLeft.getAbsoluteEncoderRadians())),
