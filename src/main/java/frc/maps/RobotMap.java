@@ -33,7 +33,8 @@ public interface RobotMap {
      public static final double wheelCircumfrence = Units.inchesToMeters(4 * Math.PI);
 
      public static final double UNIVERSAL_DRIVE_ENCODER_FACTOR = wheelCircumfrence / 6.74810;
-     public static final double UNIVERSAL_TURN_ENCODER_FACTOR = 2 * Math.PI / 21.42847;
+     //  public static final double UNIVERSAL_TURN_ENCODER_FACTOR = 2 * Math.PI / 21.42847;
+     public static final double UNIVERSAL_TURN_ENCODER_FACTOR = Units.rotationsToRadians(1);
 
      public static final int FRONT_RIGHT_DRIVE = 6;
      public static final boolean FRONT_RIGHT_DRIVE_REVERSE = false;
