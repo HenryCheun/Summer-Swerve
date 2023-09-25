@@ -41,12 +41,13 @@ public class RobotContainer {
     public static HashMap<String, Command> eventMap = new HashMap<>();
 
     SendableChooser<CommandBase> autoCommands = new SendableChooser<CommandBase>();
-    private final String[] paths = {"First Test",
-            "Straight",
-            "New Path",
-            "curve",
-            "Straight Then Left",
-            "Rotate Right" };
+    // private final String[] paths = {"First Test",
+    //         "Straight",
+    //         "New Path",
+    //         "curve",
+    //         "Straight Then Left",
+    //         "Rotate Right" };
+    private final String[] paths = {"move"};
     
     public RobotContainer() {
         SwerveDriveScheme.configure(swerveDrive, 0);

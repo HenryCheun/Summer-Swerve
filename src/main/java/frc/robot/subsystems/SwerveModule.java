@@ -60,6 +60,10 @@ public class SwerveModule extends SubsystemBase{
         return driveMotor.getPosition();
     } 
 
+    public double getTurnPositionRads(){
+        return getTurnPosition() * 2 * Math.PI;
+    }
+
     /**
      * Gets the encoder value of the turn motor.
      * @return The encoder value of the turn motor.

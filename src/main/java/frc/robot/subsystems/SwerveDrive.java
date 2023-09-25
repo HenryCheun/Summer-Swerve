@@ -137,6 +137,8 @@ public class SwerveDrive extends SubsystemBase {
     // ** NetworkTableEntry for the encoders of the turn motors */
     GenericEntry abs_Enc_FR_Entry, abs_Enc_FL_Entry, abs_Enc_BR_Entry, abs_Enc_BL_Entry;
 
+    GenericEntry Enc_FR_Entry, Enc_FL_Entry, Enc_BR_Entry, Enc_BL_Entry;
+
     /**
      * Creates a new SwerveDrive object. Delays 1 second before setting gyro to 0 to
      * account for gyro calibration time.
@@ -149,8 +151,10 @@ public class SwerveDrive extends SubsystemBase {
 
         odometer = new SwerveDriveOdometry(RobotMap.DRIVE_KINEMATICS, new Rotation2d(0), swerveModulePositions);
 
-
-        ShuffleboardLayout absolute_encoders_list = Shuffleboard.getTab("Encoders").getLayout("Absolute Encoders", BuiltInLayouts.kGrid).withSize(2, 2);
+        ShuffleboardLayout absolute_encoders_list = Shuffleboard.getTab("Encoders")
+                .getLayout("Absolute Encoders", BuiltInLayouts.kGrid).withSize(2, 2);
+        ShuffleboardLayout encoders_list = Shuffleboard.getTab("Encoders").getLayout("Turn Encoders", BuiltInLayouts.kGrid)
+                .withSize(2, 2);
 
         abs_Enc_FR_Entry = Shuffleboard.getTab("Encoders").getLayout(absolute_encoders_list.getTitle())
                 .add(frontRight.getName(), frontRight.getAbsoluteEncoderRadians()).getEntry();
@@ -160,6 +164,15 @@ public class SwerveDrive extends SubsystemBase {
                 .add(backRight.getName(), backRight.getAbsoluteEncoderRadians()).getEntry();
         abs_Enc_BL_Entry = Shuffleboard.getTab("Encoders").getLayout(absolute_encoders_list.getTitle())
                 .add(backLeft.getName(), backLeft.getAbsoluteEncoderRadians()).getEntry();
+
+        Enc_FR_Entry = Shuffleboard.getTab("Encoders").getLayout(encoders_list.getTitle())
+                .add(frontRight.getName(), frontRight.getTurnPositionRads()).getEntry();
+        Enc_FL_Entry = Shuffleboard.getTab("Encoders").getLayout(encoders_list.getTitle())
+                .add(frontLeft.getName(), frontLeft.getTurnPositionRads()).getEntry();
+        Enc_BR_Entry = Shuffleboard.getTab("Encoders").getLayout(encoders_list.getTitle())
+                .add(backRight.getName(), backRight.getTurnPositionRads()).getEntry();
+        Enc_BL_Entry = Shuffleboard.getTab("Encoders").getLayout(encoders_list.getTitle())
+                .add(backLeft.getName(), backLeft.getTurnPositionRads()).getEntry();
 
         new Thread(() -> {
             try {
@@ -211,10 +224,14 @@ public class SwerveDrive extends SubsystemBase {
         // SmartDashboard.putNumber(backLeft.getName(), backLeft.getDrivePosition());
 
         abs_Enc_FR_Entry.setDouble(frontRight.getAbsoluteEncoderRadians());
-         abs_Enc_FL_Entry.setDouble(frontLeft.getAbsoluteEncoderRadians());
-          abs_Enc_BR_Entry.setDouble(backRight.getAbsoluteEncoderRadians());
-         abs_Enc_BL_Entry.setDouble(backLeft.getAbsoluteEncoderRadians());
+        abs_Enc_FL_Entry.setDouble(frontLeft.getAbsoluteEncoderRadians());
+        abs_Enc_BR_Entry.setDouble(backRight.getAbsoluteEncoderRadians());
+        abs_Enc_BL_Entry.setDouble(backLeft.getAbsoluteEncoderRadians());
 
+        Enc_FR_Entry.setDouble(frontRight.getTurnPositionRads());
+        Enc_FL_Entry.setDouble(frontLeft.getTurnPositionRads());
+        Enc_BR_Entry.setDouble(backRight.getTurnPositionRads());
+        Enc_BL_Entry.setDouble(backLeft.getTurnPositionRads());
 
         // SmartDashboard.putNumber(frontRight.getName(),
         // frontRight.getAbsoluteEncoderRadians());
