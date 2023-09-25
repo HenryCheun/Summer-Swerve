@@ -61,7 +61,8 @@ public class SwerveModule extends SubsystemBase{
     } 
 
     public double getTurnPositionRads(){
-        return getTurnPosition() * 2 * Math.PI;
+        // return getTurnPosition() * 2 * Math.PI;
+        return getTurnPosition() % (2 * Math.PI);
     }
 
     /**

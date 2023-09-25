@@ -70,10 +70,15 @@ public interface RobotMap {
      public static final int BACK_LEFT_ABSOLUTE_ENCODER = 1;
 
      //Absolute Encoder Offsets (in radians)
-     public static final double FRONT_RIGHT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-15);
-     public static final double FRONT_LEFT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-105);
-     public static final double BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-285);
-     public static final double BACK_LEFT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-195);
+    //  public static final double FRONT_RIGHT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-15);
+    //  public static final double FRONT_LEFT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-105);
+    //  public static final double BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-285);
+    //  public static final double BACK_LEFT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-195);
+
+    public static final double FRONT_RIGHT_ABSOLUTE_ENCODER_OFFSET = 0;
+    public static final double FRONT_LEFT_ABSOLUTE_ENCODER_OFFSET = 0;
+    public static final double BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET = 0;
+    public static final double BACK_LEFT_ABSOLUTE_ENCODER_OFFSET = 0;
 
     public static final double MAX_SPEED_METERS_PER_SECOND = 1;
     public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = 1 * Math.PI;
