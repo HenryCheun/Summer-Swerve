@@ -127,7 +127,6 @@ public class SwerveDrive extends SubsystemBase {
             RobotMap.BACK_LEFT_ABSOLUTE_ENCODER,
             RobotMap.BACK_LEFT_ABSOLUTE_ENCODER_OFFSET,
             "Back Left");
-
     // Initialize gyro
     private AHRS gyro = new AHRS(SPI.Port.kMXP);
 
@@ -166,13 +165,13 @@ public class SwerveDrive extends SubsystemBase {
                 .add(backLeft.getName(), backLeft.getAbsoluteEncoderRadians()).getEntry();
 
         Enc_FR_Entry = Shuffleboard.getTab("Encoders").getLayout(encoders_list.getTitle())
-                .add(frontRight.getName(), frontRight.getTurnPositionRads()).getEntry();
+                .add(frontRight.getName(), frontRight.getTurnPosition()).getEntry();
         Enc_FL_Entry = Shuffleboard.getTab("Encoders").getLayout(encoders_list.getTitle())
-                .add(frontLeft.getName(), frontLeft.getTurnPositionRads()).getEntry();
+                .add(frontLeft.getName(), frontLeft.getTurnPosition()).getEntry();
         Enc_BR_Entry = Shuffleboard.getTab("Encoders").getLayout(encoders_list.getTitle())
-                .add(backRight.getName(), backRight.getTurnPositionRads()).getEntry();
+                .add(backRight.getName(), backRight.getTurnPosition()).getEntry();
         Enc_BL_Entry = Shuffleboard.getTab("Encoders").getLayout(encoders_list.getTitle())
-                .add(backLeft.getName(), backLeft.getTurnPositionRads()).getEntry();
+                .add(backLeft.getName(), backLeft.getTurnPosition()).getEntry();
 
         new Thread(() -> {
             try {
@@ -228,10 +227,10 @@ public class SwerveDrive extends SubsystemBase {
         abs_Enc_BR_Entry.setDouble(backRight.getAbsoluteEncoderRadians());
         abs_Enc_BL_Entry.setDouble(backLeft.getAbsoluteEncoderRadians());
 
-        Enc_FR_Entry.setDouble(frontRight.getTurnPositionRads());
-        Enc_FL_Entry.setDouble(frontLeft.getTurnPositionRads());
-        Enc_BR_Entry.setDouble(backRight.getTurnPositionRads());
-        Enc_BL_Entry.setDouble(backLeft.getTurnPositionRads());
+        Enc_FR_Entry.setDouble(frontRight.getTurnPosition());
+        Enc_FL_Entry.setDouble(frontLeft.getTurnPosition());
+        Enc_BR_Entry.setDouble(backRight.getTurnPosition());
+        Enc_BL_Entry.setDouble(backLeft.getTurnPosition());
 
         updateOdometer();
     }

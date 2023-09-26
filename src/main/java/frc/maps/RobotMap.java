@@ -32,8 +32,9 @@ public interface RobotMap {
      // in meters
      public static final double wheelCircumfrence = Units.inchesToMeters(4 * Math.PI);
 
-     public static final double UNIVERSAL_DRIVE_ENCODER_FACTOR = wheelCircumfrence / 6.74810;
+    //  public static final double UNIVERSAL_DRIVE_ENCODER_FACTOR = wheelCircumfrence / 6.74810;
      //  public static final double UNIVERSAL_TURN_ENCODER_FACTOR = 2 * Math.PI / 21.42847;
+     public static final double UNIVERSAL_DRIVE_ENCODER_FACTOR = 1;
      public static final double UNIVERSAL_TURN_ENCODER_FACTOR = Units.rotationsToRadians(1);
 
      public static final int FRONT_RIGHT_DRIVE = 6;
@@ -92,12 +93,6 @@ public interface RobotMap {
     //Since this robot is a square, no need for 2 values. In a non-square chassis, 2 values needed.
     public static final double WHEEL_BASE = Units.inchesToMeters(27);
     public static final SwerveDriveKinematics DRIVE_KINEMATICS = new SwerveDriveKinematics(
-        new Translation2d(WHEEL_BASE / 2, -WHEEL_BASE / 2),
-        new Translation2d(WHEEL_BASE / 2, WHEEL_BASE / 2),
-        new Translation2d(-WHEEL_BASE / 2, -WHEEL_BASE / 2),
-        new Translation2d(-WHEEL_BASE / 2, WHEEL_BASE / 2)
-    );
-    public static final SwerveDriveKinematics DRIVE_KINEMATICS_AUTONOMOUS = new SwerveDriveKinematics(
         new Translation2d(WHEEL_BASE / 2, -WHEEL_BASE / 2),
         new Translation2d(WHEEL_BASE / 2, WHEEL_BASE / 2),
         new Translation2d(-WHEEL_BASE / 2, -WHEEL_BASE / 2),

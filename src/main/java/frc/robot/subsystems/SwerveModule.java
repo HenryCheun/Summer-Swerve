@@ -23,7 +23,6 @@ public class SwerveModule extends SubsystemBase{
     private PIDController turningPIDController;
 
     private AnalogEncoder absoluteEncoder;
-    private double absoluteEncoderOffset;
 
     private String name;
 
@@ -46,7 +45,6 @@ public class SwerveModule extends SubsystemBase{
         
         turningPIDController = new PIDController(.5, 0, 0);
         turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
-        // Shuffleboard.getTab("Encoders").add(name, getAbsoluteEncoderRadians());
         
         this.name = name;
         resetEncoders();
@@ -57,7 +55,7 @@ public class SwerveModule extends SubsystemBase{
      * @return The encoder value of the drive motor.
      */
     public double getDrivePosition() {
-        return driveMotor.getPosition();
+        return driveMotor.getPosition(); //should be in rotations?
     }
     
      /**
@@ -65,13 +63,8 @@ public class SwerveModule extends SubsystemBase{
      * @return The encoder value of the turn motor.
      */
     public double getTurnPosition(){
-        return turnMotor.getPosition();
+        return turnMotor.getPosition(); //should be in rotations?
     } 
-
-    public double getTurnPositionRads(){
-        // return getTurnPosition() * 2 * Math.PI;
-        return getTurnPosition() % (2 * Math.PI);
-    }
 
 
     /**
