@@ -30,12 +30,19 @@ public interface RobotMap {
      // 4 turn - 1 
     
      // in meters
-     public static final double wheelCircumfrence = Units.inchesToMeters(4 * Math.PI);
+     public static final double WHEEL_CIRCUMFRENCE = Units.inchesToMeters(4 * Math.PI);
 
     //  public static final double UNIVERSAL_DRIVE_ENCODER_FACTOR = wheelCircumfrence / 6.74810;
-     //  public static final double UNIVERSAL_TURN_ENCODER_FACTOR = 2 * Math.PI / 21.42847;
-     public static final double UNIVERSAL_DRIVE_ENCODER_FACTOR = 1;
-     public static final double UNIVERSAL_TURN_ENCODER_FACTOR = Units.rotationsToRadians(1);
+    //  public static final double UNIVERSAL_TURN_ENCODER_FACTOR = 2 * Math.PI / 21.42847;
+     
+    public static final double TURN_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS = 150.0 / 7.0;
+    public static final double TURN_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS_RADIANS = Units
+            .rotationsToRadians(TURN_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS);
+    
+    public static final double DRIVE_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS = 6.75;
+    public static final double DRIVE_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS_METERS = WHEEL_CIRCUMFRENCE
+            * DRIVE_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS;
+     
 
      public static final int FRONT_RIGHT_DRIVE = 6;
      public static final boolean FRONT_RIGHT_DRIVE_REVERSE = false;
@@ -91,7 +98,10 @@ public interface RobotMap {
 
     //Robot Dimensions (relative to wheel locations)
     //Since this robot is a square, no need for 2 values. In a non-square chassis, 2 values needed.
-    public static final double WHEEL_BASE = Units.inchesToMeters(27);
+
+    // public static final double WHEEL_BASE = Units.inchesToMeters(27);
+    
+    public static final double WHEEL_BASE = Units.inchesToMeters(24);
     public static final SwerveDriveKinematics DRIVE_KINEMATICS = new SwerveDriveKinematics(
         new Translation2d(WHEEL_BASE / 2, -WHEEL_BASE / 2),
         new Translation2d(WHEEL_BASE / 2, WHEEL_BASE / 2),

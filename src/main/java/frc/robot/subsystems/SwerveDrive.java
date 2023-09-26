@@ -52,7 +52,7 @@ public class SwerveDrive extends SubsystemBase {
                     MotorType.kBrushless,
                     IdleMode.kCoast,
                     RobotMap.FRONT_RIGHT_DRIVE_REVERSE,
-                    RobotMap.UNIVERSAL_DRIVE_ENCODER_FACTOR),
+                    RobotMap.DRIVE_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS_METERS),
             new CCSparkMax(
                     "Front Right Turn",
                     "frt",
@@ -60,7 +60,7 @@ public class SwerveDrive extends SubsystemBase {
                     MotorType.kBrushless,
                     IdleMode.kBrake,
                     RobotMap.FRONT_RIGHT_TURN_REVERSE,
-                    RobotMap.UNIVERSAL_TURN_ENCODER_FACTOR),
+                    RobotMap.TURN_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS_RADIANS),
             RobotMap.FRONT_RIGHT_ABSOLUTE_ENCODER,
             RobotMap.FRONT_RIGHT_ABSOLUTE_ENCODER_OFFSET,
             "Front Right");
@@ -73,7 +73,7 @@ public class SwerveDrive extends SubsystemBase {
                     MotorType.kBrushless,
                     IdleMode.kCoast,
                     RobotMap.FRONT_LEFT_DRIVE_REVERSE,
-                    RobotMap.UNIVERSAL_DRIVE_ENCODER_FACTOR),
+                    RobotMap.DRIVE_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS_METERS),
             new CCSparkMax(
                     "Front Left Turn",
                     "flt",
@@ -81,7 +81,7 @@ public class SwerveDrive extends SubsystemBase {
                     MotorType.kBrushless,
                     IdleMode.kBrake,
                     RobotMap.FRONT_LEFT_TURN_REVERSE,
-                    RobotMap.UNIVERSAL_TURN_ENCODER_FACTOR),
+                    RobotMap.TURN_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS_RADIANS),
             RobotMap.FRONT_LEFT_ABSOLUTE_ENCODER,
             RobotMap.FRONT_LEFT_ABSOLUTE_ENCODER_OFFSET,
             "Front Left");
@@ -94,7 +94,7 @@ public class SwerveDrive extends SubsystemBase {
                     MotorType.kBrushless,
                     IdleMode.kCoast,
                     RobotMap.BACK_RIGHT_DRIVE_REVERSE,
-                    RobotMap.UNIVERSAL_DRIVE_ENCODER_FACTOR),
+                    RobotMap.DRIVE_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS_METERS),
             new CCSparkMax(
                     "Back Right Turn",
                     "brt",
@@ -102,7 +102,7 @@ public class SwerveDrive extends SubsystemBase {
                     MotorType.kBrushless,
                     IdleMode.kBrake,
                     RobotMap.BACK_RIGHT_TURN_REVERSE,
-                    RobotMap.UNIVERSAL_TURN_ENCODER_FACTOR),
+                    RobotMap.TURN_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS_RADIANS),
             RobotMap.BACK_RIGHT_ABSOLUTE_ENCODER,
             RobotMap.BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET,
             "Back Right");
@@ -115,7 +115,7 @@ public class SwerveDrive extends SubsystemBase {
                     MotorType.kBrushless,
                     IdleMode.kCoast,
                     RobotMap.BACK_LEFT_DRIVE_REVERSE,
-                    RobotMap.UNIVERSAL_DRIVE_ENCODER_FACTOR),
+                    RobotMap.DRIVE_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS_METERS),
             new CCSparkMax(
                     "Back Left Turn",
                     "blt",
@@ -123,7 +123,7 @@ public class SwerveDrive extends SubsystemBase {
                     MotorType.kBrushless,
                     IdleMode.kBrake,
                     RobotMap.BACK_LEFT_TURN_REVERSE,
-                    RobotMap.UNIVERSAL_TURN_ENCODER_FACTOR),
+                    RobotMap.TURN_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS_RADIANS),
             RobotMap.BACK_LEFT_ABSOLUTE_ENCODER,
             RobotMap.BACK_LEFT_ABSOLUTE_ENCODER_OFFSET,
             "Back Left");

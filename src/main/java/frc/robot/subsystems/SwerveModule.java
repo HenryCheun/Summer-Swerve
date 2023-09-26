@@ -39,7 +39,10 @@ public class SwerveModule extends SubsystemBase{
         this.turnMotor = turnMotor;
 
         this.absoluteEncoder = new AnalogEncoder(absoluteEncoderChannel);
-        this.absoluteEncoder.setDistancePerRotation(2 * Math.PI);
+
+        // this.absoluteEncoder.setDistancePerRotation(2 * Math.PI);
+        this.absoluteEncoder.setDistancePerRotation(1);
+
         //add encoder offset
         this.absoluteEncoder.setPositionOffset(absoluteEncoderOffset);
         
@@ -55,7 +58,7 @@ public class SwerveModule extends SubsystemBase{
      * @return The encoder value of the drive motor.
      */
     public double getDrivePosition() {
-        return driveMotor.getPosition(); //should be in rotations?
+        return driveMotor.getPosition(); //should be in radians?
     }
     
      /**
@@ -63,7 +66,7 @@ public class SwerveModule extends SubsystemBase{
      * @return The encoder value of the turn motor.
      */
     public double getTurnPosition(){
-        return turnMotor.getPosition(); //should be in rotations?
+        return turnMotor.getPosition(); //should be in radians?
     } 
 
 
