@@ -43,8 +43,6 @@ public class SwerveModule extends SubsystemBase{
 
         this.absoluteEncoder.setDistancePerRotation(2 * Math.PI);
 
-        //add encoder offset
-        //might need to be in rotations
         // this.absoluteEncoder.setPositionOffset(absoluteEncoderOffset);
         this.absoluteEncoderOffset = absoluteEncoderOffset;
         turningPIDController = new PIDController(.5, 0, 0);

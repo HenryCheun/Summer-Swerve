@@ -31,15 +31,14 @@ public interface RobotMap {
     
      // in meters
      public static final double WHEEL_CIRCUMFRENCE = Units.inchesToMeters(4 * Math.PI);
-
-    //  public static final double UNIVERSAL_DRIVE_ENCODER_FACTOR = wheelCircumfrence / 6.74810;
-    //  public static final double UNIVERSAL_TURN_ENCODER_FACTOR = 2 * Math.PI / 21.42847;
      
    // 150/7 rotations of the turn motor to one rotation of the wheel
     public static final double TURN_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS = 7.0/150.0;
     public static final double TURN_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS_RADIANS = Units
             .rotationsToRadians(TURN_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS);
     public static final double TURN_MOTOR_RADIANS_PER_SECOND = TURN_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS_RADIANS / 60.0;
+    
+    
     //6.75 rotations of the drive motor to one spin of the wheel
     public static final double DRIVE_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS = 1.0 / 6.75;
     public static final double DRIVE_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS_METERS = WHEEL_CIRCUMFRENCE
@@ -77,18 +76,14 @@ public interface RobotMap {
      public static final boolean BACK_LEFT_TURN_REVERSE = true;
      public static final double BACK_LEFT_TURN_ENCODER = 1;
      
-     //Absolute Encoders
+     
+     //Absolute Encoder Ports
      public static final int FRONT_RIGHT_ABSOLUTE_ENCODER = 3;
      public static final int FRONT_LEFT_ABSOLUTE_ENCODER = 0;
      public static final int BACK_RIGHT_ABSOLUTE_ENCODER = 2;
      public static final int BACK_LEFT_ABSOLUTE_ENCODER = 1;
 
-     //Absolute Encoder Offsets (in radians)
-    //  public static final double FRONT_RIGHT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-15);
-    //  public static final double FRONT_LEFT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-105);
-    //  public static final double BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-285);
-    //  public static final double BACK_LEFT_ABSOLUTE_ENCODER_OFFSET = Math.toRadians(-195);
-
+     //Absolute encoder offsets
     public static final double FRONT_RIGHT_ABSOLUTE_ENCODER_OFFSET = 2.80;
     public static final double FRONT_LEFT_ABSOLUTE_ENCODER_OFFSET = 4.85;
     public static final double BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET = 2.49;
@@ -103,10 +98,9 @@ public interface RobotMap {
 
     //Robot Dimensions (relative to wheel locations)
     //Since this robot is a square, no need for 2 values. In a non-square chassis, 2 values needed.
+    public static final double WHEEL_BASE = Units.inchesToMeters(24); //from drive shaft to drive shaft. Previous was 27
 
-    // public static final double WHEEL_BASE = Units.inchesToMeters(27);
-    
-    public static final double WHEEL_BASE = Units.inchesToMeters(24);
+    //* FR FL BR BL. Same as order of swerve module states */
     public static final SwerveDriveKinematics DRIVE_KINEMATICS = new SwerveDriveKinematics(
         new Translation2d(WHEEL_BASE / 2, -WHEEL_BASE / 2),
         new Translation2d(WHEEL_BASE / 2, WHEEL_BASE / 2),
