@@ -76,6 +76,7 @@ public class RobotContainer {
         diagnosticsInit();
     }
 
+    
     public void diagnosticsInit(){
         for (String pathName : paths) {
             autoCommands.addOption(pathName, followPathPlanner(pathName).withName(pathName));

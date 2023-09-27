@@ -24,7 +24,7 @@ public class SwerveModule extends SubsystemBase{
     private PIDController turningPIDController;
 
     private AnalogEncoder absoluteEncoder;
-
+    private double absoluteEncoderOffset;
     private String name;
 
     //adjust absoluteEncoderChannel to possibly be absoluteEncoderAnalogInput
@@ -45,8 +45,8 @@ public class SwerveModule extends SubsystemBase{
 
         //add encoder offset
         //might need to be in rotations
-        this.absoluteEncoder.setPositionOffset(absoluteEncoderOffset);
-        
+        // this.absoluteEncoder.setPositionOffset(absoluteEncoderOffset);
+        this.absoluteEncoderOffset = absoluteEncoderOffset;
         turningPIDController = new PIDController(.5, 0, 0);
         turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
         
@@ -93,7 +93,7 @@ public class SwerveModule extends SubsystemBase{
      */
     public double getAbsoluteEncoderRadians() {
         // return absoluteEncoder.getAbsolutePosition() * 2 * Math.PI;
-        return Units.rotationsToRadians(absoluteEncoder.getAbsolutePosition());
+        return Units.rotationsToRadians(absoluteEncoder.getAbsolutePosition()) - absoluteEncoderOffset;
     }
     
     
@@ -103,8 +103,8 @@ public class SwerveModule extends SubsystemBase{
      */
     public void resetEncoders(){
         driveMotor.reset();
-        // turnMotor.setPosition(getAbsoluteEncoderRadians());
-        turnMotor.reset();
+        turnMotor.setPosition(getAbsoluteEncoderRadians());
+        // turnMotor.reset();
     }
 
     /**

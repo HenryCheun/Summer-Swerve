@@ -157,7 +157,7 @@ public class SwerveDrive extends SubsystemBase {
                                 .withSize(2, 2);
 
         private ShuffleboardLayout turn_encoder_velocities = Shuffleboard.getTab("Encoders")
-                                .getLayout("Turn Encoders Velocity (Rad / Sec)", BuiltInLayouts.kGrid)
+                                .getLayout("Turn Encoders Velocity (Rad / Sec)", BuiltInLayouts.kList)
                                 .withSize(2, 2);
 
 
@@ -427,14 +427,14 @@ public class SwerveDrive extends SubsystemBase {
                 enc_BL_pos_Entry = Shuffleboard.getTab("Encoders").getLayout(turn_encoders_positions.getTitle())
                                 .add(backLeft.getName(), backLeft.getTurnPosition()).getEntry();
 
-                enc_FR_pos_Entry = Shuffleboard.getTab("Encoders").getLayout(turn_encoder_velocities.getTitle())
-                                .add(frontRight.getName(), frontRight.getTurnVelocity()).getEntry();
-                enc_FL_pos_Entry = Shuffleboard.getTab("Encoders").getLayout(turn_encoder_velocities.getTitle())
-                                .add(frontRight.getName(), frontLeft.getTurnVelocity()).getEntry();
-                enc_BR_pos_Entry = Shuffleboard.getTab("Encoders").getLayout(turn_encoder_velocities.getTitle())
-                                .add(frontRight.getName(), backRight.getTurnVelocity()).getEntry();
-                enc_BL_pos_Entry = Shuffleboard.getTab("Encoders").getLayout(turn_encoder_velocities.getTitle())
-                                .add(frontRight.getName(), backLeft.getTurnVelocity()).getEntry();
+                // enc_FR_pos_Entry = Shuffleboard.getTab("Encoders").getLayout(turn_encoder_velocities.getTitle())
+                //                 .add(frontRight.getName() + " V", frontRight.getTurnVelocity()).getEntry();
+                // enc_FL_pos_Entry = Shuffleboard.getTab("Encoders").getLayout(turn_encoder_velocities.getTitle())
+                //                 .add(frontRight.getName() + " V", frontLeft.getTurnVelocity()).getEntry();
+                // enc_BR_pos_Entry = Shuffleboard.getTab("Encoders").getLayout(turn_encoder_velocities.getTitle())
+                //                 .add(frontRight.getName() + " V", backRight.getTurnVelocity()).getEntry();
+                // enc_BL_pos_Entry = Shuffleboard.getTab("Encoders").getLayout(turn_encoder_velocities.getTitle())
+                //                 .add(frontRight.getName() + " V", backLeft.getTurnVelocity()).getEntry();
 
         }
 
@@ -449,10 +449,10 @@ public class SwerveDrive extends SubsystemBase {
                 enc_BR_pos_Entry.setDouble(backRight.getTurnPosition());
                 enc_BL_pos_Entry.setDouble(backLeft.getTurnPosition());
 
-                enc_FR_vel_Entry.setDouble(frontRight.getTurnVelocity());
-                enc_FL_vel_Entry.setDouble(frontLeft.getTurnVelocity());
-                enc_BR_vel_Entry.setDouble(backRight.getTurnVelocity());
-                enc_BL_vel_Entry.setDouble(backLeft.getTurnVelocity());
+                // enc_FR_vel_Entry.setDouble(frontRight.getTurnVelocity());
+                // enc_FL_vel_Entry.setDouble(frontLeft.getTurnVelocity());
+                // enc_BR_vel_Entry.setDouble(backRight.getTurnVelocity());
+                // enc_BL_vel_Entry.setDouble(backLeft.getTurnVelocity());
         }
 
 
