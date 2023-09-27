@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -40,10 +41,10 @@ public class SwerveModule extends SubsystemBase{
 
         this.absoluteEncoder = new AnalogEncoder(absoluteEncoderChannel);
 
-        // this.absoluteEncoder.setDistancePerRotation(2 * Math.PI);
-        this.absoluteEncoder.setDistancePerRotation(1);
+        this.absoluteEncoder.setDistancePerRotation(2 * Math.PI);
 
         //add encoder offset
+        //might need to be in rotations
         this.absoluteEncoder.setPositionOffset(absoluteEncoderOffset);
         
         turningPIDController = new PIDController(.5, 0, 0);
@@ -58,7 +59,7 @@ public class SwerveModule extends SubsystemBase{
      * @return The encoder value of the drive motor.
      */
     public double getDrivePosition() {
-        return driveMotor.getPosition(); //should be in radians?
+        return driveMotor.getPosition(); //should be in meters?
     }
     
      /**
@@ -90,9 +91,11 @@ public class SwerveModule extends SubsystemBase{
      * Gets the reading of the absolute encoder.
      * @return The value of the absolute encoder in radians.
      */
-    public double getAbsoluteEncoderRadians(){
-        return absoluteEncoder.getAbsolutePosition() * 2 * Math.PI;
+    public double getAbsoluteEncoderRadians() {
+        // return absoluteEncoder.getAbsolutePosition() * 2 * Math.PI;
+        return Units.rotationsToRadians(absoluteEncoder.getAbsolutePosition());
     }
+    
     
     /**
      * Resets the drive and turn motor encoders. The drive motor is set to

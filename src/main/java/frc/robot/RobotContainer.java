@@ -5,6 +5,8 @@ import java.util.HashMap;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.auto.PIDConstants;
+import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -47,15 +49,31 @@ public class RobotContainer {
     //         "curve",
     //         "Straight Then Left",
     //         "Rotate Right" };
-    private final String[] paths = {"move"};
+    private final String[] paths = { "move" };
+    
+
+
+    SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
+    swerveDrive::getPose, // Pose2d supplier
+    swerveDrive::setOdometry, // Pose2d consumer, used to reset odometry at the beginning of auto
+    RobotMap.DRIVE_KINEMATICS, // SwerveDriveKinematics
+    new PIDConstants(5.0, 0.0, 0.0), // PID constants to correct for translation error (used to create the X and Y PID controllers)
+    new PIDConstants(0.5, 0.0, 0.0), // PID constants to correct for rotation error (used to create the rotation controller)
+    swerveDrive::setModuleStates, // Module states consumer used to output to the drive subsystem
+    eventMap,
+    true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
+    swerveDrive // The drive subsystem. Used to properly set the requirements of path following commands
+);
+
+
+
+
+
     
     public RobotContainer() {
         SwerveDriveScheme.configure(swerveDrive, 0);
         // Testing.configure(swerveDrive, 0);
         diagnosticsInit();
-
-        
-        
     }
 
     public void diagnosticsInit(){
@@ -70,16 +88,22 @@ public class RobotContainer {
 
     public Command getAutoCommand() {
         // return new Autonomous(selector.value(), swerveDrive);
+        // return autoCommands.getSelected();
+        
+        PathPlannerTrajectory traj = PathPlanner.loadPath("move",
+                new PathConstraints(RobotMap.MAX_SPEED_METERS_PER_SECOND - 1.5,
+                        RobotMap.DRIVE_RATE_LIMIT - .3));
+        
+        return swerveDrive.followTrajectoryCommand(traj, true);
 
-        return autoCommands.getSelected();
-
+        // return autoBuilder.followPath(traj);
 
     }
 
     /**
      * Functionally the same as the Autonomous class method, just less messy.
      */
-    public CommandBase followPathPlanner(String pathName) {
+    public Command followPathPlanner(String pathName) {
         PathPlannerTrajectory traj = PathPlanner.loadPath(pathName,
                 new PathConstraints(RobotMap.MAX_SPEED_METERS_PER_SECOND - 1.5,
                         RobotMap.DRIVE_RATE_LIMIT - .3));

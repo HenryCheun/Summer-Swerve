@@ -22,9 +22,11 @@ public class CCSparkMax extends CANSparkMax{
      * @param idleMode Specify whether the motor controller is set to Coast or Brake mode
      * @param reverse Reverses the direction of the motor controller
      * @param encoder If the motor has an encoder or not
+     * @param positionConversionFactor Conversion rate for position from rotations to desired unit
+     * @param velocityConversionFactor Conversion rate for velocity from rotations per minute to desired unit
      */
     public CCSparkMax(String name, String shortName, int deviceID, MotorType controlMode, IdleMode idleMode,
-     boolean reverse, double positionConversionFactor){
+     boolean reverse, double positionConversionFactor, double velocityConversionFactor){
         super(deviceID, controlMode);
         this.name = name;
         this.shortName = shortName;
@@ -35,6 +37,7 @@ public class CCSparkMax extends CANSparkMax{
         pidController = super.getPIDController();
         this.encoder = super.getEncoder();
         this.setPositionConversionFactor(positionConversionFactor);
+        this.setVelocityConversionFactor(velocityConversionFactor);
     }
     public CCSparkMax(String name, String shortName, int deviceID, MotorType controlMode, IdleMode idleMode,
      boolean reverse){
@@ -48,6 +51,7 @@ public class CCSparkMax extends CANSparkMax{
         pidController = super.getPIDController();
         this.encoder = super.getEncoder();
         this.setPositionConversionFactor(1);
+        this.setVelocityConversionFactor(1);
     }
 
     public void reset(){
@@ -78,8 +82,16 @@ public class CCSparkMax extends CANSparkMax{
      * Sets the Position Conversion Factor for the encoder
      * @param factor The ratio of encoder units to desired units (ie. units -> in)
      */
-    public void setPositionConversionFactor(double factor){
+    public void setPositionConversionFactor(double factor) {
         encoder.setPositionConversionFactor(factor);
+    }
+    
+    /**
+     * Sets the Velocity Conversion Factor for the encoder
+     * @param factor The ratio of encoder units to desired units (ie. units/min-> rad/sec)
+     */
+    public void setVelocityConversionFactor(double factor) {
+        encoder.setVelocityConversionFactor(factor);
     }
 
     /**

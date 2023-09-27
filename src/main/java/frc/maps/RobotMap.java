@@ -35,14 +35,19 @@ public interface RobotMap {
     //  public static final double UNIVERSAL_DRIVE_ENCODER_FACTOR = wheelCircumfrence / 6.74810;
     //  public static final double UNIVERSAL_TURN_ENCODER_FACTOR = 2 * Math.PI / 21.42847;
      
-    public static final double TURN_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS = 150.0 / 7.0;
+   // 150/7 rotations of the turn motor to one rotation of the wheel
+    public static final double TURN_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS = 7.0/150.0;
     public static final double TURN_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS_RADIANS = Units
             .rotationsToRadians(TURN_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS);
-    
-    public static final double DRIVE_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS = 6.75;
+    public static final double TURN_MOTOR_RADIANS_PER_SECOND = TURN_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS_RADIANS / 60.0;
+    //6.75 rotations of the drive motor to one spin of the wheel
+    public static final double DRIVE_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS = 1.0 / 6.75;
     public static final double DRIVE_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS_METERS = WHEEL_CIRCUMFRENCE
             * DRIVE_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS;
-     
+    public static final double DRIVE_MOTOR_METERS_PER_SECOND = DRIVE_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS_METERS / 60.0; 
+
+    
+
 
      public static final int FRONT_RIGHT_DRIVE = 6;
      public static final boolean FRONT_RIGHT_DRIVE_REVERSE = false;
