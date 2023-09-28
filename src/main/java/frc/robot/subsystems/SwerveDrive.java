@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -36,6 +37,7 @@ import frc.robot.RobotContainer;
 public class SwerveDrive extends SubsystemBase {
         // Initializing swerve modules. Must include full CCSparkMax object
         // declarations.
+        private final Field2d m_field = new Field2d();
         private final SwerveModule frontRight = new SwerveModule(
                         new CCSparkMax(
                                         "Front Right Drive",
@@ -179,6 +181,7 @@ public class SwerveDrive extends SubsystemBase {
 
                 initShuffleBoardEncoders();
                 
+                SmartDashboard.putData("Field", m_field);
                 new Thread(() -> {
                         try {
                                 Thread.sleep(1000);
@@ -222,6 +225,7 @@ public class SwerveDrive extends SubsystemBase {
         public void periodic() {
                 SmartDashboard.putNumber("Robot Heading", getRotation2d().getRadians());
                 SmartDashboard.putNumber("Wheel Velocity", frontRight.getDriveVelocity());
+                m_field.setRobotPose(odometer.getPoseMeters());
                 updateShuffleBoardEncoders();        
 
                 updateOdometer();
@@ -276,7 +280,6 @@ public class SwerveDrive extends SubsystemBase {
         public void setOdometry(Pose2d pos) {
                 odometer.resetPosition(getRotation2d(), swerveModulePositions, pos);
         }
-
         public void updateModulePositions() {
                 swerveModulePositions[0] = new SwerveModulePosition(frontRight.getDrivePosition(),
                                 new Rotation2d(frontRight.getTurnPosition()));

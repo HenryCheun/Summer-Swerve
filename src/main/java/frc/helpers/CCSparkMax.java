@@ -13,6 +13,7 @@ public class CCSparkMax extends CANSparkMax{
     private String shortName;
     public  SparkMaxPIDController pidController;
     private RelativeEncoder encoder;
+    private double voltageConversionFactor;
 
     /**
      * CCSparkMax allows us to easily control Spark Max motor controllers
@@ -66,8 +67,16 @@ public class CCSparkMax extends CANSparkMax{
      * Sets the speed of the motor controller
      * @param speed The speed that will be set (-1.0 to 1.0)
      */
-    public void set(double speed){
+    public void set(double speed) {
         super.set(speed);
+    }
+    
+    public void setVoltage(double volts) {
+        super.setVoltage(volts);
+    }
+    
+    public void setVoltageFromSpeed(double speed) {
+        super.setVoltage(speed * voltageConversionFactor);
     }
 
     public void disable(){
