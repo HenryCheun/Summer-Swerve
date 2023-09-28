@@ -131,6 +131,7 @@ public class SwerveDrive extends SubsystemBase {
         private AHRS gyro = new AHRS(SPI.Port.kMXP);
 
         SwerveDriveOdometry odometer;
+        PIDController xPID, yPID, turnPID;
 
         /** Module positions used for odometry */
         SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[4];
@@ -168,6 +169,13 @@ public class SwerveDrive extends SubsystemBase {
                                 new Rotation2d(backLeft.getAbsoluteEncoderRadians()));
 
                 odometer = new SwerveDriveOdometry(RobotMap.DRIVE_KINEMATICS, new Rotation2d(0), swerveModulePositions);
+
+                 xPID = new PIDController(.5, .15, 0);
+                 yPID = new PIDController(.5, .15, 0);
+
+        // *TODO: Possibly research profiled PID
+                turnPID = new PIDController(.25, 0, 0);
+                turnPID.enableContinuousInput(0, 2 * Math.PI);
 
                 initShuffleBoardEncoders();
                 
@@ -287,11 +295,7 @@ public class SwerveDrive extends SubsystemBase {
         // Odometer used to get Pose2d of the robot.
 
         // xPID and yPID should have the same values.
-        PIDController xPID = new PIDController(.5, .15, 0);
-        PIDController yPID = new PIDController(.5, .15, 0);
-
-        // *TODO: Possibly research profiled PID
-        PIDController turnPID = new PIDController(.25, 0, 0);
+        
         // PPHolonomicDriveController holonomicDriveController = new
         // PPHolonomicDriveController(xPID, yPID, turnPID);
 

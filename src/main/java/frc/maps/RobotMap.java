@@ -98,6 +98,7 @@ public interface RobotMap {
     public static final double TURN_RATE_LIMIT = MAX_ANGULAR_SPEED_RADIANS_PER_SECOND;
 
     public static final PathConstraints AUTO_PATH_CONSTRAINTS = new PathConstraints(MAX_DRIVE_SPEED_METERS_PER_SECOND - 1.5, DRIVE_RATE_LIMIT - 0.3);
+    // public static final PathConstraints AUTO_PATH_CONSTRAINTS = new PathConstraints(4, 3);
 
     //Robot Dimensions (relative to wheel locations)
     //Since this robot is a square, no need for 2 values. In a non-square chassis, 2 values needed.

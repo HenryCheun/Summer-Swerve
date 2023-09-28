@@ -78,6 +78,8 @@ public class RobotContainer {
         
         PathPlannerTrajectory traj = PathPlanner.loadPath("move",
                 RobotMap.AUTO_PATH_CONSTRAINTS);
+
+        System.out.print(traj.getInitialHolonomicPose());
         
         return swerveDrive.followTrajectoryCommand(traj, true);
 
