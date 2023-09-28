@@ -42,25 +42,8 @@ public class SwerveDriveScheme implements ControlScheme {
         SlewRateLimiter xRateLimiter = new SlewRateLimiter(RobotMap.DRIVE_RATE_LIMIT);
         SlewRateLimiter yRateLimiter = new SlewRateLimiter(RobotMap.DRIVE_RATE_LIMIT);
         SlewRateLimiter turnRateLimiter = new SlewRateLimiter(RobotMap.TURN_RATE_LIMIT);
-        
-        // InstantCommand com1 = new InstantCommand(() -> swerveDrive.printFrontRight(), swerveDrive);
-        // com1.setName("Front Right");
-        // InstantCommand com2 = new InstantCommand(() -> swerveDrive.printFrontLeft(), swerveDrive);
-        // com2.setName("Front Left");
-        // InstantCommand com3 = new InstantCommand(() -> swerveDrive.printBackRight(), swerveDrive);
-        // com3.setName("Back Right");
-        // InstantCommand com4 = new InstantCommand(() -> swerveDrive.printBackLeft(), swerveDrive);
-        // com4.setName("Back Left");
-        // CommandSelector commands = new CommandSelector(
-        //         "Motor Print",
-        //         com1,
-        //         com2,
-        //         com3,
-        //         com4);
-        
 
         swerveDrive.setDefaultCommand(new RunCommand(() -> {
-            // swerveDrive.periodic();
 
             //Set x, y, and turn speed based on joystick inputs
             double xSpeed = -OI.axis(port, ControlMap.L_JOYSTICK_VERTICAL);

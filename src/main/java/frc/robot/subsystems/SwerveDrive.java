@@ -335,7 +335,8 @@ public class SwerveDrive extends SubsystemBase {
                                 ));
         }
 
-        //i copied this one from the documentation
+        
+        //* I copied this one from documentation */
         public Command followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) {
                 return new SequentialCommandGroup(
                      new InstantCommand(() -> {
