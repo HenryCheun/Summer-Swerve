@@ -211,7 +211,8 @@ public class SwerveDrive extends SubsystemBase {
          * @return The facing direction of the robot in Rotation2d format.
          */
         public Rotation2d getRotation2d() {
-                return Rotation2d.fromDegrees(getHeading());
+                return gyro.getRotation2d();
+                // return Rotation2d.fromDegrees(getHeading());
         }
 
         /**
@@ -219,7 +220,8 @@ public class SwerveDrive extends SubsystemBase {
          */
         @Override
         public void periodic() {
-                SmartDashboard.putNumber("Robot Heading", getHeading());
+                SmartDashboard.putNumber("Robot Heading", getRotation2d().getRadians());
+                SmartDashboard.putNumber("Wheel Velocity", frontRight.getDriveVelocity());
                 updateShuffleBoardEncoders();        
 
                 updateOdometer();
