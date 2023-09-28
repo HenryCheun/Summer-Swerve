@@ -47,8 +47,6 @@ public interface RobotMap {
             * DRIVE_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS;
     public static final double DRIVE_MOTOR_METERS_PER_SECOND = DRIVE_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS_METERS / 60.0; 
 
-    
-
 
      public static final int FRONT_RIGHT_DRIVE = 6;
      public static final boolean FRONT_RIGHT_DRIVE_REVERSE = false;
@@ -92,14 +90,14 @@ public interface RobotMap {
     public static final double BACK_LEFT_ABSOLUTE_ENCODER_OFFSET = 5.42;
 
     //Velocity Limits
-    public static final double MAX_SPEED_METERS_PER_SECOND = 3;
+    public static final double MAX_DRIVE_SPEED_METERS_PER_SECOND = 3;
     public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND = 1 * Math.PI;
 
     //Rate Limiters (acceleration)
-    public static final double DRIVE_RATE_LIMIT = MAX_SPEED_METERS_PER_SECOND / 3;
+    public static final double DRIVE_RATE_LIMIT = MAX_DRIVE_SPEED_METERS_PER_SECOND / 3;
     public static final double TURN_RATE_LIMIT = MAX_ANGULAR_SPEED_RADIANS_PER_SECOND;
 
-    public static final PathConstraints AUTO_PATH_CONSTRAINTS = new PathConstraints(MAX_SPEED_METERS_PER_SECOND - 1.5, DRIVE_RATE_LIMIT - 0.3);
+    public static final PathConstraints AUTO_PATH_CONSTRAINTS = new PathConstraints(MAX_DRIVE_SPEED_METERS_PER_SECOND - 1.5, DRIVE_RATE_LIMIT - 0.3);
 
     //Robot Dimensions (relative to wheel locations)
     //Since this robot is a square, no need for 2 values. In a non-square chassis, 2 values needed.

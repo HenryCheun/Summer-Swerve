@@ -36,7 +36,7 @@ public class Autonomous extends SequentialCommandGroup {
                     // swerveDrive.resetOdometry();
                 }),
                 swerveDrive.followPath(PathPlanner.loadPath(path,
-                        new PathConstraints(RobotMap.MAX_SPEED_METERS_PER_SECOND - 1.5,
+                        new PathConstraints(RobotMap.MAX_DRIVE_SPEED_METERS_PER_SECOND - 1.5,
                                 RobotMap.DRIVE_RATE_LIMIT - .3))),
                 new InstantCommand(() -> swerveDrive.stopModules()));
     }

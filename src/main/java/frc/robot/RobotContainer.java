@@ -77,8 +77,7 @@ public class RobotContainer {
         // return autoCommands.getSelected();
         
         PathPlannerTrajectory traj = PathPlanner.loadPath("move",
-                new PathConstraints(RobotMap.MAX_SPEED_METERS_PER_SECOND - 1.5,
-                        RobotMap.DRIVE_RATE_LIMIT - .3));
+                RobotMap.AUTO_PATH_CONSTRAINTS);
         
         return swerveDrive.followTrajectoryCommand(traj, true);
 
@@ -91,8 +90,7 @@ public class RobotContainer {
      */
     public Command followPathPlanner(String pathName) {
         PathPlannerTrajectory traj = PathPlanner.loadPath(pathName,
-                new PathConstraints(RobotMap.MAX_SPEED_METERS_PER_SECOND - 1.5,
-                        RobotMap.DRIVE_RATE_LIMIT - .3));
+                RobotMap.AUTO_PATH_CONSTRAINTS);
 
         return Commands.sequence(
                 Commands.waitSeconds(1),
