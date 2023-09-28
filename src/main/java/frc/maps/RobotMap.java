@@ -1,5 +1,7 @@
 package frc.maps;
 
+import com.pathplanner.lib.PathConstraints;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
@@ -97,11 +99,13 @@ public interface RobotMap {
     public static final double DRIVE_RATE_LIMIT = MAX_SPEED_METERS_PER_SECOND / 3;
     public static final double TURN_RATE_LIMIT = MAX_ANGULAR_SPEED_RADIANS_PER_SECOND;
 
+    public static final PathConstraints AUTO_PATH_CONSTRAINTS = new PathConstraints(MAX_SPEED_METERS_PER_SECOND - 1.5, DRIVE_RATE_LIMIT - 0.3);
+
     //Robot Dimensions (relative to wheel locations)
     //Since this robot is a square, no need for 2 values. In a non-square chassis, 2 values needed.
     public static final double WHEEL_BASE = Units.inchesToMeters(24); //from drive shaft to drive shaft. Previous was 27
 
-    //* FR FL BR BL. Same as order of swerve module states */
+    /** FR FL BR BL. Same as order of swerve module states */
     public static final SwerveDriveKinematics DRIVE_KINEMATICS = new SwerveDriveKinematics(
         new Translation2d(WHEEL_BASE / 2, -WHEEL_BASE / 2),
         new Translation2d(WHEEL_BASE / 2, WHEEL_BASE / 2),

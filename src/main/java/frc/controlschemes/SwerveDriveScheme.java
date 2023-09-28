@@ -7,13 +7,9 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.diagnostics.BooleanSwitch;
-import frc.diagnostics.CommandSelector;
 import frc.helpers.ControlScheme;
 import frc.helpers.OI;
 import frc.maps.ControlMap;
@@ -71,8 +67,6 @@ public class SwerveDriveScheme implements ControlScheme {
 
             swerveDrive.setModuleStates(moduleStates);
             
-
-            // commands.value().schedule();
         }, swerveDrive).withName("Swerve Controller Command"));
         configureButtons(swerveDrive, port);
     }
