@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -135,7 +136,9 @@ public class SwerveDrive extends SubsystemBase {
         private AHRS gyro = new AHRS(SPI.Port.kMXP);
 
         SwerveDriveOdometry odometer;
-        PIDController xPID, yPID, turnPID;
+        PIDController xPID, yPID;
+        PIDController turnPID;
+        // ProfiledPIDController turnPID;
 
         /** Module positions used for odometry */
         SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[4];
@@ -155,7 +158,7 @@ public class SwerveDrive extends SubsystemBase {
                                 .getLayout("Turn Encoders Velocity (Rad / Sec)", BuiltInLayouts.kList)
                                 .withSize(2, 2);
 
-        private TrapezoidProfile.Constraints thetaControllConstraints = new TrapezoidProfile.Constraints(RobotMap.MAX_ANGULAR_SPEED_RADIANS_PER_SECOND, RobotMap.TURN_RATE_LIMIT);
+        
 
 
         /**
@@ -180,7 +183,8 @@ public class SwerveDrive extends SubsystemBase {
                 yPID = new PIDController(.5, 0, 0.3);
 
         // *TODO: Possibly research profiled PID
-        turnPID = new PIDController(.5, 0, 0);
+        // turnPID = new ProfiledPIDController(0.5, 0, 0, RobotMap.thetaControllConstraints);
+                turnPID = new PIDController(0.5, 0, 0);
                 turnPID.enableContinuousInput(-Math.PI,Math.PI);
 
                 initShuffleBoardEncoders();

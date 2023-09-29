@@ -29,13 +29,13 @@ public class RobotContainer {
     /** Command List for auto paths in SmartDashBoard */
     SendableChooser<CommandBase> autoCommands = new SendableChooser<CommandBase>();
 
-    // private final String[] paths = {"First Test",
-    //         "Straight",
-    //         "New Path",
-    //         "curve",
-    //         "Straight Then Left",
-    //         "Rotate Right" };
-    private static String[] paths = { "move" };
+    private final String[] paths = {"First Test",
+            "Straight",
+            "New Path",
+            "curve",
+            "Straight Then Left",
+            "Rotate Right" };
+    // private static String[] paths = { "move" };
     
 
 

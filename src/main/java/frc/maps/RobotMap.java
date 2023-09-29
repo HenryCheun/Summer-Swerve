@@ -4,6 +4,7 @@ import com.pathplanner.lib.PathConstraints;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
 // import com.revrobotics.CANSparkMax.IdleMode;
@@ -99,6 +100,7 @@ public interface RobotMap {
 
     public static final PathConstraints AUTO_PATH_CONSTRAINTS = new PathConstraints(MAX_DRIVE_SPEED_METERS_PER_SECOND - 2.5, DRIVE_RATE_LIMIT - 0.3);
     // public static final PathConstraints AUTO_PATH_CONSTRAINTS = new PathConstraints(4, 3);
+    public static final TrapezoidProfile.Constraints thetaControllConstraints = new TrapezoidProfile.Constraints(MAX_ANGULAR_SPEED_RADIANS_PER_SECOND, TURN_RATE_LIMIT);
 
     //Robot Dimensions (relative to wheel locations)
     //Since this robot is a square, no need for 2 values. In a non-square chassis, 2 values needed.
