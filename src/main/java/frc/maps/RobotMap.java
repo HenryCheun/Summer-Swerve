@@ -95,9 +95,9 @@ public interface RobotMap {
 
     //Rate Limiters (acceleration)
     public static final double DRIVE_RATE_LIMIT = MAX_DRIVE_SPEED_METERS_PER_SECOND / 3;
-    public static final double TURN_RATE_LIMIT = MAX_ANGULAR_SPEED_RADIANS_PER_SECOND;
+    public static final double TURN_RATE_LIMIT = MAX_ANGULAR_SPEED_RADIANS_PER_SECOND/2;
 
-    public static final PathConstraints AUTO_PATH_CONSTRAINTS = new PathConstraints(MAX_DRIVE_SPEED_METERS_PER_SECOND - 1.5, DRIVE_RATE_LIMIT - 0.3);
+    public static final PathConstraints AUTO_PATH_CONSTRAINTS = new PathConstraints(MAX_DRIVE_SPEED_METERS_PER_SECOND - 2.5, DRIVE_RATE_LIMIT - 0.3);
     // public static final PathConstraints AUTO_PATH_CONSTRAINTS = new PathConstraints(4, 3);
 
     //Robot Dimensions (relative to wheel locations)

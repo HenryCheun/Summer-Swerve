@@ -14,6 +14,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
@@ -26,6 +27,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.helpers.CCSparkMax;
 import frc.maps.RobotMap;
 import frc.robot.RobotContainer;
@@ -142,7 +144,6 @@ public class SwerveDrive extends SubsystemBase {
        private GenericEntry abs_Enc_FR_Entry, abs_Enc_FL_Entry, abs_Enc_BR_Entry, abs_Enc_BL_Entry;
         private GenericEntry enc_FR_pos_Entry, enc_FL_pos_Entry, enc_BR_pos_Entry, enc_BL_pos_Entry;
         private GenericEntry enc_FR_vel_Entry, enc_FL_vel_Entry, enc_BR_vel_Entry, enc_BL_vel_Entry;
-
         //ShuffleBoardLayouts for putting encoders onto the board
         private ShuffleboardLayout absolute_encoders_list = Shuffleboard.getTab("Encoders")
                                 .getLayout("Absolute Encoders", BuiltInLayouts.kGrid).withSize(2, 2);
@@ -154,6 +155,7 @@ public class SwerveDrive extends SubsystemBase {
                                 .getLayout("Turn Encoders Velocity (Rad / Sec)", BuiltInLayouts.kList)
                                 .withSize(2, 2);
 
+        private TrapezoidProfile.Constraints thetaControllConstraints = new TrapezoidProfile.Constraints(RobotMap.MAX_ANGULAR_SPEED_RADIANS_PER_SECOND, RobotMap.TURN_RATE_LIMIT);
 
 
         /**
@@ -172,12 +174,14 @@ public class SwerveDrive extends SubsystemBase {
 
                 odometer = new SwerveDriveOdometry(RobotMap.DRIVE_KINEMATICS, new Rotation2d(0), swerveModulePositions);
 
-                 xPID = new PIDController(.5, .15, 0);
-                 yPID = new PIDController(.5, .15, 0);
+                //  xPID = new PIDController(.5, .15, 0);
+                //  yPID = new PIDController(.5, .15, 0);
+                xPID = new PIDController(.5, 0, 0.3);
+                yPID = new PIDController(.5, 0, 0.3);
 
         // *TODO: Possibly research profiled PID
-                turnPID = new PIDController(.25, 0, 0);
-                turnPID.enableContinuousInput(0, 2 * Math.PI);
+        turnPID = new PIDController(.5, 0, 0);
+                turnPID.enableContinuousInput(-Math.PI,Math.PI);
 
                 initShuffleBoardEncoders();
                 
@@ -342,6 +346,7 @@ public class SwerveDrive extends SubsystemBase {
                            this.setOdometry(traj.getInitialHolonomicPose());
                        }
                      }),
+                     new WaitCommand(1),
                      new PPSwerveControllerCommand(
                          traj, 
                          this::getPose, // Pose supplier

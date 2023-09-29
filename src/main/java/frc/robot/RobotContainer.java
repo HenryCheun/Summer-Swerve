@@ -9,6 +9,7 @@ import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -53,7 +54,7 @@ public class RobotContainer {
 
 
 
-
+Field2d ff;
     
     public RobotContainer() {
         SwerveDriveScheme.configure(swerveDrive, 0);
@@ -76,12 +77,11 @@ public class RobotContainer {
         // return new Autonomous(selector.value(), swerveDrive);
         // return autoCommands.getSelected();
         
-        PathPlannerTrajectory traj = PathPlanner.loadPath("move",
+        PathPlannerTrajectory traj = PathPlanner.loadPath("zero",
                 RobotMap.AUTO_PATH_CONSTRAINTS);
-
-        System.out.print(traj.getInitialHolonomicPose());
         
-        return swerveDrive.followTrajectoryCommand(traj, true);
+        // return swerveDrive.followTrajectoryCommand(traj, true);
+        return followPathPlanner("string");
 
         // return autoBuilder.followPath(traj);
 
@@ -91,7 +91,9 @@ public class RobotContainer {
      * Functionally the same as the Autonomous class method, just less messy.
      */
     public Command followPathPlanner(String pathName) {
-        PathPlannerTrajectory traj = PathPlanner.loadPath(pathName,
+        // PathPlannerTrajectory traj = PathPlanner.loadPath(pathName,
+        //         RobotMap.AUTO_PATH_CONSTRAINTS);
+                PathPlannerTrajectory traj = PathPlanner.loadPath("move",
                 RobotMap.AUTO_PATH_CONSTRAINTS);
 
         return Commands.sequence(
