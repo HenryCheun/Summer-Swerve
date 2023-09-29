@@ -333,7 +333,7 @@ public class SwerveDrive extends SubsystemBase {
                                                                 new PPSwerveControllerCommand(traj, this::getPose,
                                                                                 RobotMap.DRIVE_KINEMATICS, xPID,
                                                                                 yPID, turnPID, this::setModuleStates,
-                                                                                true, this),
+                                                                                false, this),
                                                                 traj.getMarkers(),
                                                                 RobotContainer.eventMap)
                                 // new RunCommand(() -> System.out.println(getPose()))

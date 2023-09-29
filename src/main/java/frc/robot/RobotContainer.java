@@ -29,12 +29,7 @@ public class RobotContainer {
     /** Command List for auto paths in SmartDashBoard */
     SendableChooser<CommandBase> autoCommands = new SendableChooser<CommandBase>();
 
-    private final String[] paths = {"First Test",
-            "Straight",
-            "New Path",
-            "curve",
-            "Straight Then Left",
-            "Rotate Right" };
+    private final String[] paths = {"move", "move red" };
     // private static String[] paths = { "move" };
     
 
@@ -75,13 +70,13 @@ Field2d ff;
 
     public Command getAutoCommand() {
         // return new Autonomous(selector.value(), swerveDrive);
-        // return autoCommands.getSelected();
+        return autoCommands.getSelected();
         
-        PathPlannerTrajectory traj = PathPlanner.loadPath("zero",
-                RobotMap.AUTO_PATH_CONSTRAINTS);
+        // PathPlannerTrajectory traj = PathPlanner.loadPath("zero",
+        //         RobotMap.AUTO_PATH_CONSTRAINTS);
         
-        // return swerveDrive.followTrajectoryCommand(traj, true);
-        return followPathPlanner("string");
+        // // return swerveDrive.followTrajectoryCommand(traj, true);
+        // return followPathPlanner("string");
 
         // return autoBuilder.followPath(traj);
 
@@ -91,9 +86,7 @@ Field2d ff;
      * Functionally the same as the Autonomous class method, just less messy.
      */
     public Command followPathPlanner(String pathName) {
-        // PathPlannerTrajectory traj = PathPlanner.loadPath(pathName,
-        //         RobotMap.AUTO_PATH_CONSTRAINTS);
-                PathPlannerTrajectory traj = PathPlanner.loadPath("move",
+        PathPlannerTrajectory traj = PathPlanner.loadPath(pathName,
                 RobotMap.AUTO_PATH_CONSTRAINTS);
 
         return Commands.sequence(
