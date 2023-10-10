@@ -3,6 +3,7 @@ package frc.controlschemes;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -81,6 +82,8 @@ public class SwerveDriveScheme implements ControlScheme {
             .onTrue(new InstantCommand(() -> toggleFieldCentric()));
         new JoystickButton(controllers[port], ControlMap.A_BUTTON)
             .onTrue(new InstantCommand(() -> swerveDrive.zeroHeading()));
+            new JoystickButton(controllers[port], ControlMap.Y_BUTTON)
+            .onTrue(new InstantCommand(() -> swerveDrive.setOdometry(new Pose2d(0, 0, null))));   
     }
 
     /**

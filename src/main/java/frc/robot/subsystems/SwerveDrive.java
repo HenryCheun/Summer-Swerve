@@ -179,12 +179,14 @@ public class SwerveDrive extends SubsystemBase {
 
                 //  xPID = new PIDController(.5, .15, 0);
                 //  yPID = new PIDController(.5, .15, 0);
-                xPID = new PIDController(.5, 0, 0.3);
-                yPID = new PIDController(.5, 0, 0.3);
+                xPID = new PIDController(.5, 0, 0);
+                yPID = new PIDController(.5, 0, 0);
+                
+                
 
         // *TODO: Possibly research profiled PID
         // turnPID = new ProfiledPIDController(0.5, 0, 0, RobotMap.thetaControllConstraints);
-                turnPID = new PIDController(0.5, 0, 0);
+        turnPID = new PIDController(0.7, 0, 0);
                 turnPID.enableContinuousInput(-Math.PI,Math.PI);
 
                 initShuffleBoardEncoders();
@@ -233,6 +235,8 @@ public class SwerveDrive extends SubsystemBase {
         public void periodic() {
                 SmartDashboard.putNumber("Robot Heading", getRotation2d().getRadians());
                 SmartDashboard.putNumber("Wheel Velocity", frontRight.getDriveVelocity());
+                SmartDashboard.putNumber("X", odometer.getPoseMeters().getX());
+                SmartDashboard.putNumber("Y", odometer.getPoseMeters().getY());
                 m_field.setRobotPose(odometer.getPoseMeters());
                 updateShuffleBoardEncoders();        
 

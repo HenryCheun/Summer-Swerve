@@ -98,7 +98,7 @@ public interface RobotMap {
     public static final double DRIVE_RATE_LIMIT = MAX_DRIVE_SPEED_METERS_PER_SECOND / 3;
     public static final double TURN_RATE_LIMIT = MAX_ANGULAR_SPEED_RADIANS_PER_SECOND/2;
 
-    public static final PathConstraints AUTO_PATH_CONSTRAINTS = new PathConstraints(MAX_DRIVE_SPEED_METERS_PER_SECOND - 2.5, DRIVE_RATE_LIMIT - 0.3);
+    public static final PathConstraints AUTO_PATH_CONSTRAINTS = new PathConstraints(MAX_DRIVE_SPEED_METERS_PER_SECOND - 2, DRIVE_RATE_LIMIT - 0.3);
     // public static final PathConstraints AUTO_PATH_CONSTRAINTS = new PathConstraints(4, 3);
     public static final TrapezoidProfile.Constraints thetaControllConstraints = new TrapezoidProfile.Constraints(MAX_ANGULAR_SPEED_RADIANS_PER_SECOND, TURN_RATE_LIMIT);
 
