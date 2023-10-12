@@ -1,7 +1,9 @@
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.maps.RobotMap;
 import frc.robot.subsystems.SwerveDrive;
 
 public class Balance extends CommandBase {
@@ -10,11 +12,12 @@ public class Balance extends CommandBase {
     private double dampen;
     private double lastAngle;
     private double baseSpeed;
+    private SwerveModuleState[] moduleStates;
 
     public Balance(SwerveDrive swerveDrive) {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(swerveDrive);
-    }   
+    }
 
     // Called when the command is initially scheduled.
     @Override
@@ -26,28 +29,27 @@ public class Balance extends CommandBase {
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    //TODO Might need to change roll to something else, and might also need to flip signs. 
+    // TODO Might need to change roll to something else, and might also need to flip
+    // signs.
     public void execute() {
         // double ang = -swerveDrive.gyro.getRoll();
-        double ang = swerveDrive.getRoll(); 
+        double ang = swerveDrive.getRoll();
         if (lastAngle * ang <= 0) {
             dampen *= 0.6;
             // Timer.delay(1);
         }
+        ChassisSpeeds speeds;
         if (ang < -4) {
-            swerveDrive.setModuleStates(
-                    new SwerveModuleState[] { new SwerveModuleState(baseSpeed * dampen, new Rotation2d(0)),
-                            new SwerveModuleState(baseSpeed * dampen, new Rotation2d(0)),
-                            new SwerveModuleState(baseSpeed * dampen, new Rotation2d(0)),
-                            new SwerveModuleState(baseSpeed * dampen, new Rotation2d(0)) });
-        } else if (ang > 4)
-            swerveDrive.setModuleStates(
-                    new SwerveModuleState[] { new SwerveModuleState(-baseSpeed * dampen, new Rotation2d(0)),
-                            new SwerveModuleState(-baseSpeed * dampen, new Rotation2d(0)),
-                            new SwerveModuleState(-baseSpeed * dampen, new Rotation2d(0)),
-                            new SwerveModuleState(-baseSpeed * dampen, new Rotation2d(0)) });
-        else
+            speeds = ChassisSpeeds.fromFieldRelativeSpeeds(baseSpeed * dampen, 0, 0, swerveDrive.getRotation2d());
+            moduleStates = RobotMap.DRIVE_KINEMATICS.toSwerveModuleStates(speeds);
+            swerveDrive.setModuleStates(moduleStates);
+        } else if (ang > 4) {
+            speeds = ChassisSpeeds.fromFieldRelativeSpeeds(-baseSpeed * dampen, 0, 0, swerveDrive.getRotation2d());
+            moduleStates = RobotMap.DRIVE_KINEMATICS.toSwerveModuleStates(speeds);
+            swerveDrive.setModuleStates(moduleStates);
+        } else {
             swerveDrive.stopModules();
+        }
         lastAngle = ang;
     }
 
