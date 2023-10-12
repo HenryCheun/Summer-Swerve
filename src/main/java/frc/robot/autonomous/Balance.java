@@ -1,3 +1,5 @@
+package frc.robot.autonomous;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -16,6 +18,7 @@ public class Balance extends CommandBase {
 
     public Balance(SwerveDrive swerveDrive) {
         // Use addRequirements() here to declare subsystem dependencies.
+        this.swerveDrive = swerveDrive;
         addRequirements(swerveDrive);
     }
 
