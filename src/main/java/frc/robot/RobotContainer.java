@@ -16,16 +16,19 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.controlschemes.MechanismScheme;
 import frc.controlschemes.SwerveDriveScheme;
 import frc.maps.RobotMap;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SwerveDrive;
 
 public class RobotContainer {
     SwerveDrive swerveDrive = new SwerveDrive();
-
+    Intake intake = new Intake();
+    Arm arm = new Arm();
     /** Event map for path planner */
     public static HashMap<String, Command> eventMap = new HashMap<>();
-
     /** Command List for auto paths in SmartDashBoard */
     SendableChooser<CommandBase> autoCommands = new SendableChooser<CommandBase>();
 
@@ -53,6 +56,7 @@ Field2d ff;
     
     public RobotContainer() {
         SwerveDriveScheme.configure(swerveDrive, 0);
+        MechanismScheme.configure(intake, arm);
         // Testing.configure(swerveDrive, 0);
         diagnosticsInit();
     }
