@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -209,6 +210,10 @@ public class SwerveDrive extends SubsystemBase {
                 gyro.reset();
         }
 
+        public double getRoll() {
+                return gyro.getRoll();
+        }
+
         /**
          * Method to get the facing direction of the gyro.
          * 
@@ -348,26 +353,28 @@ public class SwerveDrive extends SubsystemBase {
         //* I copied this one from documentation */
         public Command followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) {
                 return new SequentialCommandGroup(
-                     new InstantCommand(() -> {
-                       // Reset odometry for the first path you run during auto
-                       if(isFirstPath){
-                           this.setOdometry(traj.getInitialHolonomicPose());
-                       }
-                     }),
-                     new WaitCommand(1),
-                     new PPSwerveControllerCommand(
-                         traj, 
-                         this::getPose, // Pose supplier
-                         RobotMap.DRIVE_KINEMATICS, // SwerveDriveKinematics
-                         xPID, // X controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
-                         yPID, // Y controller (usually the same values as X controller)
-                         turnPID, // Rotation controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
-                         this::setModuleStates, // Module states consumer
-                         true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
-                         this // Requires this drive subsystem
-                     )
-                 );
-             }
+                                new InstantCommand(() -> {
+                                        // Reset odometry for the first path you run during auto
+                                        if (isFirstPath) {
+                                                this.setOdometry(traj.getInitialHolonomicPose());
+                                        }
+                                }),
+                                new WaitCommand(1),
+                                new PPSwerveControllerCommand(
+                                                traj,
+                                                this::getPose, // Pose supplier
+                                                RobotMap.DRIVE_KINEMATICS, // SwerveDriveKinematics
+                                                xPID, // X controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
+                                                yPID, // Y controller (usually the same values as X controller)
+                                                turnPID, // Rotation controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
+                                                this::setModuleStates, // Module states consumer
+                                                true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
+                                                this // Requires this drive subsystem
+                                ));
+        }
+        
+        
+
 
         public void test(double driveSpeed, double turnSpeed) {
                 backRight.driveAndTurn(driveSpeed, turnSpeed);
