@@ -15,6 +15,9 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.SPI;
@@ -24,6 +27,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -373,8 +377,24 @@ public class SwerveDrive extends SubsystemBase {
                                 ));
         }
         
+        public Command moveCommand() {
+                TrajectoryConfig trajectoryConfig = new TrajectoryConfig(RobotMap.MAX_DRIVE_SPEED_METERS_PER_SECOND, 1).setKinematics(RobotMap.DRIVE_KINEMATICS);
+                Trajectory trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), null, new Pose2d(5, 0, new Rotation2d(0)), trajectoryConfig);
+                return new SwerveControllerCommand(trajectory, getPose(), RobotMap.DRIVE_KINEMATICS, xPID, yPID, turnPID, );
+        }
+        // public Command moveTo(double position) {
+        //         return new RunCommand(() -> {
+        //                 double speed = yPID.calculate(frontRight.getDrivePosition(), position) * RobotMap.MAX_DRIVE_SPEED_METERS_PER_SECOND;
+        //                 SwerveModuleState[] states = {new SwerveModuleState(speed, new Rotation2d(frontRight.getTurnPosition())), new SwerveModuleState(speed, new Rotation2d(frontLeft.getTurnPosition())), new SwerveModuleState(speed, new Rotation2d(backRight.getTurnPosition())), new SwerveModuleState(speed, new Rotation2d(backLeft.getTurnPosition()))};
+        //                 setModuleStates(states);
+        //         }, this) {
+        //                 @Override
+        //                 public boolean isFinished() {
+        //                    return Math.abs(frontRight.getDrivePosition() - position) < 0.2;
+        //                 }
+        //         };
+        // }
         
-
 
         public void test(double driveSpeed, double turnSpeed) {
                 backRight.driveAndTurn(driveSpeed, turnSpeed);
