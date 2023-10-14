@@ -115,19 +115,19 @@ public interface RobotMap {
     );
 
     //Arm constants
-    public static final int ARM_RIGHT_1 = 100;
+    public static final int ARM_RIGHT_1 = 14;
     public static final boolean ARM_RIGHT_1_REVERSED = false;
-    public static final int ARM_RIGHT_2 = 200;
+    public static final int ARM_RIGHT_2 = 13;
     public static final boolean ARM_RIGHT_2_REVERSED = false;
-    public static final int ARM_LEFT_1 = 300;
+    public static final int ARM_LEFT_1 = 12;
     public static final boolean ARM_LEFT_1_REVERSED = false;
-    public static final int ARM_LEFT_2 = 400;
+    public static final int ARM_LEFT_2 = 9;
     public static final boolean ARM_LEFT_2_REVERSED = false;
-    public static final int TOP_ARM = 700;
+    public static final int TOP_ARM = 15;
     public static final boolean TOP_ARM_REVERSED = false;
     //intake constants
-    public static final int INTAKE_1 = 500;
+    public static final int INTAKE_1 = 11;
     public static final boolean INTAKE_1_REVERSED = false;
-    public static final int INTAKE_2 = 600;
+    public static final int INTAKE_2 = 10;
     public static final boolean INTAKE_2_REVERSED = false;
 }

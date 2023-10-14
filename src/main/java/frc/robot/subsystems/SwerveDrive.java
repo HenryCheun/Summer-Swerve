@@ -19,6 +19,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
@@ -37,6 +38,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.helpers.CCSparkMax;
 import frc.maps.RobotMap;
 import frc.robot.RobotContainer;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
 /**
  * Class for controlling a swerve drive chassis. Consists of 4 SwerveModules and
@@ -143,6 +145,7 @@ public class SwerveDrive extends SubsystemBase {
         SwerveDriveOdometry odometer;
         PIDController xPID, yPID;
         PIDController turnPID;
+        ProfiledPIDController turnPIDProfiled;
         // ProfiledPIDController turnPID;
 
         /** Module positions used for odometry */
@@ -191,7 +194,8 @@ public class SwerveDrive extends SubsystemBase {
 
         // *TODO: Possibly research profiled PID
         // turnPID = new ProfiledPIDController(0.5, 0, 0, RobotMap.thetaControllConstraints);
-        turnPID = new PIDController(0.7, 0, 0);
+        turnPID = new PIDController(.7, 0, 0);
+        turnPIDProfiled = new ProfiledPIDController(.7, 0, 0, new Constraints(RobotMap.MAX_ANGULAR_SPEED_RADIANS_PER_SECOND, RobotMap.TURN_RATE_LIMIT));
                 turnPID.enableContinuousInput(-Math.PI,Math.PI);
 
                 initShuffleBoardEncoders();
@@ -380,7 +384,7 @@ public class SwerveDrive extends SubsystemBase {
         public Command moveCommand() {
                 TrajectoryConfig trajectoryConfig = new TrajectoryConfig(RobotMap.MAX_DRIVE_SPEED_METERS_PER_SECOND, 1).setKinematics(RobotMap.DRIVE_KINEMATICS);
                 Trajectory trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), null, new Pose2d(5, 0, new Rotation2d(0)), trajectoryConfig);
-                return new SwerveControllerCommand(trajectory, getPose(), RobotMap.DRIVE_KINEMATICS, xPID, yPID, turnPID, );
+                return new SwerveControllerCommand(trajectory, this::getPose, RobotMap.DRIVE_KINEMATICS, xPID, yPID, turnPIDProfiled, this::setModuleStates, this);
         }
         // public Command moveTo(double position) {
         //         return new RunCommand(() -> {
