@@ -36,18 +36,18 @@ public class Balance extends CommandBase {
     // signs.
     public void execute() {
         // double ang = -swerveDrive.gyro.getRoll();
-        double ang = swerveDrive.getRoll();
+        double ang = swerveDrive.getPitch();
         if (lastAngle * ang <= 0) {
             dampen *= 0.6;
             // Timer.delay(1);
         }
         ChassisSpeeds speeds;
-        if (ang < -4) {
-            speeds = ChassisSpeeds.fromFieldRelativeSpeeds(baseSpeed * dampen, 0, 0, swerveDrive.getRotation2d());
+        if (ang < -1) {
+            speeds = ChassisSpeeds.fromFieldRelativeSpeeds(-baseSpeed * dampen, 0, 0, swerveDrive.getRotation2d());
             moduleStates = RobotMap.DRIVE_KINEMATICS.toSwerveModuleStates(speeds);
             swerveDrive.setModuleStates(moduleStates);
-        } else if (ang > 4) {
-            speeds = ChassisSpeeds.fromFieldRelativeSpeeds(-baseSpeed * dampen, 0, 0, swerveDrive.getRotation2d());
+        } else if (ang > 1) {
+            speeds = ChassisSpeeds.fromFieldRelativeSpeeds(baseSpeed * dampen, 0, 0, swerveDrive.getRotation2d());
             moduleStates = RobotMap.DRIVE_KINEMATICS.toSwerveModuleStates(speeds);
             swerveDrive.setModuleStates(moduleStates);
         } else {

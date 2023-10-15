@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.controlschemes.MechanismScheme;
 import frc.controlschemes.SwerveDriveScheme;
 import frc.maps.RobotMap;
+import frc.robot.autonomous.Balance;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SwerveDrive;
@@ -32,7 +33,7 @@ public class RobotContainer {
     /** Command List for auto paths in SmartDashBoard */
     SendableChooser<CommandBase> autoCommands = new SendableChooser<CommandBase>();
 
-    private final String[] paths = {"outback","out","outturn","turn", "move red" };
+    private final String[] paths = {"outback","out","outturn","turn", "move red","meters" };
     // private static String[] paths = { "move" };
     
 
@@ -66,7 +67,10 @@ Field2d ff;
         for (String pathName : paths) {
             autoCommands.addOption(pathName, followPathPlanner(pathName).withName(pathName));
         }
+        autoCommands.setDefaultOption("Nothing", Commands.run(() -> swerveDrive.printWorld(), swerveDrive).withName("Nothing"));
         SmartDashboard.putData("Auto", autoCommands);
+        autoCommands.addOption("balance", new Balance(swerveDrive));
+        autoCommands.addOption("Move Straight", swerveDrive.moveCommand().withName("Move Straight"));
         
         Shuffleboard.getTab("Diagnostics").add("SwerveDrive", swerveDrive);
         // Shuffleboard.getTab("Config").add("Run Auto", getAutoCommand()).withWidget(BuiltInWidgets.kCommand);

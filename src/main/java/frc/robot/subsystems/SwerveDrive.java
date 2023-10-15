@@ -1,5 +1,8 @@
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.FollowPathWithEvents;
@@ -11,6 +14,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -187,8 +191,8 @@ public class SwerveDrive extends SubsystemBase {
 
                 //  xPID = new PIDController(.5, .15, 0);
                 //  yPID = new PIDController(.5, .15, 0);
-                xPID = new PIDController(.5, 0, 0);
-                yPID = new PIDController(.5, 0, 0);
+                xPID = new PIDController(1, 0, 0);
+                yPID = new PIDController(1, 0, 0);
                 
                 
 
@@ -250,6 +254,9 @@ public class SwerveDrive extends SubsystemBase {
                 SmartDashboard.putNumber("Wheel Velocity", frontRight.getDriveVelocity());
                 SmartDashboard.putNumber("X", odometer.getPoseMeters().getX());
                 SmartDashboard.putNumber("Y", odometer.getPoseMeters().getY());
+                SmartDashboard.putNumber("Pitch", this.getPitch());
+                SmartDashboard.putNumber("Roll", gyro.getRoll());
+                SmartDashboard.putNumber("Yaw", gyro.getYaw());
                 m_field.setRobotPose(odometer.getPoseMeters());
                 updateShuffleBoardEncoders();        
 
@@ -382,10 +389,12 @@ public class SwerveDrive extends SubsystemBase {
         }
         
         public Command moveCommand() {
+                List<Translation2d> midpts = new ArrayList<Translation2d>();
+                midpts.add(new Translation2d(1, 0));
                 TrajectoryConfig trajectoryConfig = new TrajectoryConfig(RobotMap.MAX_DRIVE_SPEED_METERS_PER_SECOND, 1).setKinematics(RobotMap.DRIVE_KINEMATICS);
-                Trajectory trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), null, new Pose2d(5, 0, new Rotation2d(0)), trajectoryConfig);
+                Trajectory trajectory = TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)),midpts, new Pose2d(2.5, 0, new Rotation2d(0)), trajectoryConfig);
                 return new SwerveControllerCommand(trajectory, this::getPose, RobotMap.DRIVE_KINEMATICS, xPID, yPID, turnPIDProfiled, this::setModuleStates, this);
-        }
+        }       
         // public Command moveTo(double position) {
         //         return new RunCommand(() -> {
         //                 double speed = yPID.calculate(frontRight.getDrivePosition(), position) * RobotMap.MAX_DRIVE_SPEED_METERS_PER_SECOND;
@@ -497,7 +506,13 @@ public class SwerveDrive extends SubsystemBase {
                 // enc_BL_vel_Entry.setDouble(backLeft.getTurnVelocity());
         }
 
+        public void printWorld(){
+                System.out.println("Hello World!");
+        }
 
+        public double getPitch(){
+                return gyro.getPitch() - 1.14;
+        }
 
 
 }
