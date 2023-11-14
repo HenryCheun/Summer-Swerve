@@ -60,7 +60,7 @@ public class SwerveDrive extends SubsystemBase {
                                         MotorType.kBrushless,
                                         IdleMode.kCoast,
                                         RobotMap.FRONT_RIGHT_DRIVE_REVERSE,
-                                        RobotMap.DRIVE_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS_METERS,
+                                        RobotMap.HORIZONTAL_DISTANCE_TRAVELLED_PER_MOTOR_REVOLUTION,
                                         RobotMap.DRIVE_MOTOR_METERS_PER_SECOND),
                         new CCSparkMax(
                                         "Front Right Turn",
@@ -83,7 +83,7 @@ public class SwerveDrive extends SubsystemBase {
                                         MotorType.kBrushless,
                                         IdleMode.kCoast,
                                         RobotMap.FRONT_LEFT_DRIVE_REVERSE,
-                                        RobotMap.DRIVE_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS_METERS,
+                                        RobotMap.HORIZONTAL_DISTANCE_TRAVELLED_PER_MOTOR_REVOLUTION,
                                         RobotMap.DRIVE_MOTOR_METERS_PER_SECOND),
                         new CCSparkMax(
                                         "Front Left Turn",
@@ -106,7 +106,7 @@ public class SwerveDrive extends SubsystemBase {
                                         MotorType.kBrushless,
                                         IdleMode.kCoast,
                                         RobotMap.BACK_RIGHT_DRIVE_REVERSE,
-                                        RobotMap.DRIVE_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS_METERS,
+                                        RobotMap.HORIZONTAL_DISTANCE_TRAVELLED_PER_MOTOR_REVOLUTION,
                                         RobotMap.DRIVE_MOTOR_METERS_PER_SECOND),
                         new CCSparkMax(
                                         "Back Right Turn",
@@ -129,7 +129,7 @@ public class SwerveDrive extends SubsystemBase {
                                         MotorType.kBrushless,
                                         IdleMode.kCoast,
                                         RobotMap.BACK_LEFT_DRIVE_REVERSE,
-                                        RobotMap.DRIVE_MOTOR_ROTATIONS_TO_WHEEL_ROTATIONS_METERS,
+                                        RobotMap.HORIZONTAL_DISTANCE_TRAVELLED_PER_MOTOR_REVOLUTION,
                                         RobotMap.DRIVE_MOTOR_METERS_PER_SECOND),
                         new CCSparkMax(
                                         "Back Left Turn",
@@ -257,6 +257,14 @@ public class SwerveDrive extends SubsystemBase {
                 SmartDashboard.putNumber("Pitch", this.getPitch());
                 SmartDashboard.putNumber("Roll", gyro.getRoll());
                 SmartDashboard.putNumber("Yaw", gyro.getYaw());
+                
+                SmartDashboard.putNumber("FR", frontRight.getDriveVelocity());
+                SmartDashboard.putNumber("FL", frontLeft.getDriveVelocity());
+                SmartDashboard.putNumber("BR", backRight.getDriveVelocity());
+                SmartDashboard.putNumber("BL", backLeft.getDriveVelocity());
+
+
+
                 m_field.setRobotPose(odometer.getPoseMeters());
                 updateShuffleBoardEncoders();        
 
@@ -283,11 +291,12 @@ public class SwerveDrive extends SubsystemBase {
          *                      in the SwerveModuleState format.
          */
         public void setModuleStates(SwerveModuleState[] desiredStates) {
+                boolean openLoop = true;
                 SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, RobotMap.MAX_DRIVE_SPEED_METERS_PER_SECOND);
-                frontRight.setDesiredState(desiredStates[0]);
-                frontLeft.setDesiredState(desiredStates[1]);
-                backRight.setDesiredState(desiredStates[2]);
-                backLeft.setDesiredState(desiredStates[3]);
+                frontRight.setDesiredState(desiredStates[0], openLoop);
+                frontLeft.setDesiredState(desiredStates[1], openLoop);
+                backRight.setDesiredState(desiredStates[2],openLoop);
+                backLeft.setDesiredState(desiredStates[3], openLoop);
         }
 
         /**
