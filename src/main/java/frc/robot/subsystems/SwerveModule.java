@@ -133,11 +133,10 @@ public class SwerveModule extends SubsystemBase {
      * @param state The state to set the swerve module to in SwerveModuleState format.
      */
     public void setDesiredState(SwerveModuleState state, boolean isOpenLoop){
-        if(Math.abs(state.speedMetersPerSecond) <= .01){
+        if(Math.abs(state.speedMetersPerSecond) <= .005){
             stop();
             return;
         }
-
         state = SwerveModuleState.optimize(state, getState().angle);
         //integrate max speed here
             // isOpenLoop would be true in teleop perhaps because some drivers, like ours prefers it that way
@@ -146,7 +145,7 @@ public class SwerveModule extends SubsystemBase {
             // Only using feedfoward here, no PID because in teleop we don't really need to correct it
             driveMotor.setVoltage(feedforwardVoltage);
         } else {
-            driveMotor.setVoltage(feedforwardVoltage + drivingPidController.calculate(getDriveVelocity(), state.speedMetersPerSecond);
+            driveMotor.setVoltage(feedforwardVoltage + drivingPidController.calculate(getDriveVelocity(), state.speedMetersPerSecond));
         }
         turnMotor.set(turningPIDController.calculate(getTurnPosition(), state.angle.getRadians()));
     }
