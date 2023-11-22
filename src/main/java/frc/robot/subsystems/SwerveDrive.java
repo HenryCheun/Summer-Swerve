@@ -375,7 +375,7 @@ public class SwerveDrive extends SubsystemBase {
 
         
         //* I copied this one from documentation */
-        public Command followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) {
+        public Command followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) { 
                 return new SequentialCommandGroup(
                                 new InstantCommand(() -> {
                                         // Reset odometry for the first path you run during auto
