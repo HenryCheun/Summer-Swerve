@@ -58,7 +58,7 @@ public class SwerveDrive extends SubsystemBase {
                                         "frd",
                                         RobotMap.FRONT_RIGHT_DRIVE,
                                         MotorType.kBrushless,
-                                        IdleMode.kCoast,
+                                        IdleMode.kBrake,
                                         RobotMap.FRONT_RIGHT_DRIVE_REVERSE,
                                         RobotMap.HORIZONTAL_DISTANCE_TRAVELLED_PER_MOTOR_REVOLUTION,
                                         RobotMap.DRIVE_MOTOR_METERS_PER_SECOND),
@@ -81,7 +81,7 @@ public class SwerveDrive extends SubsystemBase {
                                         "fld",
                                         RobotMap.FRONT_LEFT_DRIVE,
                                         MotorType.kBrushless,
-                                        IdleMode.kCoast,
+                                        IdleMode.kBrake,
                                         RobotMap.FRONT_LEFT_DRIVE_REVERSE,
                                         RobotMap.HORIZONTAL_DISTANCE_TRAVELLED_PER_MOTOR_REVOLUTION,
                                         RobotMap.DRIVE_MOTOR_METERS_PER_SECOND),
@@ -104,7 +104,7 @@ public class SwerveDrive extends SubsystemBase {
                                         "brd",
                                         RobotMap.BACK_RIGHT_DRIVE,
                                         MotorType.kBrushless,
-                                        IdleMode.kCoast,
+                                        IdleMode.kBrake,
                                         RobotMap.BACK_RIGHT_DRIVE_REVERSE,
                                         RobotMap.HORIZONTAL_DISTANCE_TRAVELLED_PER_MOTOR_REVOLUTION,
                                         RobotMap.DRIVE_MOTOR_METERS_PER_SECOND),
@@ -127,7 +127,7 @@ public class SwerveDrive extends SubsystemBase {
                                         "bld",
                                         RobotMap.BACK_LEFT_DRIVE,
                                         MotorType.kBrushless,
-                                        IdleMode.kCoast,
+                                        IdleMode.kBrake,
                                         RobotMap.BACK_LEFT_DRIVE_REVERSE,
                                         RobotMap.HORIZONTAL_DISTANCE_TRAVELLED_PER_MOTOR_REVOLUTION,
                                         RobotMap.DRIVE_MOTOR_METERS_PER_SECOND),
@@ -189,10 +189,10 @@ public class SwerveDrive extends SubsystemBase {
 
                 odometer = new SwerveDriveOdometry(RobotMap.DRIVE_KINEMATICS, new Rotation2d(0), swerveModulePositions);
 
-                //  xPID = new PIDController(.5, .15, 0);
-                //  yPID = new PIDController(.5, .15, 0);
-                xPID = new PIDController(1, 0, 0);
-                yPID = new PIDController(1, 0, 0);
+                 xPID = new PIDController(.5, .15, 0);
+                 yPID = new PIDController(.5, .15, 0);
+                // xPID = new PIDController(1, 0, 0);
+                // yPID = new PIDController(1, 0, 0);
                 
                 
 

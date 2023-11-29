@@ -36,8 +36,8 @@ public class SwerveDriveScheme implements ControlScheme {
         Shuffleboard.getTab("Diagnostics").getLayout("Swerve", "List").add("isCentric",fieldCentric).withWidget(BuiltInWidgets.kBooleanBox);
        Shuffleboard.getTab("Diagnostics").addBoolean("Field Centric", fieldCentricSupplier).withWidget(BuiltInWidgets.kToggleSwitch);
 
-        SlewRateLimiter xRateLimiter = new SlewRateLimiter(RobotMap.DRIVE_RATE_LIMIT);
-        SlewRateLimiter yRateLimiter = new SlewRateLimiter(RobotMap.DRIVE_RATE_LIMIT);
+        SlewRateLimiter xRateLimiter = new SlewRateLimiter(RobotMap.DRIVE_RATE_LIMIT, -RobotMap.DRIVE_RATE_LIMIT, 0);
+        SlewRateLimiter yRateLimiter = new SlewRateLimiter(RobotMap.DRIVE_RATE_LIMIT, -RobotMap.DRIVE_RATE_LIMIT, 0);
         SlewRateLimiter turnRateLimiter = new SlewRateLimiter(RobotMap.TURN_RATE_LIMIT);
 
         swerveDrive.setDefaultCommand(new RunCommand(() -> {
@@ -82,7 +82,7 @@ public class SwerveDriveScheme implements ControlScheme {
             .onTrue(new InstantCommand(() -> toggleFieldCentric()));
         new JoystickButton(controllers[port], ControlMap.A_BUTTON)
             .onTrue(new InstantCommand(() -> swerveDrive.zeroHeading()));
-            new JoystickButton(controllers[port], ControlMap.Y_BUTTON)
+        new JoystickButton(controllers[port], ControlMap.Y_BUTTON)
             .onTrue(new InstantCommand(() -> swerveDrive.setOdometry(new Pose2d(0, 0, null))));   
     }
 
