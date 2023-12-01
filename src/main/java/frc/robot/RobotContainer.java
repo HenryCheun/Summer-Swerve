@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.controlschemes.MechanismScheme;
 import frc.controlschemes.SwerveDriveScheme;
+import frc.controlschemes.Testing;
 import frc.maps.RobotMap;
 import frc.robot.autonomous.Balance;
 import frc.robot.subsystems.Arm;
@@ -100,7 +101,7 @@ Field2d ff;
         return Commands.sequence(
                 Commands.waitSeconds(1),
                 Commands.runOnce(swerveDrive::resetOdometry, swerveDrive),
-                swerveDrive.followPath(traj),
+                swerveDrive.followTrajectoryCommand(traj, true),
                 Commands.runOnce(swerveDrive::stopModules, swerveDrive));
     }
 

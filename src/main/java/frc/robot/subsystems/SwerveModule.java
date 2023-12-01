@@ -106,6 +106,7 @@ public class SwerveModule extends SubsystemBase {
      */
     public double getAbsoluteEncoderRadians() {
         // return absoluteEncoder.getAbsolutePosition() * 2 * Math.PI;
+        // return Units.rotationsToRadians(absoluteEncoder.getAbsolutePosition());
         return Units.rotationsToRadians(absoluteEncoder.getAbsolutePosition()) - absoluteEncoderOffset;
     }
 
@@ -147,7 +148,7 @@ public class SwerveModule extends SubsystemBase {
         //     driveMotor.setVoltage(feedforwardVoltage);
         // } else {
         //     driveMotor.setVoltage(feedforwardVoltage + drivingPidController.calculate(getDriveVelocity(), state.speedMetersPerSecond));
-        // }
+        // }c
         // driveMotor.set(drivingPidController.calculate(getDriveVelocity(), state.speedMetersPerSecond));
         driveMotor.set(state.speedMetersPerSecond);
         turnMotor.set(turningPIDController.calculate(getTurnPosition(), state.angle.getRadians()));

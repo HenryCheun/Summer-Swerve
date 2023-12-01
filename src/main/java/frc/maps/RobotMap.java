@@ -88,10 +88,18 @@ public interface RobotMap {
      public static final int BACK_LEFT_ABSOLUTE_ENCODER = 1;
 
      //Absolute encoder offsets
-    public static final double FRONT_RIGHT_ABSOLUTE_ENCODER_OFFSET = 2.80;
-    public static final double FRONT_LEFT_ABSOLUTE_ENCODER_OFFSET = 4.85;
-    public static final double BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET = 2.49;
-    public static final double BACK_LEFT_ABSOLUTE_ENCODER_OFFSET = 5.42;
+
+     //old
+    // public static final double FRONT_RIGHT_ABSOLUTE_ENCODER_OFFSET = 2.80;
+    // public static final double FRONT_LEFT_ABSOLUTE_ENCODER_OFFSET = 4.85;
+    // public static final double BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET = 2.49;
+    // public static final double BACK_LEFT_ABSOLUTE_ENCODER_OFFSET = 5.42;
+
+    //new
+    public static final double FRONT_RIGHT_ABSOLUTE_ENCODER_OFFSET = 5.968;
+    public static final double FRONT_LEFT_ABSOLUTE_ENCODER_OFFSET = 1.752;
+    public static final double BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET = 5.623;
+    public static final double BACK_LEFT_ABSOLUTE_ENCODER_OFFSET = 2.378;
 
     //Velocity Limits
     public static final double MAX_DRIVE_SPEED_METERS_PER_SECOND = 3;

@@ -355,23 +355,22 @@ public class SwerveDrive extends SubsystemBase {
          */
 
         //docs: https://github.com/mjansen4857/pathplanner/wiki/PathPlannerLib:-Java-Usage
-        public Command followPath(PathPlannerTrajectory traj) {
-                return new SequentialCommandGroup(
-                                new InstantCommand(() -> {
-                                        setOdometry(traj.getInitialHolonomicPose());
-                                }),
-                                new ParallelCommandGroup(
-                                                new FollowPathWithEvents(
-                                                                // Path following command
-                                                                new PPSwerveControllerCommand(traj, this::getPose,
-                                                                                RobotMap.DRIVE_KINEMATICS, xPID,
-                                                                                yPID, turnPID, this::setModuleStates,
-                                                                                false, this),
-                                                                traj.getMarkers(),
-                                                                RobotContainer.eventMap)
-                                // new RunCommand(() -> System.out.println(getPose()))
-                                ));
-        }
+        // public Command followPath(PathPlannerTrajectory traj) {
+        //         return new SequentialCommandGroup(
+        //                         new InstantCommand(() -> {
+        //                                 setOdometry(traj.getInitialHolonomicPose());
+        //                         }),
+        //                         new ParallelCommandGroup(
+        //                                         new FollowPathWithEvents(
+        //                                                         // Path following command
+        //                                                         new PPSwerveControllerCommand(traj, this::getPose,
+        //                                                                         RobotMap.DRIVE_KINEMATICS, xPID,
+        //                                                                         yPID, turnPID, this::setModuleStates,
+        //                                                                         false, this),
+        //                                                         )
+        //                         // new RunCommand(() -> System.out.println(getPose()))
+        //                         ));
+        // }
 
         
         //* I copied this one from documentation */
@@ -384,17 +383,19 @@ public class SwerveDrive extends SubsystemBase {
                                         }
                                 }),
                                 new WaitCommand(1),
-                                new PPSwerveControllerCommand(
-                                                traj,
-                                                this::getPose, // Pose supplier
-                                                RobotMap.DRIVE_KINEMATICS, // SwerveDriveKinematics
-                                                xPID, // X controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
-                                                yPID, // Y controller (usually the same values as X controller)
-                                                turnPID, // Rotation controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
-                                                this::setModuleStates, // Module states consumer
-                                                true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
-                                                this // Requires this drive subsystem
-                                ));
+                                new FollowPathWithEvents( new PPSwerveControllerCommand(
+                                        traj,
+                                        this::getPose, // Pose supplier
+                                        RobotMap.DRIVE_KINEMATICS, // SwerveDriveKinematics
+                                        xPID, // X controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
+                                        yPID, // Y controller (usually the same values as X controller)
+                                        turnPID, // Rotation controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
+                                        this::setModuleStates, // Module states consumer
+                                        true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
+                                        this // Requires this drive subsystem
+                        ), traj.getMarkers(),
+                        RobotContainer.eventMap)
+                               );
         }
         
         public Command moveCommand() {
