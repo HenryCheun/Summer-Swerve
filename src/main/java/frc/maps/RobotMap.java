@@ -139,8 +139,8 @@ public interface RobotMap {
 
     public static final double ARM_TOP_LIMIT = 0.3;
     //intake constants
-    public static final int INTAKE_1 = 11;
-    public static final boolean INTAKE_1_REVERSED = false;
-    public static final int INTAKE_2 = 10;
-    public static final boolean INTAKE_2_REVERSED = false;
+    public static final int FRONT_INTAKE = 11;
+    public static final boolean FRONT_INTAKE_REVERSED = false;
+    public static final int BACK_INTAKE = 10;
+    public static final boolean BACK_INTAKE_REVERSED = false;
 }
