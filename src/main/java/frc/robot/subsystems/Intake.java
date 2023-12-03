@@ -18,8 +18,8 @@ public class Intake extends SubsystemBase {
         front.set(frontSpeed * (isReversed ? -1 : 1));
         back.set(backSpeed * (isReversed ? -1 : 1));
     }
-    public void toggleReverse() {
-        isReversed = !isReversed;
+    public void toggleReverse(boolean value) {
+        isReversed = value;
     }
 
     @Override

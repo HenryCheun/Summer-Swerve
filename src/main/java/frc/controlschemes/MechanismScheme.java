@@ -21,7 +21,7 @@ public class MechanismScheme {
                 OI.axis(1, ControlMap.LT), OI.axis(1, ControlMap.RT)), intake));
 
         new JoystickButton(OI.joystickArray[1], ControlMap.A_BUTTON)
-                .onTrue(Commands.run(() -> intake.toggleReverse(), intake));
+                .onTrue(Commands.run(() -> intake.toggleReverse(true), intake)).onFalse(Commands.run(() -> intake.toggleReverse(false), intake));
         // new JoystickButton(OI.joystickArray[1],
         // ControlMap.B_BUTTON).onTrue(Commands.run(() -> intake.spin(-0.5), intake));
     }
