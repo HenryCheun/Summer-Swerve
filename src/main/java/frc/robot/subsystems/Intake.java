@@ -11,8 +11,7 @@ import frc.maps.RobotMap;
 
 public class Intake extends SubsystemBase {
     private CCSparkMax front = new CCSparkMax("Front", "F", RobotMap.FRONT_INTAKE, MotorType.kBrushless, IdleMode.kBrake, RobotMap.FRONT_INTAKE_REVERSED);
-    private CCSparkMax back = new CCSparkMax("Back", "B", RobotMap.BACK_INTAKE, MotorType.kBrushless, IdleMode.kBrake,
-            RobotMap.BACK_INTAKE_REVERSED);
+    private CCSparkMax back = new CCSparkMax("Back", "B", RobotMap.BACK_INTAKE, MotorType.kBrushless, IdleMode.kBrake, RobotMap.BACK_INTAKE_REVERSED);
     private boolean isReversed = false;
     // MotorControllerGroup intake = new MotorControllerGroup(intake1, intake2);
     public void spin(double frontSpeed, double backSpeed) {
