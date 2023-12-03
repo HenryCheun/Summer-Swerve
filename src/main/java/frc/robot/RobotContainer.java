@@ -36,7 +36,7 @@ public class RobotContainer {
     /** Command List for auto paths in SmartDashBoard */
     
     LoggedDashboardChooser<Command> autoCommands = new LoggedDashboardChooser<Command>("Auto Commands");
-    private final String[] paths = {"outback","out","outturn","turn", "move red","meters" };
+    private final String[] paths = {"outback","out","outturn","turn","meters", "EventTest"};
     // private static String[] paths = { "move" };
     
 
@@ -62,7 +62,7 @@ Field2d ff;
         SwerveDriveScheme.configure(swerveDrive, 0);
         MechanismScheme.configure(intake, arm);
         // Testing.configure(swerveDrive, 0);
-        eventMap.put("toggle", Commands.runOnce(() -> swerveDrive.toggleEvent(), swerveDrive));
+        eventMap.put("toggle", Commands.runOnce(() -> swerveDrive.toggleEvent(), intake));
 
 
         diagnosticsInit();

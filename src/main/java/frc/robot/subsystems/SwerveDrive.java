@@ -194,8 +194,8 @@ public class SwerveDrive extends SubsystemBase {
 
                 odometer = new SwerveDriveOdometry(RobotMap.DRIVE_KINEMATICS, new Rotation2d(0), swerveModulePositions);
 
-                 xPID = new PIDController(.5, .15, 0);
-                 yPID = new PIDController(.5, .15, 0);
+                 xPID = new PIDController(.7, .1, 0);
+                 yPID = new PIDController(.7, .1, 0);
                 // xPID = new PIDController(1, 0, 0);
                 // yPID = new PIDController(1, 0, 0);
                 
