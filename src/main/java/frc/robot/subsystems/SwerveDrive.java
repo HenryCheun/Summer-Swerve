@@ -49,6 +49,11 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
  * a gyro.
  */
 public class SwerveDrive extends SubsystemBase {
+
+        private boolean test = false;
+
+
+
         // Initializing swerve modules. Must include full CCSparkMax object
         // declarations.
         private final Field2d m_field = new Field2d();
@@ -263,12 +268,18 @@ public class SwerveDrive extends SubsystemBase {
                 SmartDashboard.putNumber("BR", backRight.getDriveVelocity());
                 SmartDashboard.putNumber("BL", backLeft.getDriveVelocity());
 
+                SmartDashboard.putBoolean("Event Test", test);
+
 
 
                 m_field.setRobotPose(odometer.getPoseMeters());
                 updateShuffleBoardEncoders();        
 
                 updateOdometer();
+        }
+
+        public void toggleEvent(){
+                test = !test;
         }
 
         /**

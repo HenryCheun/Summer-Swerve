@@ -62,6 +62,9 @@ Field2d ff;
         SwerveDriveScheme.configure(swerveDrive, 0);
         MechanismScheme.configure(intake, arm);
         // Testing.configure(swerveDrive, 0);
+        eventMap.put("toggle", Commands.runOnce(() -> swerveDrive.toggleEvent(), swerveDrive));
+
+
         diagnosticsInit();
     }
 
@@ -71,7 +74,7 @@ Field2d ff;
             autoCommands.addOption(pathName, followPathPlanner(pathName).withName(pathName));
         }
         autoCommands.addDefaultOption("Nothing", Commands.run(() -> swerveDrive.printWorld(), swerveDrive).withName("Nothing"));
-        SmartDashboard.putData("Auto", autoCommands);
+        SmartDashboard.putData("Auto", autoCommands.getSendableChooser());
         autoCommands.addOption("balance", new Balance(swerveDrive));
         autoCommands.addOption("Move Straight", swerveDrive.moveCommand().withName("Move Straight"));
         
@@ -80,17 +83,7 @@ Field2d ff;
     }
 
     public Command getAutoCommand() {
-        // return new Autonomous(selector.value(), swerveDrive);
-        return autoCommands.getSelected();
-        
-        // PathPlannerTrajectory traj = PathPlanner.loadPath("zero",
-        //         RobotMap.AUTO_PATH_CONSTRAINTS);
-        
-        // // return swerveDrive.followTrajectoryCommand(traj, true);
-        // return followPathPlanner("string");
-
-        // return autoBuilder.followPath(traj);
-
+        return autoCommands.get();
     }
 
     /**
