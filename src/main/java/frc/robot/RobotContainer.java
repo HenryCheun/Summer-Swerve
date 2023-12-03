@@ -2,6 +2,8 @@ package frc.robot;
 
 import java.util.HashMap;
 
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -32,8 +34,8 @@ public class RobotContainer {
     /** Event map for path planner */
     public static HashMap<String, Command> eventMap = new HashMap<>();
     /** Command List for auto paths in SmartDashBoard */
-    SendableChooser<CommandBase> autoCommands = new SendableChooser<CommandBase>();
-
+    
+    LoggedDashboardChooser<CommandBase> autoCommands = new LoggedDashboardChooser<CommandBase>("Auto Commands");
     private final String[] paths = {"outback","out","outturn","turn", "move red","meters" };
     // private static String[] paths = { "move" };
     
@@ -68,7 +70,7 @@ Field2d ff;
         for (String pathName : paths) {
             autoCommands.addOption(pathName, followPathPlanner(pathName).withName(pathName));
         }
-        autoCommands.setDefaultOption("Nothing", Commands.run(() -> swerveDrive.printWorld(), swerveDrive).withName("Nothing"));
+        autoCommands.addDefaultOption("Nothing", Commands.run(() -> swerveDrive.printWorld(), swerveDrive).withName("Nothing"));
         SmartDashboard.putData("Auto", autoCommands);
         autoCommands.addOption("balance", new Balance(swerveDrive));
         autoCommands.addOption("Move Straight", swerveDrive.moveCommand().withName("Move Straight"));
