@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.FollowPathWithEvents;
@@ -304,6 +306,7 @@ public class SwerveDrive extends SubsystemBase {
         public void setModuleStates(SwerveModuleState[] desiredStates) {
                 boolean openLoop = true;
                 SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, RobotMap.MAX_DRIVE_SPEED_METERS_PER_SECOND);
+                Logger.getInstance().recordOutput("SwerveModuleStates/SetpointsOptimized", desiredStates);
                 frontRight.setDesiredState(desiredStates[0], openLoop);
                 frontLeft.setDesiredState(desiredStates[1], openLoop);
                 backRight.setDesiredState(desiredStates[2],openLoop);
@@ -345,6 +348,7 @@ public class SwerveDrive extends SubsystemBase {
 
         public void updateOdometer() {
                 updateModulePositions();
+                Logger.getInstance().recordOutput("Odometry/Pose2D", odometer.getPoseMeters());
                 odometer.update(getRotation2d(), swerveModulePositions);
         }
 
