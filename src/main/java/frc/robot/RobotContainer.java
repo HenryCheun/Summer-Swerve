@@ -35,7 +35,7 @@ public class RobotContainer {
     public static HashMap<String, Command> eventMap = new HashMap<>();
     /** Command List for auto paths in SmartDashBoard */
     
-    LoggedDashboardChooser<CommandBase> autoCommands = new LoggedDashboardChooser<CommandBase>("Auto Commands");
+    LoggedDashboardChooser<Command> autoCommands = new LoggedDashboardChooser<Command>("Auto Commands");
     private final String[] paths = {"outback","out","outturn","turn", "move red","meters" };
     // private static String[] paths = { "move" };
     
