@@ -3,17 +3,14 @@ package frc.controlschemes;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.diagnostics.BooleanSwitch;
-import frc.diagnostics.CommandSelector;
 import frc.helpers.ControlScheme;
 import frc.helpers.OI;
 import frc.maps.ControlMap;
@@ -36,37 +33,19 @@ public class SwerveDriveScheme implements ControlScheme {
      * @param port The controller port of the driving controller.
      */
     public static void configure(SwerveDrive swerveDrive, int port){
-        BooleanSwitch ffff = new BooleanSwitch("Diagnostics", "fff", fieldCentric);
-        Shuffleboard.getTab("Diagnostics").add("isCentric",fieldCentric).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
+        Shuffleboard.getTab("Diagnostics").getLayout("Swerve", "List").add("isCentric",fieldCentric).withWidget(BuiltInWidgets.kBooleanBox);
        Shuffleboard.getTab("Diagnostics").addBoolean("Field Centric", fieldCentricSupplier).withWidget(BuiltInWidgets.kToggleSwitch);
 
-        SlewRateLimiter xRateLimiter = new SlewRateLimiter(RobotMap.DRIVE_RATE_LIMIT);
-        SlewRateLimiter yRateLimiter = new SlewRateLimiter(RobotMap.DRIVE_RATE_LIMIT);
+        SlewRateLimiter xRateLimiter = new SlewRateLimiter(RobotMap.DRIVE_RATE_LIMIT, -RobotMap.DRIVE_RATE_LIMIT, 0);
+        SlewRateLimiter yRateLimiter = new SlewRateLimiter(RobotMap.DRIVE_RATE_LIMIT, -RobotMap.DRIVE_RATE_LIMIT, 0);
         SlewRateLimiter turnRateLimiter = new SlewRateLimiter(RobotMap.TURN_RATE_LIMIT);
-        
-        InstantCommand com1 = new InstantCommand(() -> swerveDrive.printFrontRight(), swerveDrive);
-        com1.setName("Front Right");
-        InstantCommand com2 = new InstantCommand(() -> swerveDrive.printFrontLeft(), swerveDrive);
-        com2.setName("Front Left");
-        InstantCommand com3 = new InstantCommand(() -> swerveDrive.printBackRight(), swerveDrive);
-        com3.setName("Back Right");
-        InstantCommand com4 = new InstantCommand(() -> swerveDrive.printBackLeft(), swerveDrive);
-        com4.setName("Back Left");
-        CommandSelector commands = new CommandSelector(
-                "Motor Print",
-                com1,
-                com2,
-                com3,
-                com4);
-        
 
         swerveDrive.setDefaultCommand(new RunCommand(() -> {
-            // swerveDrive.periodic();
 
             //Set x, y, and turn speed based on joystick inputs
-            double xSpeed = -OI.axis(port, ControlMap.L_JOYSTICK_VERTICAL);
-            double ySpeed = -OI.axis(port, ControlMap.L_JOYSTICK_HORIZONTAL);
-            double turnSpeed = OI.axis(port, ControlMap.R_JOYSTICK_HORIZONTAL);
+            double xSpeed = -OI.axis(port, ControlMap.L_JOYSTICK_VERTICAL) * .75 * (OI.axis(0, ControlMap.RT) > 0.5 ? 0.5 : (OI.axis(0, ControlMap.LT) > 0.5 ? (4 / 3) : 1));
+            double ySpeed = -OI.axis(port, ControlMap.L_JOYSTICK_HORIZONTAL) * .75 * (OI.axis(0, ControlMap.RT) > 0.5 ? 0.5 : (OI.axis(0, ControlMap.LT) > 0.5 ? (4 / 3) : 1));
+            double turnSpeed = -OI.axis(port, ControlMap.R_JOYSTICK_HORIZONTAL);
 
             //Limits acceleration and speed
             //Possibly change the speed limiting to somewhere else (maybe a normalize function)
@@ -89,8 +68,6 @@ public class SwerveDriveScheme implements ControlScheme {
 
             swerveDrive.setModuleStates(moduleStates);
             
-
-            // commands.value().schedule();
         }, swerveDrive).withName("Swerve Controller Command"));
         configureButtons(swerveDrive, port);
     }
@@ -105,6 +82,8 @@ public class SwerveDriveScheme implements ControlScheme {
             .onTrue(new InstantCommand(() -> toggleFieldCentric()));
         new JoystickButton(controllers[port], ControlMap.A_BUTTON)
             .onTrue(new InstantCommand(() -> swerveDrive.zeroHeading()));
+        new JoystickButton(controllers[port], ControlMap.Y_BUTTON)
+            .onTrue(new InstantCommand(() -> swerveDrive.setOdometry(new Pose2d(0, 0, null))));   
     }
 
     /**

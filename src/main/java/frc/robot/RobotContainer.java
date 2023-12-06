@@ -2,91 +2,99 @@ package frc.robot;
 
 import java.util.HashMap;
 
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.auto.PIDConstants;
+import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.controlschemes.MechanismScheme;
 import frc.controlschemes.SwerveDriveScheme;
 import frc.controlschemes.Testing;
-import frc.diagnostics.CommandRunner;
-import frc.diagnostics.CommandSelector;
-import frc.diagnostics.StringSelector;
 import frc.maps.RobotMap;
-import frc.robot.autonomous.Autonomous;
 import frc.robot.subsystems.SwerveDrive;
 
 public class RobotContainer {
     SwerveDrive swerveDrive = new SwerveDrive();
-
     /** Event map for path planner */
     public static HashMap<String, Command> eventMap = new HashMap<>();
+    /** Command List for auto paths in SmartDashBoard */
+    
+    LoggedDashboardChooser<Command> autoCommands = new LoggedDashboardChooser<Command>("Auto Commands");
+    private final String[] paths = {"outback","out","outturn","turn","meters", "EventTest"};
+    // private static String[] paths = { "move" };
+    
 
-    SendableChooser<CommandBase> autoCommands = new SendableChooser<CommandBase>();
-    private final String[] paths = {"First Test",
-            "Straight",
-            "New Path",
-            "curve",
-            "Straight Then Left",
-            "Rotate Right" };
+
+    SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
+    swerveDrive::getPose, // Pose2d supplier
+    swerveDrive::setOdometry, // Pose2d consumer, used to reset odometry at the beginning of auto
+    RobotMap.DRIVE_KINEMATICS, // SwerveDriveKinematics
+    new PIDConstants(0.5, 0.0, 0.0), // PID constants to correct for translation error (used to create the X and Y PID controllers)
+    new PIDConstants(0.5, 0.0, 0.0), // PID constants to correct for rotation error (used to create the rotation controller)
+    swerveDrive::setModuleStates, // Module states consumer used to output to the drive subsystem
+    eventMap,
+    true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
+    swerveDrive // The drive subsystem. Used to properly set the requirements of path following commands
+);
+
+
+
+
+Field2d ff;
     
     public RobotContainer() {
         SwerveDriveScheme.configure(swerveDrive, 0);
-
-        
         // Testing.configure(swerveDrive, 0);
-       
-        
-        //test this later
-        
+
+        //fix this with a new subsystem
+        eventMap.put("toggle", Commands.runOnce(() -> swerveDrive.toggleEvent(), null ));
+
+
+        diagnosticsInit();
     }
 
-    // CommandRunner runTutorialPath = new CommandRunner("Config", "Tutorial path", followTutorialPath());
+    
     public void diagnosticsInit(){
         for (String pathName : paths) {
             autoCommands.addOption(pathName, followPathPlanner(pathName).withName(pathName));
         }
-        SmartDashboard.putData("Auto", autoCommands);
+        //this is the default command to prevent accidents of running the wrong auto
+        autoCommands.addDefaultOption("Nothing",
+                Commands.run(() -> swerveDrive.printWorld(), swerveDrive).withName("Nothing"));
+        
+        SmartDashboard.putData("Auto", autoCommands.getSendableChooser());
+        autoCommands.addOption("Move Straight", swerveDrive.moveCommand().withName("Move Straight"));
         
         Shuffleboard.getTab("Diagnostics").add("SwerveDrive", swerveDrive);
-        Shuffleboard.getTab("Config").add("Stop", new Autonomous()).withWidget(BuiltInWidgets.kCommand);
+        // Shuffleboard.getTab("Config").add("Run Auto", getAutoCommand()).withWidget(BuiltInWidgets.kCommand);
     }
 
     public Command getAutoCommand() {
-        // return new Autonomous(selector.value(), swerveDrive);
-        return autoCommands.getSelected();
+        return autoCommands.get();
     }
 
     /**
      * Functionally the same as the Autonomous class method, just less messy.
      */
-    public CommandBase followPathPlanner(String pathName) {
+    public Command followPathPlanner(String pathName) {
         PathPlannerTrajectory traj = PathPlanner.loadPath(pathName,
-                new PathConstraints(RobotMap.MAX_SPEED_METERS_PER_SECOND - 1.5,
-                        RobotMap.DRIVE_RATE_LIMIT - .3));
+                RobotMap.AUTO_PATH_CONSTRAINTS);
 
         return Commands.sequence(
                 Commands.waitSeconds(1),
                 Commands.runOnce(swerveDrive::resetOdometry, swerveDrive),
-                swerveDrive.followPath(traj),
+                swerveDrive.followTrajectoryCommand(traj, true),
                 Commands.runOnce(swerveDrive::stopModules, swerveDrive));
     }
 

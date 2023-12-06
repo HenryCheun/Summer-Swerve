@@ -13,6 +13,7 @@ public class CCSparkMax extends CANSparkMax{
     private String shortName;
     public  SparkMaxPIDController pidController;
     private RelativeEncoder encoder;
+    private double voltageConversionFactor;
 
     /**
      * CCSparkMax allows us to easily control Spark Max motor controllers
@@ -22,9 +23,11 @@ public class CCSparkMax extends CANSparkMax{
      * @param idleMode Specify whether the motor controller is set to Coast or Brake mode
      * @param reverse Reverses the direction of the motor controller
      * @param encoder If the motor has an encoder or not
+     * @param positionConversionFactor Conversion rate for position from rotations to desired unit
+     * @param velocityConversionFactor Conversion rate for velocity from rotations per minute to desired unit
      */
     public CCSparkMax(String name, String shortName, int deviceID, MotorType controlMode, IdleMode idleMode,
-     boolean reverse, double encoder){
+     boolean reverse, double positionConversionFactor, double velocityConversionFactor){
         super(deviceID, controlMode);
         this.name = name;
         this.shortName = shortName;
@@ -34,7 +37,8 @@ public class CCSparkMax extends CANSparkMax{
 
         pidController = super.getPIDController();
         this.encoder = super.getEncoder();
-        this.setPositionConversionFactor(encoder);
+        this.setPositionConversionFactor(positionConversionFactor);
+        this.setVelocityConversionFactor(velocityConversionFactor);
     }
     public CCSparkMax(String name, String shortName, int deviceID, MotorType controlMode, IdleMode idleMode,
      boolean reverse){
@@ -48,7 +52,24 @@ public class CCSparkMax extends CANSparkMax{
         pidController = super.getPIDController();
         this.encoder = super.getEncoder();
         this.setPositionConversionFactor(1);
+        this.setVelocityConversionFactor(1);
     }
+    public CCSparkMax(String name, String shortName, int deviceID, MotorType controlMode, IdleMode idleMode,
+     boolean reverse, double encoder){
+        super(deviceID, controlMode);
+        this.name = name;
+        this.shortName = shortName;
+        
+        super.setInverted(reverse);
+        
+        if(encoder < 0) return;
+        pidController = super.getPIDController();
+        this.encoder = super.getEncoder();
+        this.setPositionConversionFactor(1);
+        this.setVelocityConversionFactor(1);
+    }
+
+   
 
     public void reset(){
         encoder.setPosition(0);
@@ -62,8 +83,16 @@ public class CCSparkMax extends CANSparkMax{
      * Sets the speed of the motor controller
      * @param speed The speed that will be set (-1.0 to 1.0)
      */
-    public void set(double speed){
+    public void set(double speed) {
         super.set(speed);
+    }
+    
+    public void setVoltage(double volts) {
+        super.setVoltage(volts);
+    }
+    
+    public void setVoltageFromSpeed(double speed) {
+        super.setVoltage(speed * voltageConversionFactor);
     }
 
     public void disable(){
@@ -78,8 +107,16 @@ public class CCSparkMax extends CANSparkMax{
      * Sets the Position Conversion Factor for the encoder
      * @param factor The ratio of encoder units to desired units (ie. units -> in)
      */
-    public void setPositionConversionFactor(double factor){
+    public void setPositionConversionFactor(double factor) {
         encoder.setPositionConversionFactor(factor);
+    }
+    
+    /**
+     * Sets the Velocity Conversion Factor for the encoder
+     * @param factor The ratio of encoder units to desired units (ie. units/min-> rad/sec)
+     */
+    public void setVelocityConversionFactor(double factor) {
+        encoder.setVelocityConversionFactor(factor);
     }
 
     /**
